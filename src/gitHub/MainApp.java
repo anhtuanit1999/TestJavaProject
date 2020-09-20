@@ -8,13 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MainApp extends JFrame implements ActionListener {
 	JMenuBar mnBar;
 	JMenu mnQuanLy;
 	JMenuItem mniQLSV;
+	
 	CardLayout cards;
+	
 	public MainApp() {
 		// Cấu hình app
 		super("Quản lý luận văn");
@@ -23,7 +26,7 @@ public class MainApp extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		
 		// Card Layout
-		cards = new CardLayout();
+		setLayout(cards = new CardLayout());
 		
 		// Cài đặt menu
 		mnBar = new JMenuBar();
@@ -32,19 +35,21 @@ public class MainApp extends JFrame implements ActionListener {
 		
 		mniQLSV = new JMenuItem("Quản lý sinh viên");
 		mnQuanLy.add(mniQLSV);
+
+		add(new QuanLySinhVien().getPanel(), "QLSV");
 		
 		setJMenuBar(mnBar);
 	}
 	
 	public static void main(String[] args) {
-		new MainApp().setVisible(true);;
+		new MainApp().setVisible(true);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(mniQLSV)) {
-//			cards.show(parent, name);
+			cards.show(this, "QLSV");
 		}
 		
 	}
