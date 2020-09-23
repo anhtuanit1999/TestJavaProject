@@ -1,5 +1,6 @@
-package gitHub;
+ package gitHub;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +16,10 @@ public class MainApp extends JFrame implements ActionListener {
 	JMenuBar mnBar;
 	JMenu mnQuanLy;
 	JMenuItem mniQLSV;
+	JMenuItem mniQLLV;
 	
 	CardLayout cards;
-	
+	JPanel panel;
 	public MainApp() {
 		// Cấu hình app
 		super("Quản lý luận văn");
@@ -26,7 +28,8 @@ public class MainApp extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		
 		// Card Layout
-		setLayout(cards = new CardLayout());
+//		setLayout(cards = new CardLayout());
+		panel = new JPanel(cards = new CardLayout());
 		
 		// Cài đặt menu
 		mnBar = new JMenuBar();
@@ -36,7 +39,14 @@ public class MainApp extends JFrame implements ActionListener {
 		mniQLSV = new JMenuItem("Quản lý sinh viên");
 		mnQuanLy.add(mniQLSV);
 
-		add(new QuanLySinhVien().getPanel(), "QLSV");
+		panel.add(new QuanLySinhVien().getPanel(), "QLSV");
+		
+		mniQLLV = new JMenuItem("Quản lý luận văn");
+		mnQuanLy.add(mniQLLV);
+
+		panel.add(new QuanLiLuanVan().getPanel(), "QLLV");
+		
+		add(panel, BorderLayout.CENTER);
 		
 		setJMenuBar(mnBar);
 	}
@@ -48,8 +58,11 @@ public class MainApp extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(mniQLSV)) {
+		if (o.equals(mniQLLV)) {
 			cards.show(this, "QLSV");
+		}
+		if(o.equals(mniQLLV)) {
+			cards.show(this, "QLLV");
 		}
 		
 	}
