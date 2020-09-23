@@ -46,6 +46,9 @@ public class MainApp extends JFrame implements ActionListener {
 
 		panel.add(new QuanLiLuanVan().getPanel(), "QLLV");
 		
+		mniQLLV.addActionListener(this);
+		mniQLSV.addActionListener(this);
+		
 		add(panel, BorderLayout.CENTER);
 		
 		setJMenuBar(mnBar);
@@ -58,11 +61,12 @@ public class MainApp extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(mniQLLV)) {
-			cards.show(this, "QLSV");
-		}
-		if(o.equals(mniQLLV)) {
-			cards.show(this, "QLLV");
+		if (o.equals(mniQLSV)) {
+			cards.show(panel, "QLSV");
+			System.out.println("hihi");
+		}else if(o.equals(mniQLLV)) {
+			cards.show(panel, "QLLV");
+			System.out.println("hoho");
 		}
 		
 	}
