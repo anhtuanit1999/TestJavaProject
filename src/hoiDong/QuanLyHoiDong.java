@@ -112,6 +112,8 @@ public class QuanLyHoiDong extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				String text = txtTenHoiDong.getText();
+				// đưa biến text sang PhanCongGiaoVien và điền vào txtTenHoiDong
 				mainApp.switchPanel(mainApp.getViewPanel(),"PCGV");
 			}
 		});

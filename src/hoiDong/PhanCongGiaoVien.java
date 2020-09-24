@@ -122,6 +122,11 @@ public class PhanCongGiaoVien extends JFrame {
 //		new PhanCongGiaoVien().setVisible(true);
 //	}
 	
+	public void setTextTest(String text) {
+		String cc = text;
+		txtTenHoiDong.setText(cc);
+	}
+	
 	public JPanel getPanel() {
 		panel = new JPanel(new BorderLayout());
 		panel.add(bCenter, BorderLayout.CENTER);

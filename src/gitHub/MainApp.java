@@ -35,9 +35,9 @@ public class MainApp extends JFrame implements ActionListener {
 //		setLayout(new BorderLayout());
 		
 		viewPanel.setLayout(new CardLayout());
+		viewPanel.add(new QuanLyHoiDong(this).getPanel(), "QLHD");
 		viewPanel.add(new QuanLySinhVien().getPanel(), "QLSV");
 		viewPanel.add(new QuanLyGiaoVien().getPanel(), "QLGV");
-		viewPanel.add(new QuanLyHoiDong(this).getPanel(), "QLHD");
 		viewPanel.add(new PhanCongGiaoVien().getPanel(), "PCGV");
 		setContentPane(viewPanel);
 		// Cài đặt menu
