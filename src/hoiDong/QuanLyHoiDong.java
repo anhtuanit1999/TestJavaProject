@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import giaoVien.QuanLyGiaoVien;
 import gitHub.MainApp;
 
-public class QuanLyHoiDong extends JFrame {
+public class QuanLyHoiDong extends JFrame implements ActionListener {
 	private JLabel lblTenHoiDong, lblThoiGianThanhLap, lblTieuDe;
 	private JTextField txtTenHoiDong, txtThoiGianThanhLap;
 	private JButton btnThem, btnXoa, btnSua, btnKiemTra, btnCapNhat, btnPhanCong;
@@ -33,9 +34,11 @@ public class QuanLyHoiDong extends JFrame {
 	private JPanel panel;
 	Box bCenter;
 	private JPanel mainPanel;
+	MainApp mainApp;
 	public QuanLyHoiDong(MainApp mainApp) {
 		super("Quản lý Hội Đồng");
 //		this.mainPanel = mainPanel;
+		this.mainApp = mainApp;
 		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -107,14 +110,7 @@ public class QuanLyHoiDong extends JFrame {
 //		panel = new JPanel(new BorderLayout());
 //		panel.add(bCenter, BorderLayout.CENTER);
 		
-		btnPhanCong.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				mainApp.switchPanel(mainApp.getViewPanel(),"PCGV");
-			}
-		});
+		btnPhanCong.addActionListener(this);
 	
 	}
 	
@@ -127,6 +123,27 @@ public class QuanLyHoiDong extends JFrame {
 		panel.add(bCenter, BorderLayout.CENTER);
 		return panel;
 		
+	}
+	
+	public boolean kiemTra() {
+		if (!txtTenHoiDong.getText().trim().matches("[A-Z][a-z]+(\\s[A-Z][a-z]*)*")) {
+			txtTenHoiDong.requestFocus();
+			txtTenHoiDong.selectAll();
+			JOptionPane.showMessageDialog(this, "Các ký tự đầu phải là chữ in hoa, mỗi từ cách nhau bởi dấu cách");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnPhanCong)) {
+			if (kiemTra()) {
+				mainApp.switchPanel(mainApp.getViewPanel(),"PCGV");
+				mainApp.tranferString(txtTenHoiDong.getText());
+			}
+		}
 	}
 }
 

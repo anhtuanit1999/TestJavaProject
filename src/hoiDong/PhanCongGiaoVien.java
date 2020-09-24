@@ -121,6 +121,10 @@ public class PhanCongGiaoVien extends JFrame {
 //	public static void main(String[] args) {
 //		new PhanCongGiaoVien().setVisible(true);
 //	}
+	// gan du lieu nhan duoc vao txtField
+	public void setDataTo(String data) {
+		txtTenHoiDong.setText(data);
+	}
 	
 	public JPanel getPanel() {
 		panel = new JPanel(new BorderLayout());

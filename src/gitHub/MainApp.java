@@ -23,6 +23,8 @@ public class MainApp extends JFrame implements ActionListener {
 	JMenuItem mniQLSV;
 	JMenuItem mniQLGV;
 	JMenuItem mniQLHD;
+	
+	PhanCongGiaoVien PCGV;
 //	public CardLayout cards = new CardLayout();
 	JPanel viewPanel = new JPanel();
 	
@@ -38,7 +40,8 @@ public class MainApp extends JFrame implements ActionListener {
 		viewPanel.add(new QuanLySinhVien().getPanel(), "QLSV");
 		viewPanel.add(new QuanLyGiaoVien().getPanel(), "QLGV");
 		viewPanel.add(new QuanLyHoiDong(this).getPanel(), "QLHD");
-		viewPanel.add(new PhanCongGiaoVien().getPanel(), "PCGV");
+		PCGV = new PhanCongGiaoVien();
+		viewPanel.add(PCGV.getPanel(), "PCGV");
 		setContentPane(viewPanel);
 		// Cài đặt menu
 		mnBar = new JMenuBar();
@@ -69,7 +72,10 @@ public class MainApp extends JFrame implements ActionListener {
 	public JPanel getViewPanel() {
 		return viewPanel;
 	}
-	
+	// Chuyen String sang phanconggiaovien
+	public void tranferString(String data) {
+		PCGV.setDataTo(data);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
