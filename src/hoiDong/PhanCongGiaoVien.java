@@ -30,10 +30,8 @@ public class PhanCongGiaoVien extends JFrame {
 	
 	private JPanel panel;
 	Box bCenter;
-	public JPanel mainPanel;
-	public PhanCongGiaoVien(JPanel mainPanel) {
+	public PhanCongGiaoVien() {
 		super("Phân công giáo viên");
-		this.mainPanel = mainPanel;
 		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -113,7 +111,7 @@ public class PhanCongGiaoVien extends JFrame {
 		
 		lblNhiemVu.setPreferredSize(lblTenGiaoVien.getPreferredSize());
 //		lblTenHoiDong.setPreferredSize(lblTenGiaoVien.getPreferredSize());
-		bCenter.setBorder(BorderFactory.createTitledBorder("Quản lý Hội Đồng"));
+		bCenter.setBorder(BorderFactory.createTitledBorder("Phân công giáo viên"));
 		
 		add(bCenter, BorderLayout.CENTER);
 		

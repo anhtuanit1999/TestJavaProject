@@ -37,8 +37,8 @@ public class MainApp extends JFrame implements ActionListener {
 		viewPanel.setLayout(new CardLayout());
 		viewPanel.add(new QuanLySinhVien().getPanel(), "QLSV");
 		viewPanel.add(new QuanLyGiaoVien().getPanel(), "QLGV");
-		viewPanel.add(new QuanLyHoiDong().getPanel(), "QLHD");
-//		viewPanel.add(new PhanCongGiaoVien(viewPanel), "PCGV");
+		viewPanel.add(new QuanLyHoiDong(this).getPanel(), "QLHD");
+		viewPanel.add(new PhanCongGiaoVien().getPanel(), "PCGV");
 		setContentPane(viewPanel);
 		// Cài đặt menu
 		mnBar = new JMenuBar();
@@ -66,7 +66,9 @@ public class MainApp extends JFrame implements ActionListener {
 	    CardLayout card = (CardLayout) (container.getLayout());
 	    card.show(container, panelName);
 	}
-	
+	public JPanel getViewPanel() {
+		return viewPanel;
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -33,7 +33,7 @@ public class QuanLyHoiDong extends JFrame {
 	private JPanel panel;
 	Box bCenter;
 	private JPanel mainPanel;
-	public QuanLyHoiDong() {
+	public QuanLyHoiDong(MainApp mainApp) {
 		super("Quản lý Hội Đồng");
 //		this.mainPanel = mainPanel;
 		setSize(1000, 800);
@@ -112,16 +112,15 @@ public class QuanLyHoiDong extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				MainApp main = new MainApp();
-				main.switchPanel(mainPanel,"PCGV");
+				mainApp.switchPanel(mainApp.getViewPanel(),"PCGV");
 			}
 		});
 	
 	}
 	
-	public static void main(String[] args) {
-		new QuanLyHoiDong().setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		new QuanLyHoiDong().setVisible(true);
+//	}
 //	
 	public JPanel getPanel() {
 		panel = new JPanel(new BorderLayout());
