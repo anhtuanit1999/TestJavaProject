@@ -63,10 +63,8 @@ public class MainApp extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(mniQLSV)) {
 			cards.show(panel, "QLSV");
-			System.out.println("hihi");
 		}else if(o.equals(mniQLLV)) {
 			cards.show(panel, "QLLV");
-			System.out.println("hoho");
 		}
 		
 	}
