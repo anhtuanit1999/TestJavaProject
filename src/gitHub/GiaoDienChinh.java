@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class MainApp extends JFrame implements ActionListener {
+public class GiaoDienChinh extends JFrame implements ActionListener {
 	JMenuBar mnBar;
 	JMenu mnSinhVien;
 	JMenuItem mniThongTinSinhVien;
@@ -24,7 +24,7 @@ public class MainApp extends JFrame implements ActionListener {
 //	public CardLayout cards = new CardLayout();
 	JPanel viewPanel = new JPanel();
 	
-	public MainApp() {
+	public GiaoDienChinh() {
 		// Cấu hình app
 		super("Quản lý luận văn");
 		setSize(1280, 1024);
@@ -52,7 +52,7 @@ public class MainApp extends JFrame implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		new MainApp().setVisible(true);
+		new GiaoDienChinh().setVisible(true);
 	}
 	
 	public void switchPanel(Container container, String panelName) {
