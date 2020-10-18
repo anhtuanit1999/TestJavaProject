@@ -1,0 +1,298 @@
+package sinhVien;
+
+import java.awt.EventQueue;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+
+public class GiaoDien_SinhVien {
+
+	private JFrame frame;
+	private JTextField txtMSSV;
+	private JTextField txtHoTen;
+	private JTextField txtDiaChi;
+	private JTextField txtNgaySinh;
+	private JTextField txtSoDienThoai;
+	private JTextField txtKhoaTrucThuoc;
+	private JTextField txtNamVaoTruong;
+	private JTextField txtNamTotNghiep;
+	private JLabel lblIcon;
+	private JTextField txtTenDeTai;
+	private JTextField txtTenLuanVan;
+	private JTextField txtDiemVong1;
+	private JTextField txtDiemVong2;
+	private JTextField txtChuTichHoiDong;
+	private JTextField txtThuKy;
+	private JTextField textField;
+	private JTextField txtGiaoVienPhanBien2;
+	private JTextField txtGiaoVienPhanBien3;
+	private JPanel pnChung;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GiaoDien_SinhVien window = new GiaoDien_SinhVien();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public GiaoDien_SinhVien() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(10, 10, 1280, 1024);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		pnChung = new JPanel();
+		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
+		pnChung.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblTieuDe = new JLabel("Giao Diện Sinh Viên");
+		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		pnChung.add(lblTieuDe, BorderLayout.NORTH);
+		
+		JPanel panelCenter = new JPanel();
+		panelCenter.setBorder(new TitledBorder(null, "Th\u00F4ng tin sinh vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnChung.add(panelCenter, BorderLayout.CENTER);
+		panelCenter.setLayout(null);
+		
+		JLabel lblMSSV = new JLabel("MSSV: ");
+		lblMSSV.setBounds(43, 72, 116, 14);
+		panelCenter.add(lblMSSV);
+		
+		txtMSSV = new JTextField();
+		txtMSSV.setEditable(false);
+		txtMSSV.setBounds(169, 69, 419, 20);
+		panelCenter.add(txtMSSV);
+		txtMSSV.setColumns(10);
+		
+		JLabel lblHoTen = new JLabel("Họ tên: ");
+		lblHoTen.setBounds(43, 128, 116, 14);
+		panelCenter.add(lblHoTen);
+		
+		txtHoTen = new JTextField();
+		txtHoTen.setEditable(false);
+		txtHoTen.setBounds(169, 125, 419, 20);
+		panelCenter.add(txtHoTen);
+		txtHoTen.setColumns(10);
+		
+		JLabel lblDiaChi = new JLabel("Địa chỉ: ");
+		lblDiaChi.setBounds(43, 177, 116, 14);
+		panelCenter.add(lblDiaChi);
+		
+		txtDiaChi = new JTextField();
+		txtDiaChi.setBounds(169, 174, 419, 20);
+		panelCenter.add(txtDiaChi);
+		txtDiaChi.setColumns(10);
+		
+		JLabel lblNgaySinh = new JLabel("Ngày sinh: ");
+		lblNgaySinh.setBounds(43, 238, 116, 14);
+		panelCenter.add(lblNgaySinh);
+		
+		txtNgaySinh = new JTextField();
+		txtNgaySinh.setBounds(169, 235, 419, 20);
+		panelCenter.add(txtNgaySinh);
+		txtNgaySinh.setColumns(10);
+		
+		JLabel lblSoDienThoai = new JLabel("Số điện thoại: ");
+		lblSoDienThoai.setBounds(43, 298, 116, 14);
+		panelCenter.add(lblSoDienThoai);
+		
+		txtSoDienThoai = new JTextField();
+		txtSoDienThoai.setBounds(169, 295, 419, 20);
+		panelCenter.add(txtSoDienThoai);
+		txtSoDienThoai.setColumns(10);
+		
+		JLabel lblKhoaTrucThuoc = new JLabel("Khoa trực thuộc: ");
+		lblKhoaTrucThuoc.setBounds(43, 363, 116, 14);
+		panelCenter.add(lblKhoaTrucThuoc);
+		
+		txtKhoaTrucThuoc = new JTextField();
+		txtKhoaTrucThuoc.setEditable(false);
+		txtKhoaTrucThuoc.setBounds(169, 360, 419, 20);
+		panelCenter.add(txtKhoaTrucThuoc);
+		txtKhoaTrucThuoc.setColumns(10);
+		
+		JLabel lblNamVaoTruong = new JLabel("Năm vào trường: ");
+		lblNamVaoTruong.setBounds(43, 423, 116, 14);
+		panelCenter.add(lblNamVaoTruong);
+		
+		txtNamVaoTruong = new JTextField();
+		txtNamVaoTruong.setEditable(false);
+		txtNamVaoTruong.setBounds(169, 420, 419, 20);
+		panelCenter.add(txtNamVaoTruong);
+		txtNamVaoTruong.setColumns(10);
+		
+		JLabel lblNamTotNghiep = new JLabel("Năm tốt nghiệp: ");
+		lblNamTotNghiep.setBounds(43, 477, 116, 14);
+		panelCenter.add(lblNamTotNghiep);
+		
+		txtNamTotNghiep = new JTextField();
+		txtNamTotNghiep.setEditable(false);
+		txtNamTotNghiep.setBounds(169, 474, 419, 20);
+		panelCenter.add(txtNamTotNghiep);
+		txtNamTotNghiep.setColumns(10);
+		
+		lblIcon = new JLabel("");
+		lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblIcon.setIcon(new ImageIcon(getClass().getResource("/avatar.png")));
+		lblIcon.setBounds(810, 73, 276, 364);
+		panelCenter.add(lblIcon);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "\u0110\u1EC1 t\u00E0i \u0111\u00E3 ch\u1ECDn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 561, 635, 382);
+		panelCenter.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblTenDeTai = new JLabel("Tên đề tài: ");
+		lblTenDeTai.setBounds(30, 51, 116, 14);
+		panel.add(lblTenDeTai);
+		
+		txtTenDeTai = new JTextField();
+		txtTenDeTai.setEditable(false);
+		txtTenDeTai.setBounds(156, 48, 419, 20);
+		panel.add(txtTenDeTai);
+		txtTenDeTai.setColumns(10);
+		
+		JLabel lblTenLuanVan = new JLabel("Tên luận văn: ");
+		lblTenLuanVan.setBounds(30, 101, 116, 14);
+		panel.add(lblTenLuanVan);
+		
+		txtTenLuanVan = new JTextField();
+		txtTenLuanVan.setEditable(false);
+		txtTenLuanVan.setBounds(156, 98, 419, 20);
+		panel.add(txtTenLuanVan);
+		txtTenLuanVan.setColumns(10);
+		
+		JLabel lblTomTat = new JLabel("Tóm Tắt: ");
+		lblTomTat.setBounds(30, 154, 116, 14);
+		panel.add(lblTomTat);
+		
+		JTextArea txtaTomTat = new JTextArea();
+		txtaTomTat.setEditable(false);
+		txtaTomTat.setBounds(156, 149, 419, 99);
+		panel.add(txtaTomTat);
+		
+		JLabel lblDiemVong1 = new JLabel("Điểm vòng 1: ");
+		lblDiemVong1.setBounds(30, 285, 116, 14);
+		panel.add(lblDiemVong1);
+		
+		txtDiemVong1 = new JTextField();
+		txtDiemVong1.setEditable(false);
+		txtDiemVong1.setBounds(156, 282, 419, 20);
+		panel.add(txtDiemVong1);
+		txtDiemVong1.setColumns(10);
+		
+		JLabel lblDiemVong2 = new JLabel("Điểm vòng 2: ");
+		lblDiemVong2.setBounds(30, 332, 116, 14);
+		panel.add(lblDiemVong2);
+		
+		txtDiemVong2 = new JTextField();
+		txtDiemVong2.setEditable(false);
+		txtDiemVong2.setBounds(156, 329, 419, 20);
+		panel.add(txtDiemVong2);
+		txtDiemVong2.setColumns(10);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "H\u1ED9i \u0111\u1ED3ng b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(655, 561, 599, 382);
+		panelCenter.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblChuTichHoiDong = new JLabel("Chủ tịch hội đồng: ");
+		lblChuTichHoiDong.setBounds(44, 49, 109, 14);
+		panel_1.add(lblChuTichHoiDong);
+		
+		txtChuTichHoiDong = new JTextField();
+		txtChuTichHoiDong.setEditable(false);
+		txtChuTichHoiDong.setBounds(163, 46, 383, 20);
+		panel_1.add(txtChuTichHoiDong);
+		txtChuTichHoiDong.setColumns(10);
+		
+		JLabel lblThuKy = new JLabel("Thư ký: ");
+		lblThuKy.setBounds(44, 102, 109, 14);
+		panel_1.add(lblThuKy);
+		
+		txtThuKy = new JTextField();
+		txtThuKy.setEditable(false);
+		txtThuKy.setBounds(163, 99, 383, 20);
+		panel_1.add(txtThuKy);
+		txtThuKy.setColumns(10);
+		
+		JLabel lblGiaoVienPhanBien1 = new JLabel("Giáo viên phản biện 1: ");
+		lblGiaoVienPhanBien1.setBounds(44, 155, 110, 14);
+		panel_1.add(lblGiaoVienPhanBien1);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setBounds(163, 152, 383, 20);
+		panel_1.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblGiaoVienPhanBien2 = new JLabel("Giáo viên phản biện 2: ");
+		lblGiaoVienPhanBien2.setBounds(44, 206, 116, 14);
+		panel_1.add(lblGiaoVienPhanBien2);
+		
+		txtGiaoVienPhanBien2 = new JTextField();
+		txtGiaoVienPhanBien2.setEditable(false);
+		txtGiaoVienPhanBien2.setBounds(163, 203, 383, 20);
+		panel_1.add(txtGiaoVienPhanBien2);
+		txtGiaoVienPhanBien2.setColumns(10);
+		
+		JLabel lblGiaoVienPhanBien3 = new JLabel("Giáo viên phản biện 3: ");
+		lblGiaoVienPhanBien3.setBounds(44, 255, 116, 14);
+		panel_1.add(lblGiaoVienPhanBien3);
+		
+		txtGiaoVienPhanBien3 = new JTextField();
+		txtGiaoVienPhanBien3.setEditable(false);
+		txtGiaoVienPhanBien3.setBounds(163, 252, 383, 20);
+		panel_1.add(txtGiaoVienPhanBien3);
+		txtGiaoVienPhanBien3.setColumns(10);
+		
+		JLabel lblGhiChu = new JLabel("Ghi chú: ");
+		lblGhiChu.setBounds(44, 302, 109, 14);
+		panel_1.add(lblGhiChu);
+		
+		JTextArea txtaGhiChu = new JTextArea();
+		txtaGhiChu.setEditable(false);
+		txtaGhiChu.setBounds(163, 297, 383, 74);
+		panel_1.add(txtaGhiChu);
+		
+		JButton btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.setBounds(902, 473, 89, 23);
+		panelCenter.add(btnCapNhat);
+	}
+	
+	public JPanel getPanel() {
+		return pnChung;
+	}
+}

@@ -13,18 +13,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import giaoVien.QuanLyGiaoVien;
-import hoiDong.PhanCongGiaoVien;
-import hoiDong.QuanLyHoiDong;
 
 public class MainApp extends JFrame implements ActionListener {
 	JMenuBar mnBar;
-	JMenu mnQuanLy;
-	JMenuItem mniQLSV;
-	JMenuItem mniQLGV;
-	JMenuItem mniQLHD;
+	JMenu mnSinhVien;
+	JMenuItem mniThongTinSinhVien;
+	JMenuItem mniDangKyDeTai;
+	JMenuItem mniXemDiem;
 	
-	PhanCongGiaoVien PCGV;
 //	public CardLayout cards = new CardLayout();
 	JPanel viewPanel = new JPanel();
 	
@@ -36,29 +32,23 @@ public class MainApp extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 //		setLayout(new BorderLayout());
 		
-		viewPanel.setLayout(new CardLayout());
-		viewPanel.add(new QuanLySinhVien().getPanel(), "QLSV");
-		viewPanel.add(new QuanLyGiaoVien().getPanel(), "QLGV");
-		viewPanel.add(new QuanLyHoiDong(this).getPanel(), "QLHD");
-		PCGV = new PhanCongGiaoVien();
-		viewPanel.add(PCGV.getPanel(), "PCGV");
 		setContentPane(viewPanel);
 		// Cài đặt menu
 		mnBar = new JMenuBar();
-		mnQuanLy = new JMenu("Quản lý");
-		mnBar.add(mnQuanLy);
+		mnSinhVien = new JMenu("Sinh viên");
+		mnBar.add(mnSinhVien);
 		
-		mniQLSV = new JMenuItem("Quản lý sinh viên");
-		mniQLGV = new JMenuItem("Quản lý giáo viên");
-		mniQLHD = new JMenuItem("Quản lý hội đồng");
-		mnQuanLy.add(mniQLGV);
-		mnQuanLy.add(mniQLSV);
-		mnQuanLy.add(mniQLHD);
+		mniThongTinSinhVien = new JMenuItem("Thông tin sinh viên");
+		mniDangKyDeTai = new JMenuItem("Đăng ký đề tài");
+		mniXemDiem = new JMenuItem("Xem điểm");
+		mnSinhVien.add(mniThongTinSinhVien);
+		mnSinhVien.add(mniDangKyDeTai);
+		mnSinhVien.add(mniXemDiem);
 		
 		setJMenuBar(mnBar);
-		mniQLSV.addActionListener(this);
-		mniQLGV.addActionListener(this);
-		mniQLHD.addActionListener(this);
+		mniThongTinSinhVien.addActionListener(this);
+		mniDangKyDeTai.addActionListener(this);
+		mniXemDiem.addActionListener(this);
 	}
 	
 	public static void main(String[] args) {
@@ -73,21 +63,11 @@ public class MainApp extends JFrame implements ActionListener {
 		return viewPanel;
 	}
 	// Chuyen String sang phanconggiaovien
-	public void tranferString(String data) {
-		PCGV.setDataTo(data);
-	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(mniQLSV)) {
-			switchPanel(viewPanel,"QLSV");
-		}else if(o.equals(mniQLGV)) {
-			switchPanel(viewPanel,"QLGV");
-		}else if(o.equals(mniQLHD)) {
-//			((CardLayout)viewPanel.getLayout()).show(viewPanel, "QLHD");
-			switchPanel(viewPanel,"QLHD");
-		}
-//		
+		
 	}
 }
 
