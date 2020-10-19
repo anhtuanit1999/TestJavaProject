@@ -67,7 +67,7 @@ public class GiaoDien_SinhVien {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(10, 10, 1280, 1024);
+		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		pnChung = new JPanel();
@@ -85,91 +85,91 @@ public class GiaoDien_SinhVien {
 		panelCenter.setLayout(null);
 		
 		JLabel lblMSSV = new JLabel("MSSV: ");
-		lblMSSV.setBounds(43, 72, 116, 14);
+		lblMSSV.setBounds(43, 43, 116, 14);
 		panelCenter.add(lblMSSV);
 		
 		txtMSSV = new JTextField();
 		txtMSSV.setEditable(false);
-		txtMSSV.setBounds(169, 69, 419, 20);
+		txtMSSV.setBounds(169, 40, 419, 20);
 		panelCenter.add(txtMSSV);
 		txtMSSV.setColumns(10);
 		
 		JLabel lblHoTen = new JLabel("Họ tên: ");
-		lblHoTen.setBounds(43, 128, 116, 14);
+		lblHoTen.setBounds(43, 86, 116, 14);
 		panelCenter.add(lblHoTen);
 		
 		txtHoTen = new JTextField();
 		txtHoTen.setEditable(false);
-		txtHoTen.setBounds(169, 125, 419, 20);
+		txtHoTen.setBounds(169, 83, 419, 20);
 		panelCenter.add(txtHoTen);
 		txtHoTen.setColumns(10);
 		
 		JLabel lblDiaChi = new JLabel("Địa chỉ: ");
-		lblDiaChi.setBounds(43, 177, 116, 14);
+		lblDiaChi.setBounds(43, 131, 116, 14);
 		panelCenter.add(lblDiaChi);
 		
 		txtDiaChi = new JTextField();
-		txtDiaChi.setBounds(169, 174, 419, 20);
+		txtDiaChi.setBounds(169, 128, 419, 20);
 		panelCenter.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
 		
 		JLabel lblNgaySinh = new JLabel("Ngày sinh: ");
-		lblNgaySinh.setBounds(43, 238, 116, 14);
+		lblNgaySinh.setBounds(43, 172, 116, 14);
 		panelCenter.add(lblNgaySinh);
 		
 		txtNgaySinh = new JTextField();
-		txtNgaySinh.setBounds(169, 235, 419, 20);
+		txtNgaySinh.setBounds(169, 169, 419, 20);
 		panelCenter.add(txtNgaySinh);
 		txtNgaySinh.setColumns(10);
 		
 		JLabel lblSoDienThoai = new JLabel("Số điện thoại: ");
-		lblSoDienThoai.setBounds(43, 298, 116, 14);
+		lblSoDienThoai.setBounds(43, 214, 116, 14);
 		panelCenter.add(lblSoDienThoai);
 		
 		txtSoDienThoai = new JTextField();
-		txtSoDienThoai.setBounds(169, 295, 419, 20);
+		txtSoDienThoai.setBounds(169, 211, 419, 20);
 		panelCenter.add(txtSoDienThoai);
 		txtSoDienThoai.setColumns(10);
 		
 		JLabel lblKhoaTrucThuoc = new JLabel("Khoa trực thuộc: ");
-		lblKhoaTrucThuoc.setBounds(43, 363, 116, 14);
+		lblKhoaTrucThuoc.setBounds(43, 256, 116, 14);
 		panelCenter.add(lblKhoaTrucThuoc);
 		
 		txtKhoaTrucThuoc = new JTextField();
 		txtKhoaTrucThuoc.setEditable(false);
-		txtKhoaTrucThuoc.setBounds(169, 360, 419, 20);
+		txtKhoaTrucThuoc.setBounds(169, 253, 419, 20);
 		panelCenter.add(txtKhoaTrucThuoc);
 		txtKhoaTrucThuoc.setColumns(10);
 		
 		JLabel lblNamVaoTruong = new JLabel("Năm vào trường: ");
-		lblNamVaoTruong.setBounds(43, 423, 116, 14);
+		lblNamVaoTruong.setBounds(43, 304, 116, 14);
 		panelCenter.add(lblNamVaoTruong);
 		
 		txtNamVaoTruong = new JTextField();
 		txtNamVaoTruong.setEditable(false);
-		txtNamVaoTruong.setBounds(169, 420, 419, 20);
+		txtNamVaoTruong.setBounds(169, 301, 419, 20);
 		panelCenter.add(txtNamVaoTruong);
 		txtNamVaoTruong.setColumns(10);
 		
 		JLabel lblNamTotNghiep = new JLabel("Năm tốt nghiệp: ");
-		lblNamTotNghiep.setBounds(43, 477, 116, 14);
+		lblNamTotNghiep.setBounds(43, 359, 116, 14);
 		panelCenter.add(lblNamTotNghiep);
 		
 		txtNamTotNghiep = new JTextField();
 		txtNamTotNghiep.setEditable(false);
-		txtNamTotNghiep.setBounds(169, 474, 419, 20);
+		txtNamTotNghiep.setBounds(169, 356, 419, 20);
 		panelCenter.add(txtNamTotNghiep);
 		txtNamTotNghiep.setColumns(10);
 		
 		lblIcon = new JLabel("");
 		lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblIcon.setIcon(new ImageIcon(getClass().getResource("/avatar.png")));
-		lblIcon.setBounds(810, 73, 276, 364);
+		lblIcon.setBounds(820, 27, 245, 309);
 		panelCenter.add(lblIcon);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "\u0110\u1EC1 t\u00E0i \u0111\u00E3 ch\u1ECDn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 561, 635, 382);
+		panel.setBounds(10, 487, 635, 382);
 		panelCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -224,7 +224,7 @@ public class GiaoDien_SinhVien {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "H\u1ED9i \u0111\u1ED3ng b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(655, 561, 599, 382);
+		panel_1.setBounds(655, 487, 599, 382);
 		panelCenter.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -288,7 +288,7 @@ public class GiaoDien_SinhVien {
 		panel_1.add(txtaGhiChu);
 		
 		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setBounds(902, 473, 89, 23);
+		btnCapNhat.setBounds(903, 355, 89, 23);
 		panelCenter.add(btnCapNhat);
 	}
 	
