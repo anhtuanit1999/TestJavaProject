@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import sinhVien.GiaoDien_DangKyDeTai;
 import sinhVien.GiaoDien_SinhVien;
+import sinhVien.GiaoDien_XemDiem;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,7 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenu mnDeTai;
 	private JMenu mnLuanVan;
 	private GiaoDien_DangKyDeTai GD_DKDT;
+	private GiaoDien_XemDiem GD_XD;
 
 	/**
 	 * Launch the application.
@@ -185,8 +187,13 @@ public class GiaoDienChinh implements ActionListener {
 		GD_DKDT = new GiaoDien_DangKyDeTai();
 		pnChung.add(GD_DKDT.getPanel(), "DangKyDeTai");
 		
+		// Giao diện xem điểm
+		GD_XD = new GiaoDien_XemDiem();
+		pnChung.add(GD_XD.getPanel(), "XemDiem");
+		
 		mniThongTinSinhVien.addActionListener(this);
 		mniDangKyDeTai.addActionListener(this);
+		mniXemDiem.addActionListener(this);
 	}
 
 	@Override
@@ -196,6 +203,8 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "ThongTinSinhVien");
 		} else if(o.equals(mniDangKyDeTai)) {
 			card.show(pnChung, "DangKyDeTai");
+		} else if(o.equals(mniXemDiem)) {
+			card.show(pnChung, "XemDiem");
 		}
 		
 		
