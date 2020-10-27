@@ -13,6 +13,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.LineBorder;
 
 import giaovien.GiaoDien_GiaoVien;
+import giaovien.GiaoDien_NhapDiem;
 import sinhVien.GiaoDien_DangKyDeTai;
 import sinhVien.GiaoDien_SinhVien;
 import sinhVien.GiaoDien_XemDiem;
@@ -50,6 +51,7 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_XemDiem GD_XD;
 	private GiaoDien_GiaoVien GD_GV;
 	private JMenuItem mniThongTinGiaovien;
+	private GiaoDien_NhapDiem GD_ND;
 
 	/**
 	 * Launch the application.
@@ -205,11 +207,16 @@ public class GiaoDienChinh implements ActionListener {
 		GD_GV = new GiaoDien_GiaoVien();
 		pnChung.add(GD_GV.getPanel(), "ThongTinGiaoVien");
 		
+		// Giao diện nhập điểm
+		GD_ND = new GiaoDien_NhapDiem();
+		pnChung.add(GD_ND.getPanel(), "NhapDiem");
+		
 		mniThongTinSinhVien.addActionListener(this);
 		mniDangKyDeTai.addActionListener(this);
 		mniXemDiem.addActionListener(this);
 		
 		mniThongTinGiaovien.addActionListener(this);
+		mniNhapDiem.addActionListener(this);
 	}
 
 	@Override
@@ -223,7 +230,9 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "XemDiem");
 		} else if(o.equals(mniThongTinGiaovien)) {
 			card.show(pnChung, "ThongTinGiaoVien");
-		} 
+		} else if(o.equals(mniNhapDiem)) {
+			card.show(pnChung, "NhapDiem");
+		}
 		
 		
 	}
