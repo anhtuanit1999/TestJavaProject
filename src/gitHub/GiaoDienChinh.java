@@ -12,6 +12,8 @@ import java.awt.Color;
 import javax.swing.KeyStroke;
 import javax.swing.border.LineBorder;
 
+import giaovien.GiaoDien_GiaoVien;
+import giaovien.GiaoDien_NhapDiem;
 import sinhVien.GiaoDien_DangKyDeTai;
 import sinhVien.GiaoDien_SinhVien;
 import sinhVien.GiaoDien_XemDiem;
@@ -47,6 +49,9 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenu mnLuanVan;
 	private GiaoDien_DangKyDeTai GD_DKDT;
 	private GiaoDien_XemDiem GD_XD;
+	private GiaoDien_GiaoVien GD_GV;
+	private JMenuItem mniThongTinGiaovien;
+	private GiaoDien_NhapDiem GD_ND;
 
 	/**
 	 * Launch the application.
@@ -115,6 +120,11 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVien.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnGiaoVien);
 		
+		mniThongTinGiaovien = new JMenuItem("Thông tin giáo viên");
+		mniThongTinGiaovien.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVien.add(mniThongTinGiaovien);
+		mnGiaoVien.addSeparator();
+		
 		mniNhapDiem = new JMenuItem("Nhập điểm");
 		mniNhapDiem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniNhapDiem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -179,6 +189,7 @@ public class GiaoDienChinh implements ActionListener {
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
 		pnChung.setLayout(card);
 		
+		// Sinh viên
 		// Giao diện sinh viên
 		GD_SV = new GiaoDien_SinhVien();
 		pnChung.add(GD_SV.getPanel(), "ThongTinSinhVien");
@@ -191,9 +202,21 @@ public class GiaoDienChinh implements ActionListener {
 		GD_XD = new GiaoDien_XemDiem();
 		pnChung.add(GD_XD.getPanel(), "XemDiem");
 		
+		// Giáo viên
+		// Giao diện giáo viên
+		GD_GV = new GiaoDien_GiaoVien();
+		pnChung.add(GD_GV.getPanel(), "ThongTinGiaoVien");
+		
+		// Giao diện nhập điểm
+		GD_ND = new GiaoDien_NhapDiem();
+		pnChung.add(GD_ND.getPanel(), "NhapDiem");
+		
 		mniThongTinSinhVien.addActionListener(this);
 		mniDangKyDeTai.addActionListener(this);
 		mniXemDiem.addActionListener(this);
+		
+		mniThongTinGiaovien.addActionListener(this);
+		mniNhapDiem.addActionListener(this);
 	}
 
 	@Override
@@ -205,6 +228,10 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "DangKyDeTai");
 		} else if(o.equals(mniXemDiem)) {
 			card.show(pnChung, "XemDiem");
+		} else if(o.equals(mniThongTinGiaovien)) {
+			card.show(pnChung, "ThongTinGiaoVien");
+		} else if(o.equals(mniNhapDiem)) {
+			card.show(pnChung, "NhapDiem");
 		}
 		
 		
