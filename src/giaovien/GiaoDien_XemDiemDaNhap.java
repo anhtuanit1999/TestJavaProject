@@ -72,12 +72,12 @@ public class GiaoDien_XemDiemDaNhap {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch sinh vi\u00EAn b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 1244, 456);
+		panel.setBounds(10, 11, 1244, 511);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 29, 1224, 416);
+		scrollPane.setBounds(10, 29, 1224, 471);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -90,11 +90,6 @@ public class GiaoDien_XemDiemDaNhap {
 		));
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
-		
-		JButton btnCpNht = new JButton("Cập nhật");
-		btnCpNht.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCpNht.setBounds(594, 478, 127, 44);
-		pnCenter.add(btnCpNht);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 533, 1244, 289);

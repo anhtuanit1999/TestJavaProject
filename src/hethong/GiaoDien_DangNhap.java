@@ -92,7 +92,7 @@ public class GiaoDien_DangNhap {
 		textField_1.setBounds(148, 105, 265, 20);
 		pnDangNhap.add(textField_1);
 		
-		JButton btnTiepTuc = new JButton("Tiếp Tục");
+		JButton btnTiepTuc = new JButton("Đăng nhập");
 		btnTiepTuc.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTiepTuc.setBounds(80, 183, 127, 44);
 		pnDangNhap.add(btnTiepTuc);
