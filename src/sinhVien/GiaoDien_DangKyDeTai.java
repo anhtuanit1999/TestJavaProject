@@ -82,11 +82,11 @@ public class GiaoDien_DangKyDeTai {
 			new Object[][] {
 			},
 			new String[] {
-				"M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i"
+				"STT", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m \u0111\u0103ng k\u00FD", "H\u1ECDc k\u1EF3"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class
+				Object.class, String.class, String.class, Object.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];

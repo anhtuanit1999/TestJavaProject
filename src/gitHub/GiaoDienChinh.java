@@ -14,6 +14,10 @@ import javax.swing.border.LineBorder;
 
 import giaovien.GiaoDien_GiaoVien;
 import giaovien.GiaoDien_NhapDiem;
+import giaovien.GiaoDien_XemDiemDaNhap;
+import hethong.GiaoDien_DangNhap;
+import hethong.GiaoDien_DangXuat;
+import hethong.GiaoDien_DoiMatKhau;
 import sinhVien.GiaoDien_DangKyDeTai;
 import sinhVien.GiaoDien_SinhVien;
 import sinhVien.GiaoDien_XemDiem;
@@ -52,6 +56,14 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_GiaoVien GD_GV;
 	private JMenuItem mniThongTinGiaovien;
 	private GiaoDien_NhapDiem GD_ND;
+	private GiaoDien_DangNhap GD_DN;
+	private JMenu mnHeThong;
+	private JMenuItem mniDangNhap;
+	private JMenuItem mniDoiMatKhau;
+	private JMenuItem mniDangXuat;
+	private GiaoDien_DoiMatKhau GD_DMK;
+	private GiaoDien_DangXuat GD_DX;
+	private GiaoDien_XemDiemDaNhap GD_XDDN;
 
 	/**
 	 * Launch the application.
@@ -184,6 +196,26 @@ public class GiaoDienChinh implements ActionListener {
 		mnLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnLuanVan);
 		
+		// menu hệ thống
+		mnHeThong = new JMenu("Hệ thống");
+		mnHeThong.setBorder(new LineBorder(Color.GRAY, 1, true));
+		mnHeThong.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+		menuBar.add(mnHeThong);
+		
+		mniDangNhap = new JMenuItem("Đăng nhập");
+		mniDangNhap.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnHeThong.add(mniDangNhap);
+		mnHeThong.addSeparator();
+		
+		mniDoiMatKhau = new JMenuItem("Đổi mật khẩu");
+		mniDoiMatKhau.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnHeThong.add(mniDoiMatKhau);
+		mnHeThong.addSeparator();
+		
+		mniDangXuat = new JMenuItem("Đăng xuất");
+		mniDangXuat.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnHeThong.add(mniDangXuat);
+		
 		pnChung = new JPanel();
 		card = new CardLayout();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -211,12 +243,36 @@ public class GiaoDienChinh implements ActionListener {
 		GD_ND = new GiaoDien_NhapDiem();
 		pnChung.add(GD_ND.getPanel(), "NhapDiem");
 		
+		// Giao diện xem điểm đã nhập
+		GD_XDDN = new GiaoDien_XemDiemDaNhap();
+		pnChung.add(GD_XDDN.getPanel(), "XemDiemDaNhap");
+		
+		// Hệ thống
+		// Giao diện đăng nhập
+		GD_DN = new GiaoDien_DangNhap();
+		pnChung.add(GD_DN.getPanel(), "DangNhap");
+		
+		// Giao diện đổi mật khẩu
+		GD_DMK = new GiaoDien_DoiMatKhau();
+		pnChung.add(GD_DMK.getPanel(), "DoiMatKhau");
+		
+		// Giao diện đăng xuất
+		GD_DX = new GiaoDien_DangXuat();
+		pnChung.add(GD_DX.getPanel(), "DangXuat");
+		
 		mniThongTinSinhVien.addActionListener(this);
 		mniDangKyDeTai.addActionListener(this);
 		mniXemDiem.addActionListener(this);
 		
 		mniThongTinGiaovien.addActionListener(this);
 		mniNhapDiem.addActionListener(this);
+		mniXemDiemDaNhap.addActionListener(this);
+		
+		mniDangNhap.addActionListener(this);
+		mniDoiMatKhau.addActionListener(this);
+		mniDangXuat.addActionListener(this);
+		
+		
 	}
 
 	@Override
@@ -232,7 +288,17 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "ThongTinGiaoVien");
 		} else if(o.equals(mniNhapDiem)) {
 			card.show(pnChung, "NhapDiem");
+		} else if(o.equals(mniXemDiemDaNhap)) {
+			card.show(pnChung, "XemDiemDaNhap");
 		}
+		
+		else if(o.equals(mniDangNhap)) {
+			card.show(pnChung, "DangNhap");
+		} else if(o.equals(mniDoiMatKhau)) {
+			card.show(pnChung, "DoiMatKhau");
+		} else if(o.equals(mniDangXuat)) {
+			card.show(pnChung, "DangXuat");
+		} 
 		
 		
 	}

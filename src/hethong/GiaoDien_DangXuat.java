@@ -1,4 +1,4 @@
-package giaovien;
+package hethong;
 
 import java.awt.EventQueue;
 
@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class GiaoDiena {
+public class GiaoDien_DangXuat {
 
 	private JFrame frame;
 	private JPanel pnChung;
@@ -27,7 +27,7 @@ public class GiaoDiena {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDiena window = new GiaoDiena();
+					GiaoDien_DangXuat window = new GiaoDien_DangXuat();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class GiaoDiena {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDiena() {
+	public GiaoDien_DangXuat() {
 		initialize();
 	}
 
@@ -87,7 +87,7 @@ public class GiaoDiena {
 		btnDangXuat.setBounds(177, 126, 114, 46);
 		pnDangXuat.add(btnDangXuat);
 	}
-	public JPanel getJPanel() {
+	public JPanel getPanel() {
 		return pnChung;
 	}
 }

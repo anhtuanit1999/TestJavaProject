@@ -110,6 +110,7 @@ public class GiaoDien_GiaoVien {
 		pnCenter.add(lblChucDanh);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setEditable(false);
 		txtDiaChi.setBounds(188, 182, 419, 20);
 		pnCenter.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
@@ -120,6 +121,7 @@ public class GiaoDien_GiaoVien {
 		pnCenter.add(lblDonViCongTac);
 		
 		txtNgaySinh = new JTextField();
+		txtNgaySinh.setEditable(false);
 		txtNgaySinh.setBounds(188, 250, 419, 20);
 		pnCenter.add(txtNgaySinh);
 		txtNgaySinh.setColumns(10);
@@ -149,7 +151,7 @@ public class GiaoDien_GiaoVien {
 		lblIcon = new JLabel("");
 		lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblIcon.setIcon(new ImageIcon(getClass().getResource("/avatar.png")));
-		lblIcon.setBounds(820, 27, 245, 309);
+		lblIcon.setBounds(820, 27, 245, 328);
 		pnCenter.add(lblIcon);
 		
 		JPanel panel = new JPanel();
@@ -220,11 +222,6 @@ public class GiaoDien_GiaoVien {
 			}
 		));
 		scrollPane.setViewportView(table);
-		
-		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCapNhat.setBounds(903, 355, 98, 23);
-		pnCenter.add(btnCapNhat);
 	}
 	
 	public JPanel getPanel() {

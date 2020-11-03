@@ -12,12 +12,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class GiaoDien_DangNhap {
 
 	private JFrame frame;
-	private JTextField tfTaiKhoan;
-	private JTextField tfMatKhau;
+	private JTextField textField;
+	private JTextField textField_1;
 	private JPanel pnChung;
 
 	/**
@@ -52,22 +53,24 @@ public class GiaoDien_DangNhap {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		 pnChung = new JPanel();
-		frame.getContentPane().add(pnChung, BorderLayout.NORTH);
+		pnChung = new JPanel();
+		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
+		pnChung.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblDangNhap = new JLabel("Đăng Nhập");
+		lblDangNhap.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		pnChung.add(lblDangNhap);
+		pnChung.add(lblDangNhap, BorderLayout.NORTH);
 		
 		JPanel pnCenter = new JPanel();
-		frame.getContentPane().add(pnCenter, BorderLayout.CENTER);
 		pnCenter.setLayout(null);
+		pnChung.add(pnCenter, BorderLayout.CENTER);
 		
 		JPanel pnDangNhap = new JPanel();
+		pnDangNhap.setLayout(null);
 		pnDangNhap.setBorder(new TitledBorder(null, "\u0110\u0103ng Nh\u1EADp", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pnDangNhap.setBounds(438, 147, 464, 263);
 		pnCenter.add(pnDangNhap);
-		pnDangNhap.setLayout(null);
 		
 		JLabel lblTaiKhoan = new JLabel("Tài Khoản :");
 		lblTaiKhoan.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -79,35 +82,27 @@ public class GiaoDien_DangNhap {
 		lblMatKhau.setBounds(23, 104, 78, 19);
 		pnDangNhap.add(lblMatKhau);
 		
-		tfTaiKhoan = new JTextField();
-		tfTaiKhoan.setBounds(148, 67, 265, 20);
-		pnDangNhap.add(tfTaiKhoan);
-		tfTaiKhoan.setColumns(10);
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(148, 67, 265, 20);
+		pnDangNhap.add(textField);
 		
-		tfMatKhau = new JTextField();
-		tfMatKhau.setBounds(148, 105, 265, 20);
-		pnDangNhap.add(tfMatKhau);
-		tfMatKhau.setColumns(10);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(148, 105, 265, 20);
+		pnDangNhap.add(textField_1);
 		
 		JButton btnTiepTuc = new JButton("Tiếp Tục");
-		btnTiepTuc.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnTiepTuc.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTiepTuc.setBounds(80, 183, 127, 44);
 		pnDangNhap.add(btnTiepTuc);
 		
 		JButton btnHuy = new JButton("Hủy");
-		btnHuy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnHuy.setBounds(260, 183, 127, 44);
 		pnDangNhap.add(btnHuy);
 	}
-	public JPanel getJPanel() {
+	public JPanel getPanel() {
 		return pnChung;
 	}
 

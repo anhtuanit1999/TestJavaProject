@@ -109,6 +109,7 @@ public class GiaoDien_SinhVien {
 		pnCenter.add(lblDiaChi);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setEditable(false);
 		txtDiaChi.setBounds(169, 128, 419, 20);
 		pnCenter.add(txtDiaChi);
 		txtDiaChi.setColumns(10);
@@ -118,6 +119,7 @@ public class GiaoDien_SinhVien {
 		pnCenter.add(lblNgaySinh);
 		
 		txtNgaySinh = new JTextField();
+		txtNgaySinh.setEditable(false);
 		txtNgaySinh.setBounds(169, 169, 419, 20);
 		pnCenter.add(txtNgaySinh);
 		txtNgaySinh.setColumns(10);
@@ -127,6 +129,7 @@ public class GiaoDien_SinhVien {
 		pnCenter.add(lblSoDienThoai);
 		
 		txtSoDienThoai = new JTextField();
+		txtSoDienThoai.setEditable(false);
 		txtSoDienThoai.setBounds(169, 211, 419, 20);
 		pnCenter.add(txtSoDienThoai);
 		txtSoDienThoai.setColumns(10);
@@ -164,7 +167,7 @@ public class GiaoDien_SinhVien {
 		lblIcon = new JLabel("");
 		lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblIcon.setIcon(new ImageIcon(getClass().getResource("/avatar.png")));
-		lblIcon.setBounds(820, 27, 245, 309);
+		lblIcon.setBounds(809, 27, 256, 370);
 		pnCenter.add(lblIcon);
 		
 		JPanel panel = new JPanel();
@@ -286,10 +289,6 @@ public class GiaoDien_SinhVien {
 		txtaGhiChu.setEditable(false);
 		txtaGhiChu.setBounds(163, 297, 383, 74);
 		panel_1.add(txtaGhiChu);
-		
-		JButton btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setBounds(903, 355, 89, 23);
-		pnCenter.add(btnCapNhat);
 	}
 	
 	public JPanel getPanel() {

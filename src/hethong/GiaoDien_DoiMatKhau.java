@@ -20,10 +20,18 @@ import java.awt.event.ActionEvent;
 public class GiaoDien_DoiMatKhau {
 
 	private JFrame frame;
-	private JTextField tfMatKhauCu;
-	private JTextField tfMatKhauMoi;
-	private JTextField tfXacNhanMK;
 	private JPanel pnChung;
+	private JPanel pnCenter;
+	private JPanel pnDoiMatKhau;
+	private JLabel lblMatKhauCu;
+	private JLabel lblMtKhuMi;
+	private JLabel lblXacNhanMK;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JButton btnDoiMatKhau;
+	private JButton btnHuy;
+	private JLabel lblTieuDe;
 
 	/**
 	 * Launch the application.
@@ -57,72 +65,68 @@ public class GiaoDien_DoiMatKhau {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		 pnChung = new JPanel();
-		frame.getContentPane().add(pnChung, BorderLayout.NORTH);
+		pnChung = new JPanel();
+		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
 		pnChung.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblDoiMatKhau = new JLabel("Đổi Mật Khẩu");
-		lblDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblDoiMatKhau.setHorizontalAlignment(SwingConstants.CENTER);
-		pnChung.add(lblDoiMatKhau);
+		lblTieuDe = new JLabel("Đổi mật khẩu");
+		pnChung.add(lblTieuDe, BorderLayout.NORTH);
+		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		JPanel pnCenter = new JPanel();
-		frame.getContentPane().add(pnCenter, BorderLayout.CENTER);
+		pnCenter = new JPanel();
 		pnCenter.setLayout(null);
+		pnChung.add(pnCenter, BorderLayout.CENTER);
 		
-		JPanel pnDoiMatKhau = new JPanel();
+		pnDoiMatKhau = new JPanel();
+		pnDoiMatKhau.setLayout(null);
 		pnDoiMatKhau.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0110\u1ED5i M\u1EADt Kh\u1EA9u", TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.windowText));
 		pnDoiMatKhau.setBounds(350, 115, 630, 311);
 		pnCenter.add(pnDoiMatKhau);
-		pnDoiMatKhau.setLayout(null);
 		
-		JLabel lblMatKhauCu = new JLabel("Mật Khẩu Cũ :");
+		lblMatKhauCu = new JLabel("Mật Khẩu Cũ :");
 		lblMatKhauCu.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblMatKhauCu.setBounds(22, 30, 112, 14);
 		pnDoiMatKhau.add(lblMatKhauCu);
 		
-		JLabel lblMtKhuMi = new JLabel("Mật Khẩu Mới :");
+		lblMtKhuMi = new JLabel("Mật Khẩu Mới :");
 		lblMtKhuMi.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblMtKhuMi.setBounds(22, 64, 136, 14);
 		pnDoiMatKhau.add(lblMtKhuMi);
 		
-		JLabel lblXacNhanMK = new JLabel("Xác Nhận Mật Khẩu Mới :");
+		lblXacNhanMK = new JLabel("Xác Nhận Mật Khẩu Mới :");
 		lblXacNhanMK.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblXacNhanMK.setBounds(22, 102, 192, 14);
 		pnDoiMatKhau.add(lblXacNhanMK);
 		
-		tfMatKhauCu = new JTextField();
-		tfMatKhauCu.setBounds(198, 30, 367, 20);
-		pnDoiMatKhau.add(tfMatKhauCu);
-		tfMatKhauCu.setColumns(10);
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(198, 30, 367, 20);
+		pnDoiMatKhau.add(textField);
 		
-		tfMatKhauMoi = new JTextField();
-		tfMatKhauMoi.setBounds(198, 64, 367, 20);
-		pnDoiMatKhau.add(tfMatKhauMoi);
-		tfMatKhauMoi.setColumns(10);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(198, 64, 367, 20);
+		pnDoiMatKhau.add(textField_1);
 		
-		tfXacNhanMK = new JTextField();
-		tfXacNhanMK.setBounds(198, 102, 367, 20);
-		pnDoiMatKhau.add(tfXacNhanMK);
-		tfXacNhanMK.setColumns(10);
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(198, 102, 367, 20);
+		pnDoiMatKhau.add(textField_2);
 		
-		JButton btnDoiMatKhau = new JButton("Tiếp Tục");
-		btnDoiMatKhau.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDoiMatKhau = new JButton("Tiếp Tục");
 		btnDoiMatKhau.setForeground(Color.BLACK);
+		btnDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDoiMatKhau.setBounds(160, 186, 127, 44);
 		pnDoiMatKhau.add(btnDoiMatKhau);
 		
-		JButton btnHuy = new JButton("Hủy");
+		btnHuy = new JButton("Hủy");
 		btnHuy.setForeground(Color.BLACK);
 		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnHuy.setBounds(357, 186, 127, 44);
 		pnDoiMatKhau.add(btnHuy);
 	}
-	public JPanel getJPanel() {
+	public JPanel getPanel() {
 		return pnChung;
 	}
 }
