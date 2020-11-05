@@ -15,7 +15,9 @@ import javax.swing.border.LineBorder;
 import giaovien.GiaoDien_GiaoVien;
 import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
-import giaovukhoa.GiaoDien_LuanVan;
+import giaovukhoa.GiaoDien_BaoCao;
+import giaovukhoa.GiaoDien_QuanLyDeTai;
+import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import hethong.GiaoDien_DangNhap;
 import hethong.GiaoDien_DangXuat;
 import hethong.GiaoDien_DoiMatKhau;
@@ -70,7 +72,9 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniQuanLyDeTai;
 	private JMenuItem mniQuanLyLuanVan;
 	private GiaoDien_TimDeTai GD_TDT;
-	private GiaoDien_LuanVan GD_QLLV;
+	private GiaoDien_QuanLyLuanVan GD_QLLV;
+	private GiaoDien_QuanLyDeTai GD_QLDT;
+	private GiaoDien_BaoCao GD_BC;
 
 	/**
 	 * Launch the application.
@@ -273,9 +277,17 @@ public class GiaoDienChinh implements ActionListener {
 		pnChung.add(GD_XDDN.getPanel(), "XemDiemDaNhap");
 		
 		// Giáo vụ khoa ------------------------------------------------------------
-		// Giao diện quan lý luận văn
-		GD_QLLV = new GiaoDien_LuanVan();
+		// Giao diện quản lý luận văn
+		GD_QLLV = new GiaoDien_QuanLyLuanVan();
 		pnChung.add(GD_QLLV.getPanel(), "QuanLyLuanVan");
+		
+		// Giao diện quản lý đề tài
+		GD_QLDT = new GiaoDien_QuanLyDeTai();
+		pnChung.add(GD_QLDT.getPanel(), "QuanLyDeTai");
+		
+		// Giao diện báo cáo
+		GD_BC = new GiaoDien_BaoCao();
+		pnChung.add(GD_BC.getPanel(), "BaoCaoDanhSach");
 		
 		// Hệ thống ----------------------------------------------------------------
 		// Giao diện đăng nhập
@@ -300,6 +312,8 @@ public class GiaoDienChinh implements ActionListener {
 		mniXemDiemDaNhap.addActionListener(this);
 		
 		mniQuanLyLuanVan.addActionListener(this);
+		mniQuanLyDeTai.addActionListener(this);
+		mniDanhSachSinhVienDangKyDeTai.addActionListener(this);
 		
 		mniDangNhap.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
@@ -327,7 +341,11 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "XemDiemDaNhap");
 		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
-		} else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
+		} else if(o.equals(mniQuanLyDeTai)) {
+			card.show(pnChung, "QuanLyDeTai");
+		} else if(o.equals(mniDanhSachSinhVienDangKyDeTai)) {
+			card.show(pnChung, "BaoCaoDanhSach");
+		}else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
 			card.show(pnChung, "DangNhap");
 		} else if(o.equals(mniDoiMatKhau)) {
 			card.show(pnChung, "DoiMatKhau");

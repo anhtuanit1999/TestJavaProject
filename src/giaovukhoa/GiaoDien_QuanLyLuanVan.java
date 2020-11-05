@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-public class GiaoDien_LuanVan {
+public class GiaoDien_QuanLyLuanVan {
 
 	private JFrame frame;
 	private JTextField txtNoiDung;
@@ -37,7 +37,7 @@ public class GiaoDien_LuanVan {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_LuanVan window = new GiaoDien_LuanVan();
+					GiaoDien_QuanLyLuanVan window = new GiaoDien_QuanLyLuanVan();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class GiaoDien_LuanVan {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_LuanVan() {
+	public GiaoDien_QuanLyLuanVan() {
 		initialize();
 	}
 
