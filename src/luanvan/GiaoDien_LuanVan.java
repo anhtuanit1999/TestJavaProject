@@ -141,7 +141,7 @@ public class GiaoDien_LuanVan {
 		textField_5.setColumns(10);
 		
 		textField_6 = new JTextField();
-		textField_6.setBounds(217, 279, 387, 79);
+		textField_6.setBounds(217, 279, 387, 116);
 		pnThongTinLuanVan.add(textField_6);
 		textField_6.setColumns(10);
 		
@@ -169,7 +169,9 @@ public class GiaoDien_LuanVan {
 				"M\u00E3 \u0110\u1EC1 T\u00E0i", "M\u00E3 Sinh Vi\u00EAn", "M\u00E3 Lu\u1EADn V\u0103n", "T\u00EAn Lu\u1EADn V\u0103n", "L\u0129nh V\u1EF1c Nghi\u00EAn C\u1EE9u"
 			}
 		));
-		scrollPane.setColumnHeaderView(table);
+		table.getColumnModel().getColumn(3).setPreferredWidth(78);
+		table.getColumnModel().getColumn(4).setPreferredWidth(115);
+		scrollPane.setViewportView(table);
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setBounds(267, 488, 127, 44);
