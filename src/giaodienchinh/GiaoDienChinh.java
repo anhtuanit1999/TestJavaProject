@@ -16,6 +16,7 @@ import giaovien.GiaoDien_GiaoVien;
 import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
 import giaovukhoa.GiaoDien_BaoCao;
+import giaovukhoa.GiaoDien_PhanCongHoiDong;
 import giaovukhoa.GiaoDien_QuanLyDeTai;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import hethong.GiaoDien_DangNhap;
@@ -75,6 +76,8 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_QuanLyLuanVan GD_QLLV;
 	private GiaoDien_QuanLyDeTai GD_QLDT;
 	private GiaoDien_BaoCao GD_BC;
+	private GiaoDien_PhanCongHoiDong GD_PCHD;
+	private JMenuItem mniPhanCongHoiDong;
 
 	/**
 	 * Launch the application.
@@ -188,7 +191,7 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.add(mniQuanLyLuanVan);
 		mnGiaoVuKhoa.addSeparator();
 		
-		JMenuItem mniPhanCongHoiDong = new JMenuItem("Phân công hội đồng");
+		mniPhanCongHoiDong = new JMenuItem("Phân công hội đồng");
 		mniPhanCongHoiDong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mniPhanCongHoiDong);
 		mnGiaoVuKhoa.addSeparator();
@@ -289,6 +292,10 @@ public class GiaoDienChinh implements ActionListener {
 		GD_BC = new GiaoDien_BaoCao();
 		pnChung.add(GD_BC.getPanel(), "BaoCaoDanhSach");
 		
+		// Giao diện phân công hội đồng
+		GD_PCHD = new GiaoDien_PhanCongHoiDong();
+		pnChung.add(GD_PCHD.getPanel(), "PhanCongHoiDong");
+		
 		// Hệ thống ----------------------------------------------------------------
 		// Giao diện đăng nhập
 		GD_DN = new GiaoDien_DangNhap();
@@ -314,6 +321,7 @@ public class GiaoDienChinh implements ActionListener {
 		mniQuanLyLuanVan.addActionListener(this);
 		mniQuanLyDeTai.addActionListener(this);
 		mniDanhSachSinhVienDangKyDeTai.addActionListener(this);
+		mniPhanCongHoiDong.addActionListener(this);
 		
 		mniDangNhap.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
@@ -345,7 +353,9 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "QuanLyDeTai");
 		} else if(o.equals(mniDanhSachSinhVienDangKyDeTai)) {
 			card.show(pnChung, "BaoCaoDanhSach");
-		}else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
+		} else if(o.equals(mniPhanCongHoiDong)) {
+			card.show(pnChung, "PhanCongHoiDong");
+		} else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
 			card.show(pnChung, "DangNhap");
 		} else if(o.equals(mniDoiMatKhau)) {
 			card.show(pnChung, "DoiMatKhau");
