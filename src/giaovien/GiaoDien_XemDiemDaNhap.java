@@ -125,6 +125,7 @@ public class GiaoDien_XemDiemDaNhap {
 		panel_1.add(lblNoiDung);
 		
 		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setEditable(false);
 		textArea_1.setBounds(204, 156, 988, 22);
 		panel_1.add(textArea_1);
 	}

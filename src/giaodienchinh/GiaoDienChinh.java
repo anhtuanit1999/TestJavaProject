@@ -1,4 +1,4 @@
-package gitHub;
+package giaodienchinh;
 
 import java.awt.EventQueue;
 
@@ -15,11 +15,13 @@ import javax.swing.border.LineBorder;
 import giaovien.GiaoDien_GiaoVien;
 import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
+import giaovukhoa.GiaoDien_LuanVan;
 import hethong.GiaoDien_DangNhap;
 import hethong.GiaoDien_DangXuat;
 import hethong.GiaoDien_DoiMatKhau;
 import sinhVien.GiaoDien_DangKyDeTai;
 import sinhVien.GiaoDien_SinhVien;
+import sinhVien.GiaoDien_TimDeTai;
 import sinhVien.GiaoDien_XemDiem;
 
 import java.awt.event.KeyEvent;
@@ -49,8 +51,6 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniSinhVienBaoVeLuanVanThanhCong;
 	private JMenuItem mniSinhVienBaoVeLuanVanKhongThanhCong;
 	private JMenuItem mniXepLoaiDiemSinhVien;
-	private JMenu mnDeTai;
-	private JMenu mnLuanVan;
 	private GiaoDien_DangKyDeTai GD_DKDT;
 	private GiaoDien_XemDiem GD_XD;
 	private GiaoDien_GiaoVien GD_GV;
@@ -64,6 +64,13 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_DoiMatKhau GD_DMK;
 	private GiaoDien_DangXuat GD_DX;
 	private GiaoDien_XemDiemDaNhap GD_XDDN;
+	private JMenuItem mniTimDeTai;
+	private JMenu mnBaoCao;
+	private JMenuItem mniDanhSachSinhVienDangKyDeTai;
+	private JMenuItem mniQuanLyDeTai;
+	private JMenuItem mniQuanLyLuanVan;
+	private GiaoDien_TimDeTai GD_TDT;
+	private GiaoDien_LuanVan GD_QLLV;
 
 	/**
 	 * Launch the application.
@@ -109,21 +116,27 @@ public class GiaoDienChinh implements ActionListener {
 		menuBar.add(mnSinhVien);
 		
 		mniThongTinSinhVien = new JMenuItem("Thông tinh sinh viên");
-		mniThongTinSinhVien.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mniThongTinSinhVien.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniThongTinSinhVien.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnSinhVien.add(mniThongTinSinhVien);
 		mnSinhVien.addSeparator();
 		
 		mniDangKyDeTai = new JMenuItem("Đăng ký đề tài");
-		mniDangKyDeTai.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mniDangKyDeTai.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniDangKyDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnSinhVien.add(mniDangKyDeTai);
 		mnSinhVien.addSeparator();
 		
 		mniXemDiem = new JMenuItem("Xem điểm");
-		mniXemDiem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mniXemDiem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniXemDiem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnSinhVien.add(mniXemDiem);
+		mnSinhVien.addSeparator();
+		
+		mniTimDeTai = new JMenuItem("Tìm đề tài");
+		mniTimDeTai.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mniTimDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnSinhVien.add(mniTimDeTai);
 		
 		// menu giáo viên
 		mnGiaoVien = new JMenu("Giáo viên");
@@ -133,17 +146,19 @@ public class GiaoDienChinh implements ActionListener {
 		menuBar.add(mnGiaoVien);
 		
 		mniThongTinGiaovien = new JMenuItem("Thông tin giáo viên");
+		mniThongTinGiaovien.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniThongTinGiaovien.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVien.add(mniThongTinGiaovien);
 		mnGiaoVien.addSeparator();
 		
 		mniNhapDiem = new JMenuItem("Nhập điểm");
-		mniNhapDiem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mniNhapDiem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_6, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniNhapDiem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVien.add(mniNhapDiem);
 		mnGiaoVien.addSeparator();
 		
 		mniXemDiemDaNhap = new JMenuItem("Xem điểm đã nhập");
+		mniXemDiemDaNhap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_7, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mniXemDiemDaNhap.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVien.add(mniXemDiemDaNhap);
 		
@@ -159,6 +174,16 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.add(mniXepLichBaoVeLuanVan);
 		mnGiaoVuKhoa.addSeparator();
 		
+		mniQuanLyDeTai = new JMenuItem("Quản lý đề tài");
+		mniQuanLyDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniQuanLyDeTai);
+		mnGiaoVuKhoa.addSeparator();
+		
+		mniQuanLyLuanVan = new JMenuItem("Quản lý luận văn");
+		mniQuanLyLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniQuanLyLuanVan);
+		mnGiaoVuKhoa.addSeparator();
+		
 		JMenuItem mniPhanCongHoiDong = new JMenuItem("Phân công hội đồng");
 		mniPhanCongHoiDong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mniPhanCongHoiDong);
@@ -167,6 +192,7 @@ public class GiaoDienChinh implements ActionListener {
 		mnThongKe = new JMenu("Thống kê");
 		mnThongKe.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mnThongKe);
+		mnGiaoVuKhoa.addSeparator();
 		
 		mniSinhVienBaoVeLuanVanThanhCong = new JMenuItem("Sinh viên bảo vệ luận văn thành công");
 		mniSinhVienBaoVeLuanVanThanhCong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -182,22 +208,17 @@ public class GiaoDienChinh implements ActionListener {
 		mniXepLoaiDiemSinhVien.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnThongKe.add(mniXepLoaiDiemSinhVien);
 		
-		// menu đề tài
-		mnDeTai = new JMenu("Đề tài");
-		mnDeTai.setBorder(new LineBorder(Color.GRAY, 1, true));
-		mnDeTai.setForeground(Color.BLACK);
-		mnDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 25));
-		menuBar.add(mnDeTai);
+		mnBaoCao = new JMenu("Báo cáo");
+		mnBaoCao.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mnBaoCao);
 		
-		// menu đề tài
-		mnLuanVan = new JMenu("Luận văn");
-		mnLuanVan.setBorder(new LineBorder(Color.GRAY, 1, true));
-		mnLuanVan.setForeground(Color.BLACK);
-		mnLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 25));
-		menuBar.add(mnLuanVan);
+		mniDanhSachSinhVienDangKyDeTai = new JMenuItem("Danh sách sinh viên đăng ký đề tài");
+		mniDanhSachSinhVienDangKyDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnBaoCao.add(mniDanhSachSinhVienDangKyDeTai);
 		
 		// menu hệ thống
 		mnHeThong = new JMenu("Hệ thống");
+		mnHeThong.setForeground(Color.BLACK);
 		mnHeThong.setBorder(new LineBorder(Color.GRAY, 1, true));
 		mnHeThong.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnHeThong);
@@ -221,7 +242,7 @@ public class GiaoDienChinh implements ActionListener {
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
 		pnChung.setLayout(card);
 		
-		// Sinh viên
+		// Sinh viên ------------------------------------------------------------
 		// Giao diện sinh viên
 		GD_SV = new GiaoDien_SinhVien();
 		pnChung.add(GD_SV.getPanel(), "ThongTinSinhVien");
@@ -234,7 +255,11 @@ public class GiaoDienChinh implements ActionListener {
 		GD_XD = new GiaoDien_XemDiem();
 		pnChung.add(GD_XD.getPanel(), "XemDiem");
 		
-		// Giáo viên
+		// Giao diện tìm đề tài
+		GD_TDT = new GiaoDien_TimDeTai();
+		pnChung.add(GD_TDT.getPanel(), "TimDeTai");
+		
+		// Giáo viên ------------------------------------------------------------
 		// Giao diện giáo viên
 		GD_GV = new GiaoDien_GiaoVien();
 		pnChung.add(GD_GV.getPanel(), "ThongTinGiaoVien");
@@ -247,7 +272,12 @@ public class GiaoDienChinh implements ActionListener {
 		GD_XDDN = new GiaoDien_XemDiemDaNhap();
 		pnChung.add(GD_XDDN.getPanel(), "XemDiemDaNhap");
 		
-		// Hệ thống
+		// Giáo vụ khoa ------------------------------------------------------------
+		// Giao diện quan lý luận văn
+		GD_QLLV = new GiaoDien_LuanVan();
+		pnChung.add(GD_QLLV.getPanel(), "QuanLyLuanVan");
+		
+		// Hệ thống ----------------------------------------------------------------
 		// Giao diện đăng nhập
 		GD_DN = new GiaoDien_DangNhap();
 		pnChung.add(GD_DN.getPanel(), "DangNhap");
@@ -263,10 +293,13 @@ public class GiaoDienChinh implements ActionListener {
 		mniThongTinSinhVien.addActionListener(this);
 		mniDangKyDeTai.addActionListener(this);
 		mniXemDiem.addActionListener(this);
+		mniTimDeTai.addActionListener(this);
 		
 		mniThongTinGiaovien.addActionListener(this);
 		mniNhapDiem.addActionListener(this);
 		mniXemDiemDaNhap.addActionListener(this);
+		
+		mniQuanLyLuanVan.addActionListener(this);
 		
 		mniDangNhap.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
@@ -278,21 +311,23 @@ public class GiaoDienChinh implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(mniThongTinSinhVien)) {
+		if(o.equals(mniThongTinSinhVien)) { // Sinh viên -------------------------------
 			card.show(pnChung, "ThongTinSinhVien");
 		} else if(o.equals(mniDangKyDeTai)) {
 			card.show(pnChung, "DangKyDeTai");
 		} else if(o.equals(mniXemDiem)) {
 			card.show(pnChung, "XemDiem");
-		} else if(o.equals(mniThongTinGiaovien)) {
+		} else if(o.equals(mniTimDeTai)) {
+			card.show(pnChung, "TimDeTai");
+		} else if(o.equals(mniThongTinGiaovien)) { // Giáo viên --------------------------
 			card.show(pnChung, "ThongTinGiaoVien");
 		} else if(o.equals(mniNhapDiem)) {
 			card.show(pnChung, "NhapDiem");
 		} else if(o.equals(mniXemDiemDaNhap)) {
 			card.show(pnChung, "XemDiemDaNhap");
-		}
-		
-		else if(o.equals(mniDangNhap)) {
+		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
+			card.show(pnChung, "QuanLyLuanVan");
+		} else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
 			card.show(pnChung, "DangNhap");
 		} else if(o.equals(mniDoiMatKhau)) {
 			card.show(pnChung, "DoiMatKhau");
