@@ -38,6 +38,7 @@ public class GiaoDien_SinhVien {
 	private JTextField txtGiaoVienPhanBien2;
 	private JTextField txtGiaoVienPhanBien3;
 	private JPanel pnChung;
+	private JTextField txtThoiGianBaoVe;
 
 	/**
 	 * Launch the application.
@@ -172,7 +173,7 @@ public class GiaoDien_SinhVien {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "\u0110\u1EC1 t\u00E0i \u0111\u00E3 ch\u1ECDn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 487, 635, 382);
+		panel.setBounds(10, 428, 635, 441);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -227,68 +228,78 @@ public class GiaoDien_SinhVien {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "H\u1ED9i \u0111\u1ED3ng b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(655, 487, 599, 382);
+		panel_1.setBounds(655, 428, 599, 441);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblChuTichHoiDong = new JLabel("Chủ tịch hội đồng: ");
-		lblChuTichHoiDong.setBounds(44, 49, 109, 14);
+		lblChuTichHoiDong.setBounds(45, 81, 109, 14);
 		panel_1.add(lblChuTichHoiDong);
 		
 		txtChuTichHoiDong = new JTextField();
 		txtChuTichHoiDong.setEditable(false);
-		txtChuTichHoiDong.setBounds(163, 46, 383, 20);
+		txtChuTichHoiDong.setBounds(164, 78, 383, 20);
 		panel_1.add(txtChuTichHoiDong);
 		txtChuTichHoiDong.setColumns(10);
 		
 		JLabel lblThuKy = new JLabel("Thư ký: ");
-		lblThuKy.setBounds(44, 102, 109, 14);
+		lblThuKy.setBounds(45, 122, 109, 14);
 		panel_1.add(lblThuKy);
 		
 		txtThuKy = new JTextField();
 		txtThuKy.setEditable(false);
-		txtThuKy.setBounds(163, 99, 383, 20);
+		txtThuKy.setBounds(164, 119, 383, 20);
 		panel_1.add(txtThuKy);
 		txtThuKy.setColumns(10);
 		
 		JLabel lblGiaoVienPhanBien1 = new JLabel("Giáo viên phản biện 1: ");
-		lblGiaoVienPhanBien1.setBounds(44, 155, 110, 14);
+		lblGiaoVienPhanBien1.setBounds(45, 167, 110, 14);
 		panel_1.add(lblGiaoVienPhanBien1);
 		
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setBounds(163, 152, 383, 20);
+		textField.setBounds(164, 164, 383, 20);
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblGiaoVienPhanBien2 = new JLabel("Giáo viên phản biện 2: ");
-		lblGiaoVienPhanBien2.setBounds(44, 206, 116, 14);
+		lblGiaoVienPhanBien2.setBounds(45, 218, 116, 14);
 		panel_1.add(lblGiaoVienPhanBien2);
 		
 		txtGiaoVienPhanBien2 = new JTextField();
 		txtGiaoVienPhanBien2.setEditable(false);
-		txtGiaoVienPhanBien2.setBounds(163, 203, 383, 20);
+		txtGiaoVienPhanBien2.setBounds(164, 215, 383, 20);
 		panel_1.add(txtGiaoVienPhanBien2);
 		txtGiaoVienPhanBien2.setColumns(10);
 		
 		JLabel lblGiaoVienPhanBien3 = new JLabel("Giáo viên phản biện 3: ");
-		lblGiaoVienPhanBien3.setBounds(44, 255, 116, 14);
+		lblGiaoVienPhanBien3.setBounds(45, 267, 116, 14);
 		panel_1.add(lblGiaoVienPhanBien3);
 		
 		txtGiaoVienPhanBien3 = new JTextField();
 		txtGiaoVienPhanBien3.setEditable(false);
-		txtGiaoVienPhanBien3.setBounds(163, 252, 383, 20);
+		txtGiaoVienPhanBien3.setBounds(164, 264, 383, 20);
 		panel_1.add(txtGiaoVienPhanBien3);
 		txtGiaoVienPhanBien3.setColumns(10);
 		
 		JLabel lblGhiChu = new JLabel("Ghi chú: ");
-		lblGhiChu.setBounds(44, 302, 109, 14);
+		lblGhiChu.setBounds(45, 314, 109, 14);
 		panel_1.add(lblGhiChu);
 		
 		JTextArea txtaGhiChu = new JTextArea();
 		txtaGhiChu.setEditable(false);
-		txtaGhiChu.setBounds(163, 297, 383, 74);
+		txtaGhiChu.setBounds(164, 309, 383, 74);
 		panel_1.add(txtaGhiChu);
+		
+		JLabel lblThoiGianBaoVe = new JLabel("Thời gian bảo vệ: ");
+		lblThoiGianBaoVe.setBounds(45, 40, 109, 14);
+		panel_1.add(lblThoiGianBaoVe);
+		
+		txtThoiGianBaoVe = new JTextField();
+		txtThoiGianBaoVe.setEditable(false);
+		txtThoiGianBaoVe.setColumns(10);
+		txtThoiGianBaoVe.setBounds(164, 37, 383, 20);
+		panel_1.add(txtThoiGianBaoVe);
 	}
 	
 	public JPanel getPanel() {

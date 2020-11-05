@@ -28,6 +28,7 @@ public class GiaoDien_PhanCongHoiDong {
 	private JTextField txtTimGiaoVien;
 	private JTable table_1;
 	private JPanel pnChung;
+	private JTextField txtNgayBaoVe;
 
 	/**
 	 * Launch the application.
@@ -75,7 +76,7 @@ public class GiaoDien_PhanCongHoiDong {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Th\u00F4ng tin h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 631, 273);
+		panel.setBounds(10, 11, 631, 307);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -128,9 +129,19 @@ public class GiaoDien_PhanCongHoiDong {
 		comboBoxTenSinhVien.setBounds(154, 233, 456, 20);
 		panel.add(comboBoxTenSinhVien);
 		
+		JLabel lblNgayBaoVe = new JLabel("Ngày bảo vệ: ");
+		lblNgayBaoVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgayBaoVe.setBounds(35, 275, 109, 19);
+		panel.add(lblNgayBaoVe);
+		
+		txtNgayBaoVe = new JTextField();
+		txtNgayBaoVe.setColumns(10);
+		txtNgayBaoVe.setBounds(154, 276, 456, 20);
+		panel.add(txtNgayBaoVe);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch gi\u00E1o vi\u00EAn thu\u1ED9c h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(651, 11, 603, 273);
+		panel_1.setBounds(651, 11, 603, 307);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -158,7 +169,7 @@ public class GiaoDien_PhanCongHoiDong {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Danh s\u00E1ch gi\u00E1o vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(10, 295, 1244, 574);
+		panel_2.setBounds(10, 329, 1244, 540);
 		pnCenter.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -183,7 +194,7 @@ public class GiaoDien_PhanCongHoiDong {
 		panel_2.add(comboBox);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 230, 1224, 333);
+		scrollPane_1.setBounds(10, 167, 1224, 396);
 		panel_2.add(scrollPane_1);
 		
 		table_1 = new JTable();
@@ -206,22 +217,22 @@ public class GiaoDien_PhanCongHoiDong {
 		
 		JButton btnTimGiaoVien = new JButton("Tìm giáo viên");
 		btnTimGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTimGiaoVien.setBounds(216, 154, 127, 44);
+		btnTimGiaoVien.setBounds(214, 112, 127, 44);
 		panel_2.add(btnTimGiaoVien);
 		
 		JButton btnChonGiaoVien = new JButton("Chọn giáo viên");
 		btnChonGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnChonGiaoVien.setBounds(420, 154, 143, 44);
+		btnChonGiaoVien.setBounds(418, 112, 143, 44);
 		panel_2.add(btnChonGiaoVien);
 		
 		JButton btnBoChonGiaoVien = new JButton("Bỏ chọn giáo viên");
 		btnBoChonGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBoChonGiaoVien.setBounds(623, 154, 157, 44);
+		btnBoChonGiaoVien.setBounds(621, 112, 157, 44);
 		panel_2.add(btnBoChonGiaoVien);
 		
 		JButton btnLuuHoiDong = new JButton("Lưu hội đồng");
 		btnLuuHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnLuuHoiDong.setBounds(853, 154, 127, 44);
+		btnLuuHoiDong.setBounds(851, 112, 127, 44);
 		panel_2.add(btnLuuHoiDong);
 	}
 	public JPanel getPanel() {

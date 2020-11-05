@@ -50,7 +50,6 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniNhapDiem;
 	private JMenuItem mniXemDiemDaNhap;
 	private JMenu mnGiaoVuKhoa;
-	private JMenuItem mniXepLichBaoVeLuanVan;
 	private JMenu mnThongKe;
 	private JMenuItem mniSinhVienBaoVeLuanVanThanhCong;
 	private JMenuItem mniSinhVienBaoVeLuanVanKhongThanhCong;
@@ -179,11 +178,6 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.setForeground(Color.BLACK);
 		mnGiaoVuKhoa.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnGiaoVuKhoa);
-		
-		mniXepLichBaoVeLuanVan = new JMenuItem("Xếp lịch bảo vệ luận văn");
-		mniXepLichBaoVeLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnGiaoVuKhoa.add(mniXepLichBaoVeLuanVan);
-		mnGiaoVuKhoa.addSeparator();
 		
 		mniQuanLyDeTai = new JMenuItem("Quản lý đề tài");
 		mniQuanLyDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
