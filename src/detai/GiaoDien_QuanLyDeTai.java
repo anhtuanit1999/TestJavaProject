@@ -14,6 +14,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
 public class GiaoDien_QuanLyDeTai {
 
@@ -68,13 +70,13 @@ public class GiaoDien_QuanLyDeTai {
 		pnCenter.setLayout(null);
 		
 		JPanel pnDeTai = new JPanel();
-		pnDeTai.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnDeTai.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pnDeTai.setBounds(30, 36, 606, 389);
 		pnCenter.add(pnDeTai);
 		pnDeTai.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 606, 389);
+		scrollPane.setBounds(10, 11, 586, 367);
 		pnDeTai.add(scrollPane);
 		
 		table = new JTable();
