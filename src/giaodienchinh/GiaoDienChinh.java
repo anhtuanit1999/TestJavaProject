@@ -19,6 +19,7 @@ import giaovukhoa.GiaoDien_BaoCao;
 import giaovukhoa.GiaoDien_PhanCongHoiDong;
 import giaovukhoa.GiaoDien_QuanLyDeTai;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
+import giaovukhoa.GiaoDien_ThongKe;
 import hethong.GiaoDien_DangNhap;
 import hethong.GiaoDien_DangXuat;
 import hethong.GiaoDien_DoiMatKhau;
@@ -78,6 +79,9 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_BaoCao GD_BC;
 	private GiaoDien_PhanCongHoiDong GD_PCHD;
 	private JMenuItem mniPhanCongHoiDong;
+	private GiaoDien_ThongKe GD_SVBVLVTC;
+	private GiaoDien_ThongKe GD_SVBVLVKTC;
+	private GiaoDien_ThongKe GD_XDSV;
 
 	/**
 	 * Launch the application.
@@ -296,6 +300,18 @@ public class GiaoDienChinh implements ActionListener {
 		GD_PCHD = new GiaoDien_PhanCongHoiDong();
 		pnChung.add(GD_PCHD.getPanel(), "PhanCongHoiDong");
 		
+		// Giao diện thống kê danh sách sinh viên bảo vệ luận văn thành công
+		GD_SVBVLVTC = new GiaoDien_ThongKe();
+		pnChung.add(GD_SVBVLVTC.getPanel(), "ThongKe");
+		
+		// Giao diện thống kê danh sách sinh viên bảo vệ luận văn không thành công
+		GD_SVBVLVKTC = new GiaoDien_ThongKe();
+		pnChung.add(GD_SVBVLVKTC.getPanel(), "ThongKe");
+		
+		// Giao diện thống kê xếp loại điểm sinh viên
+		GD_XDSV = new GiaoDien_ThongKe();
+		pnChung.add(GD_XDSV.getPanel(), "ThongKe");
+		
 		// Hệ thống ----------------------------------------------------------------
 		// Giao diện đăng nhập
 		GD_DN = new GiaoDien_DangNhap();
@@ -322,6 +338,9 @@ public class GiaoDienChinh implements ActionListener {
 		mniQuanLyDeTai.addActionListener(this);
 		mniDanhSachSinhVienDangKyDeTai.addActionListener(this);
 		mniPhanCongHoiDong.addActionListener(this);
+		mniSinhVienBaoVeLuanVanThanhCong.addActionListener(this);
+		mniSinhVienBaoVeLuanVanKhongThanhCong.addActionListener(this);
+		mniXepLoaiDiemSinhVien.addActionListener(this);
 		
 		mniDangNhap.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
@@ -355,6 +374,12 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "BaoCaoDanhSach");
 		} else if(o.equals(mniPhanCongHoiDong)) {
 			card.show(pnChung, "PhanCongHoiDong");
+		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
+			card.show(pnChung, "ThongKe");
+		} else if(o.equals(mniSinhVienBaoVeLuanVanKhongThanhCong)) {
+			card.show(pnChung, "ThongKe");
+		} else if(o.equals(mniXepLoaiDiemSinhVien)) {
+			card.show(pnChung, "ThongKe");
 		} else if(o.equals(mniDangNhap)) { // Hệ thống --------------------------------------
 			card.show(pnChung, "DangNhap");
 		} else if(o.equals(mniDoiMatKhau)) {
