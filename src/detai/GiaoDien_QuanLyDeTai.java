@@ -9,16 +9,18 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class GiaoDien_QuanLyDeTai {
 
 	private JFrame frame;
 	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -52,26 +54,27 @@ public class GiaoDien_QuanLyDeTai {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel pnChung = new JPanel();
-		frame.getContentPane().add(pnChung, BorderLayout.NORTH);
+		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
 		pnChung.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblTIeuDe = new JLabel("Quản Lý Đề Tài");
-		lblTIeuDe.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTIeuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		pnChung.add(lblTIeuDe, BorderLayout.NORTH);
+		JLabel lblTieuDe = new JLabel("Quản Lý Đề Tài");
+		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
 		JPanel pnCenter = new JPanel();
-		frame.getContentPane().add(pnCenter, BorderLayout.CENTER);
 		pnCenter.setBorder(new TitledBorder(null, "\u0110\u1EC1 T\u00E0i", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnChung.add(pnCenter, BorderLayout.CENTER);
 		pnCenter.setLayout(null);
 		
 		JPanel pnDeTai = new JPanel();
-		pnDeTai.setBounds(169, 55, 930, 438);
+		pnDeTai.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnDeTai.setBounds(30, 36, 606, 389);
 		pnCenter.add(pnDeTai);
 		pnDeTai.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 930, 438);
+		scrollPane.setBounds(0, 0, 606, 389);
 		pnDeTai.add(scrollPane);
 		
 		table = new JTable();
@@ -79,10 +82,48 @@ public class GiaoDien_QuanLyDeTai {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "M\u00E3 \u0110\u1EC1 T\u00E0i", "T\u00EAn \u0110\u1EC1 T\u00E0i", "S\u1ED1 Nh\u00F3m \u0110\u0103ng K\u00FD", "H\u1ECDc K\u1EF3"
+				"STT", "M\u00E3 \u0110\u1EC1 T\u00E0i", "T\u00EAn \u0110\u1EC1 T\u00E0i"
 			}
 		));
-		table.getColumnModel().getColumn(3).setPreferredWidth(102);
 		scrollPane.setViewportView(table);
+		
+		JPanel pnDeTai1 = new JPanel();
+		pnDeTai1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnDeTai1.setBounds(658, 36, 568, 389);
+		pnCenter.add(pnDeTai1);
+		pnDeTai1.setLayout(null);
+		
+		JLabel lblMaDeTai = new JLabel("Mã Đề Tài:");
+		lblMaDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaDeTai.setBounds(58, 95, 121, 14);
+		pnDeTai1.add(lblMaDeTai);
+		
+		JLabel lblTenDeTai = new JLabel("Tên Đề Tài:");
+		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenDeTai.setBounds(58, 152, 129, 14);
+		pnDeTai1.add(lblTenDeTai);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setBounds(189, 94, 332, 20);
+		pnDeTai1.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(189, 151, 332, 20);
+		pnDeTai1.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnThem = new JButton("Thêm");
+		btnThem.setBounds(388, 485, 155, 56);
+		pnCenter.add(btnThem);
+		
+		JButton btnSua = new JButton("Sửa");
+		btnSua.setBounds(629, 485, 149, 56);
+		pnCenter.add(btnSua);
+		
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setBounds(845, 485, 139, 56);
+		pnCenter.add(btnXoa);
 	}
 }
