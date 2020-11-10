@@ -2,11 +2,23 @@ package entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class DeTai implements Serializable {
+
 	private String maDeTai;
 	private String maGiaoVienRaDe;
 	private String tenDeTai;
+	
+	@Column(name = "MOTADETAI")
 	private String moTaDeTai;
+	
+	@Column(name = "SONHOMTHAMGIA")
 	private int soNhomThamGia;
 	private String namHoc;
 	public String getMaDeTai() {

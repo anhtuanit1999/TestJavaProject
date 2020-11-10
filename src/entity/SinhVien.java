@@ -3,14 +3,28 @@ package entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class SinhVien implements Serializable {
+
 	private String maSinhVien;
 	private String hoTen;
+	
+	@Column(name = "DIACHI")
 	private String diaChi;
+	
+	@Column(name = "SODIENTHOAI")
 	private String soDienThoai;
 	private String ngaySinh;
 	private String khoaTrucThuoc;
+	
+	@Column(name = "NAMVAOTRUONG")
 	private int namVaoTruong;
+	
+	@Column(name = "NAMTOTNGHIEP")
 	private int namTotNghiep;
 	public String getMaSinhVien() {
 		return maSinhVien;
