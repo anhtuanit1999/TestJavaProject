@@ -24,14 +24,15 @@ public class Connection {
 					.build();
 			
 			Metadata metadata = new MetadataSources(registry)
-					.addAnnotatedClass(GiaoVien.class)
-//					.addAnnotatedClass(SinhVien.class)
-					.addAnnotatedClass(HoiDong.class)
-//					.addAnnotatedClass(LuanVan.class)
-//					.addAnnotatedClass(DeTai.class)
-//					.addAnnotatedClass(DanhSachHoiDong.class)
-//					.addAnnotatedClass(KetQua.class)
-//					.addAnnotatedClass(DiemBaoVeLuanVan.class)
+					.addAnnotatedClass(entity.GiaoVien.class)
+//					.addAnnotatedClass(entity.SinhVien.class)
+					.addAnnotatedClass(entity.HoiDong.class)
+//					.addAnnotatedClass(entity.LuanVan.class)
+//					.addAnnotatedClass(entity.DeTai.class)
+					.addAnnotatedClass(DanhSachHoiDong.class)
+					.addAnnotatedClass(entity.Khoa_DanhSachHoiDong.class)
+//					.addAnnotatedClass(entity.KetQua.class)
+//					.addAnnotatedClass(entity.DiemBaoVeLuanVan.class)
 					.getMetadataBuilder().build();
 			
 			sessionFactory = metadata.getSessionFactoryBuilder().build();

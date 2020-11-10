@@ -15,16 +15,6 @@ public class DanhSachHoiDong implements Serializable {
 	@EmbeddedId
 	private Khoa_DanhSachHoiDong ma;
 	
-	@ManyToOne
-    @MapsId("MA_HOIDONG")
-    @JoinColumn(name = "MA_HOIDONG")
-	private HoiDong hoiDong;
-	
-	@ManyToOne
-    @MapsId("MA_GIAOVIEN")
-    @JoinColumn(name = "MA_GIAOVIEN")
-	private GiaoVien giaoVien;
-	
 	private int namHoc;
 }
 

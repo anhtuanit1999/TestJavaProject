@@ -5,9 +5,14 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -22,11 +27,7 @@ public class HoiDong implements Serializable {
 	@Column(name = "NGAYBAOVE")
 	private LocalDate ngayBaoVe;
 	
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(name = "DANHSACHHOIDONG", 
-//				joinColumns = { @JoinColumn(referencedColumnName = "MA_GIAOVIEN") },
-//				inverseJoinColumns = @JoinColumn(referencedColumnName = "MA_HOIDONG"))
-	@OneToMany(mappedBy = "HoiDong")
+	@OneToMany(mappedBy = "MA_HOIDONG")
 	private Set<DanhSachHoiDong> danhSachHoiDongs = new HashSet();
 }
 

@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -33,11 +38,7 @@ public class GiaoVien implements Serializable {
 //	@OneToMany(mappedBy = "GiaoVien")
 //	private DeTai deTai;
 	
-//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinTable(name = "DANHSACHHOIDONG", 
-//			joinColumns = { @JoinColumn(referencedColumnName = "MA_HOIDOING") },
-//			inverseJoinColumns = { @JoinColumn(referencedColumnName = "MA_GIAOVIEN") })
-	@OneToMany(mappedBy = "GiaoVien")
+	@OneToMany(mappedBy = "MA_HOIDONG")
 	private Set<DanhSachHoiDong> danhSachHoiDongs = new HashSet();
 }
 
