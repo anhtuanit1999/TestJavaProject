@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.util.List;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.JList;
@@ -14,11 +19,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Database;
+import dao.DeTaiDao;
+import entity.DeTai;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
-public class GiaoDien_DangKyDeTai {
+public class GiaoDien_DangKyDeTai implements MouseListener {
 
 	private JFrame frame;
 	private JTable table;
@@ -27,6 +37,8 @@ public class GiaoDien_DangKyDeTai {
 	private JTextField txtTenSinhVien;
 	private JTextField txtMSSV;
 	private JPanel pnChung;
+	private DeTaiDao deTaiDao;
+	private DefaultTableModel tabelModel;
 
 	/**
 	 * Launch the application.
@@ -55,6 +67,8 @@ public class GiaoDien_DangKyDeTai {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		deTaiDao = new DeTaiDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,7 +92,7 @@ public class GiaoDien_DangKyDeTai {
 		pnCenter.add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		table.setModel(tabelModel = new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -160,9 +174,67 @@ public class GiaoDien_DangKyDeTai {
 		textArea.setBounds(170, 79, 991, 166);
 		panel.add(textArea);
 		
+		try {
+			updateTableData();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		table.addMouseListener(this);
 	}
+	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	
+	private void updateTableData() throws ParseException {
+		int count = 1;
+		List<DeTai> list = deTaiDao.docTuBang();
+		for (DeTai dt : list) {
+			String[] rowData = {
+					count++ + "", 
+					dt.getMaDeTai(), 
+					dt.getTenDeTai(),
+					dt.getSoNhomThamGia() + "",
+					dt.getNamHoc()
+					
+					};
+			System.out.println(dt);
+			tabelModel.addRow(rowData);
+		}
+		table.setModel(tabelModel);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = table.getSelectedRow();
+		txtMaDeTai.setText(table.getValueAt(row, 1).toString());
+		txtTenDeTai.setText(table.getValueAt(row, 2).toString());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

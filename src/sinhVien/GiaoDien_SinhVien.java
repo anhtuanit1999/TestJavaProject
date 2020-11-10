@@ -9,9 +9,18 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
+import java.text.ParseException;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+
+import dao.Database;
+import dao.DeTaiDao;
+import dao.SinhVienDao;
+import entity.DeTai;
+import entity.SinhVien;
+
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -39,6 +48,8 @@ public class GiaoDien_SinhVien {
 	private JTextField txtGiaoVienPhanBien3;
 	private JPanel pnChung;
 	private JTextField txtThoiGianBaoVe;
+	private SinhVienDao sinhVienDao;
+	private DeTaiDao deTaiDao;
 
 	/**
 	 * Launch the application.
@@ -67,6 +78,9 @@ public class GiaoDien_SinhVien {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		sinhVienDao = new SinhVienDao();
+		deTaiDao = new DeTaiDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -300,9 +314,35 @@ public class GiaoDien_SinhVien {
 		txtThoiGianBaoVe.setColumns(10);
 		txtThoiGianBaoVe.setBounds(164, 37, 383, 20);
 		panel_1.add(txtThoiGianBaoVe);
+		
+		try {
+			updateTextField(0);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	private void updateTextField(int ma) throws ParseException {
+		List<SinhVien> listSinhVien = sinhVienDao.docTuBang();
+		SinhVien sv = listSinhVien.get(ma);
+		txtMSSV.setText(sv.getMaSinhVien());
+		txtHoTen.setText(sv.getHoTen());
+		txtNgaySinh.setText(sv.getNgaySinh());
+		txtDiaChi.setText(sv.getDiaChi());
+		txtSoDienThoai.setText(sv.getSoDienThoai());
+		txtKhoaTrucThuoc.setText(sv.getKhoaTrucThuoc());
+		txtNamVaoTruong.setText(sv.getNamVaoTruong() + "");
+		txtNamTotNghiep.setText(sv.getNamTotNghiep() + "");
+		
+		
+		List<DeTai> listDeTai = deTaiDao.docTuBang();
+		DeTai dt = listDeTai.get(ma);
+		txtTenDeTai.setText(dt.getTenDeTai());
+		
 	}
 }

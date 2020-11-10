@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.text.ParseException;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JComboBox;
@@ -16,6 +19,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Database;
+import dao.DeTaiDao;
+import entity.DeTai;
+import entity.SinhVien;
+
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
@@ -29,6 +38,8 @@ public class GiaoDien_QuanLyLuanVan {
 	private JTextField txtMaLuanVan;
 	private JTextField txtTenLuanVan;
 	private JTextField txtMaSinhVien;
+	private DeTaiDao deTaiDao;
+	private DefaultComboBoxModel<String> comboModel;
 
 	/**
 	 * Launch the application.
@@ -57,6 +68,8 @@ public class GiaoDien_QuanLyLuanVan {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		deTaiDao = new DeTaiDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,7 +114,8 @@ public class GiaoDien_QuanLyLuanVan {
 		txtNoiDung.setBounds(217, 239, 955, 20);
 		pnThongTinLuanVan.add(txtNoiDung);
 		
-		JComboBox comboBoxLinhVucNghienCuu = new JComboBox();
+		comboModel = new DefaultComboBoxModel<String>();
+		JComboBox comboBoxLinhVucNghienCuu = new JComboBox(comboModel);
 		comboBoxLinhVucNghienCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		comboBoxLinhVucNghienCuu.setBounds(217, 199, 955, 25);
 		pnThongTinLuanVan.add(comboBoxLinhVucNghienCuu);
@@ -202,8 +216,23 @@ public class GiaoDien_QuanLyLuanVan {
 		lblTieuDe.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
+		
+		try {
+			updateComBoBox();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	private void updateComBoBox() throws ParseException {
+		List<DeTai> listDeTai = deTaiDao.docTuBang();
+		for (DeTai dt : listDeTai) {
+			comboModel.addElement(dt.getTenDeTai());
+		}
+		
 	}
 }
