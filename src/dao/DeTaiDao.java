@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import entity.DeTai;
 import entity.SinhVien;
