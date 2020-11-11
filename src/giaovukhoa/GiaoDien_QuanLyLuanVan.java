@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.util.List;
 
@@ -22,13 +24,15 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
 import dao.DeTaiDao;
+import dao.LuanVanDao;
 import entity.DeTai;
+import entity.LuanVan;
 import entity.SinhVien;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-public class GiaoDien_QuanLyLuanVan {
+public class GiaoDien_QuanLyLuanVan implements MouseListener {
 
 	private JFrame frame;
 	private JTextField txtNoiDung;
@@ -40,6 +44,9 @@ public class GiaoDien_QuanLyLuanVan {
 	private JTextField txtMaSinhVien;
 	private DeTaiDao deTaiDao;
 	private DefaultComboBoxModel<String> comboModel;
+	private LuanVanDao luanVanDao;
+	private DefaultTableModel tableModel;
+	private JComboBox comboBoxLinhVucNghienCuu;
 
 	/**
 	 * Launch the application.
@@ -70,6 +77,7 @@ public class GiaoDien_QuanLyLuanVan {
 	private void initialize() {
 		Database.getInstance().connec();
 		deTaiDao = new DeTaiDao();
+		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,7 +123,7 @@ public class GiaoDien_QuanLyLuanVan {
 		pnThongTinLuanVan.add(txtNoiDung);
 		
 		comboModel = new DefaultComboBoxModel<String>();
-		JComboBox comboBoxLinhVucNghienCuu = new JComboBox(comboModel);
+		comboBoxLinhVucNghienCuu = new JComboBox(comboModel);
 		comboBoxLinhVucNghienCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		comboBoxLinhVucNghienCuu.setBounds(217, 199, 955, 25);
 		pnThongTinLuanVan.add(comboBoxLinhVucNghienCuu);
@@ -203,7 +211,8 @@ public class GiaoDien_QuanLyLuanVan {
 		panel.add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		
+		table.setModel(tableModel = new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -218,21 +227,86 @@ public class GiaoDien_QuanLyLuanVan {
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
 		try {
-			updateComBoBox();
+			updateComBoBoxLuanVan();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			updateTableData();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		table.addMouseListener(this);
+		comboBoxLinhVucNghienCuu.addMouseListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
 	}
-	private void updateComBoBox() throws ParseException {
+	private void updateTableData() throws ParseException {
+		int count = 1;
+		List<LuanVan> list = luanVanDao.docTuBang();
+		for (LuanVan lv : list) {
+			String[] rowData = {
+					count++ + "", 
+					lv.getMaDeTai(), 
+					lv.getTenLuanVan(),
+					lv.getMaLuanVan(),
+					lv.getLinhVucNghienCuu(),
+					lv.getNoiDungLuanVan(),
+					lv.getTomTat()
+					};
+			tableModel.addRow(rowData);
+		}
+		table.setModel(tableModel);
+	}
+	private void updateComBoBoxLuanVan() throws ParseException {
 		List<DeTai> listDeTai = deTaiDao.docTuBang();
 		for (DeTai dt : listDeTai) {
 			comboModel.addElement(dt.getTenDeTai());
 		}
+		
+	}
+	
+	public void updatecomboBoxTenSinhVien(String maLuanVan) throws ParseException {
+		List<SinhVien> listSinhVien = luanVanDao.timSinhVienLamLuanVanThemMa(maLuanVan);
+		for (SinhVien sv : listSinhVien) {
+			updatecomboBoxTenSinhVien(sv.getHoTen());
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object o = e.getSource();
+		if(o.equals(comboBoxLinhVucNghienCuu)) {
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 }
