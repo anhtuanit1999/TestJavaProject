@@ -84,17 +84,17 @@ public class GiaoDien_BaoCao {
 		));
 		scrollPane.setViewportView(table);
 		
-		JLabel lblTenDeTai_1 = new JLabel("Tên Đề Tài:");
-		lblTenDeTai_1.setBounds(481, 40, 102, 20);
-		pnBaoCao.add(lblTenDeTai_1);
-		lblTenDeTai_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel lblTenLuanVan = new JLabel("Tên luận văn:");
+		lblTenLuanVan.setBounds(481, 40, 102, 20);
+		pnBaoCao.add(lblTenLuanVan);
+		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JComboBox comboBoxTenDeTai = new JComboBox();
 		comboBoxTenDeTai.setBounds(593, 41, 602, 22);
 		pnBaoCao.add(comboBoxTenDeTai);
 		
 		JComboBox comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setModel(new DefaultComboBoxModel(new String[] {"2019 - 2020", "2020 - 2021", "2021 - 2022"}));
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel(new String[] {"2019 ", "2020", "2021"}));
 		comboBoxNamHoc.setBounds(179, 41, 292, 22);
 		pnBaoCao.add(comboBoxNamHoc);
 		

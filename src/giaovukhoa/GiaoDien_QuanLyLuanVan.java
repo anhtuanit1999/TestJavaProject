@@ -35,18 +35,15 @@ import javax.swing.JTextArea;
 public class GiaoDien_QuanLyLuanVan implements MouseListener {
 
 	private JFrame frame;
-	private JTextField txtNoiDung;
 	private JPanel pnChung;
 	private JTable table;
-	private JTextField textField;
-	private JTextField txtMaLuanVan;
 	private JTextField txtTenLuanVan;
-	private JTextField txtMaSinhVien;
 	private DeTaiDao deTaiDao;
 	private DefaultComboBoxModel<String> comboModel;
 	private LuanVanDao luanVanDao;
 	private DefaultTableModel tableModel;
-	private JComboBox comboBoxLinhVucNghienCuu;
+	private JTextField txtLinhVucNghienCuu;
+	private JTextField txtNoiDungLuanVan;
 
 	/**
 	 * Launch the application.
@@ -76,8 +73,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
-		deTaiDao = new DeTaiDao();
-		luanVanDao = new LuanVanDao();
+//		deTaiDao = new DeTaiDao();
+//		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,19 +94,14 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 		pnThongTinLuanVan.setBounds(10, 11, 1244, 379);
 		pnCenter.add(pnThongTinLuanVan);
 		
-		JLabel lblTenDeTai = new JLabel("Tên đề tài:");
-		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenDeTai.setBounds(56, 40, 107, 14);
-		pnThongTinLuanVan.add(lblTenDeTai);
-		
 		JLabel lblLinhVucNghienCuu = new JLabel("Lĩnh vực nghiên cứu:");
 		lblLinhVucNghienCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLinhVucNghienCuu.setBounds(56, 200, 140, 20);
+		lblLinhVucNghienCuu.setBounds(56, 88, 140, 20);
 		pnThongTinLuanVan.add(lblLinhVucNghienCuu);
 		
 		JLabel lblNoiDung = new JLabel("Nội dung:");
 		lblNoiDung.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNoiDung.setBounds(56, 240, 107, 20);
+		lblNoiDung.setBounds(52, 177, 107, 20);
 		pnThongTinLuanVan.add(lblNoiDung);
 		
 		JLabel lblTomTat = new JLabel("Tóm tắt:");
@@ -117,76 +109,40 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 		lblTomTat.setBounds(56, 280, 103, 14);
 		pnThongTinLuanVan.add(lblTomTat);
 		
-		txtNoiDung = new JTextField();
-		txtNoiDung.setColumns(10);
-		txtNoiDung.setBounds(217, 239, 955, 20);
-		pnThongTinLuanVan.add(txtNoiDung);
-		
 		comboModel = new DefaultComboBoxModel<String>();
-		comboBoxLinhVucNghienCuu = new JComboBox(comboModel);
-		comboBoxLinhVucNghienCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBoxLinhVucNghienCuu.setBounds(217, 199, 955, 25);
-		pnThongTinLuanVan.add(comboBoxLinhVucNghienCuu);
 		
 		JTextArea txtaTomTat = new JTextArea();
 		txtaTomTat.setBounds(217, 277, 955, 91);
 		pnThongTinLuanVan.add(txtaTomTat);
 		
-		JLabel lblMTi = new JLabel("Mã đề tài:");
-		lblMTi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMTi.setBounds(623, 41, 151, 14);
-		pnThongTinLuanVan.add(lblMTi);
-		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(784, 40, 388, 20);
-		pnThongTinLuanVan.add(textField);
-		
-		JComboBox comboBoxTenDeTai = new JComboBox();
-		comboBoxTenDeTai.setBounds(217, 39, 388, 20);
-		pnThongTinLuanVan.add(comboBoxTenDeTai);
-		
 		JLabel lblTenLuanVan = new JLabel("Tên luận văn:");
 		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenLuanVan.setBounds(56, 77, 107, 20);
+		lblTenLuanVan.setBounds(56, 42, 107, 20);
 		pnThongTinLuanVan.add(lblTenLuanVan);
-		
-		JLabel lblMaLuanVan = new JLabel("Mã luận văn:");
-		lblMaLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaLuanVan.setBounds(623, 78, 151, 14);
-		pnThongTinLuanVan.add(lblMaLuanVan);
-		
-		txtMaLuanVan = new JTextField();
-		txtMaLuanVan.setEditable(false);
-		txtMaLuanVan.setColumns(10);
-		txtMaLuanVan.setBounds(784, 77, 388, 20);
-		pnThongTinLuanVan.add(txtMaLuanVan);
 		
 		txtTenLuanVan = new JTextField();
 		txtTenLuanVan.setColumns(10);
-		txtTenLuanVan.setBounds(217, 76, 388, 20);
+		txtTenLuanVan.setBounds(217, 41, 955, 20);
 		pnThongTinLuanVan.add(txtTenLuanVan);
 		
-		JLabel lblTenSinhVien = new JLabel("Tên sinh viên:");
-		lblTenSinhVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenSinhVien.setBounds(56, 115, 107, 20);
-		pnThongTinLuanVan.add(lblTenSinhVien);
+		JLabel lblNoiDungLuanVan = new JLabel("Nội dung luận văn: ");
+		lblNoiDungLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNoiDungLuanVan.setBounds(56, 135, 140, 20);
+		pnThongTinLuanVan.add(lblNoiDungLuanVan);
 		
-		JLabel lblMaSinhVien = new JLabel("Mã sinh viên:");
-		lblMaSinhVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaSinhVien.setBounds(623, 116, 151, 14);
-		pnThongTinLuanVan.add(lblMaSinhVien);
+		JTextArea txtaNoiDung = new JTextArea();
+		txtaNoiDung.setBounds(217, 177, 955, 91);
+		pnThongTinLuanVan.add(txtaNoiDung);
 		
-		txtMaSinhVien = new JTextField();
-		txtMaSinhVien.setEditable(false);
-		txtMaSinhVien.setColumns(10);
-		txtMaSinhVien.setBounds(784, 115, 388, 20);
-		pnThongTinLuanVan.add(txtMaSinhVien);
+		txtLinhVucNghienCuu = new JTextField();
+		txtLinhVucNghienCuu.setColumns(10);
+		txtLinhVucNghienCuu.setBounds(217, 90, 955, 20);
+		pnThongTinLuanVan.add(txtLinhVucNghienCuu);
 		
-		JComboBox comboBoxTenSinhVien = new JComboBox();
-		comboBoxTenSinhVien.setBounds(217, 117, 388, 20);
-		pnThongTinLuanVan.add(comboBoxTenSinhVien);
+		txtNoiDungLuanVan = new JTextField();
+		txtNoiDungLuanVan.setColumns(10);
+		txtNoiDungLuanVan.setBounds(217, 137, 955, 20);
+		pnThongTinLuanVan.add(txtNoiDungLuanVan);
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.setBounds(261, 401, 127, 44);
@@ -212,11 +168,11 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 		
 		table = new JTable();
 		
-		table.setModel(tableModel = new DefaultTableModel(
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "T\u00EAn \u0111\u1EC1 t\u00E0i", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn lu\u1EADn v\u0103n", "M\u00E3 lu\u1EADn v\u0103n", "T\u00EAn sinh vi\u00EAn", "L\u0129nh v\u1EF1c nghi\u00EAn c\u1EE9u", "N\u1ED9i dung", "T\u00F3m t\u1EAFt"
+				"STT", "M\u00E3 lu\u1EADn v\u0103n", "T\u00EAn lu\u1EADn v\u0103n", "L\u0129nh v\u1EF1c nghi\u00EAn c\u1EE9u", "N\u1ED9i dung", "T\u00F3m t\u1EAFt"
 			}
 		));
 		scrollPane.setViewportView(table);
@@ -226,21 +182,20 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
-		try {
-			updateComBoBoxLuanVan();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			updateTableData();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			updateComBoBoxLuanVan();
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			updateTableData();
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		table.addMouseListener(this);
-		comboBoxLinhVucNghienCuu.addMouseListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
@@ -280,9 +235,6 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object o = e.getSource();
-		if(o.equals(comboBoxLinhVucNghienCuu)) {
-			
-		}
 		
 	}
 

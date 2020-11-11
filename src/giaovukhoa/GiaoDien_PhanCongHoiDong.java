@@ -107,27 +107,27 @@ public class GiaoDien_PhanCongHoiDong {
 		panel.add(lblNamHoc);
 		
 		JComboBox comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setModel(new DefaultComboBoxModel(new String[] {"2019 - 2020", "2020 - 2021", "2021 - 2020"}));
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021", "2022"}));
 		comboBoxNamHoc.setBounds(154, 132, 456, 20);
 		panel.add(comboBoxNamHoc);
 		
-		JLabel lblTenDeTai = new JLabel("Tên đề tài: ");
-		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenDeTai.setBounds(35, 180, 109, 19);
-		panel.add(lblTenDeTai);
+		JLabel lblTenLuanVan = new JLabel("Tên đề tài: ");
+		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenLuanVan.setBounds(35, 180, 109, 19);
+		panel.add(lblTenLuanVan);
 		
 		JComboBox comboBoxTenDeTai = new JComboBox();
 		comboBoxTenDeTai.setBounds(154, 181, 456, 20);
 		panel.add(comboBoxTenDeTai);
 		
-		JLabel lblTenSinhVien = new JLabel("Tên sinh viên: ");
-		lblTenSinhVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenSinhVien.setBounds(35, 232, 109, 19);
-		panel.add(lblTenSinhVien);
+		JLabel lblTenNhom = new JLabel("Tên nhóm: ");
+		lblTenNhom.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenNhom.setBounds(35, 232, 109, 19);
+		panel.add(lblTenNhom);
 		
-		JComboBox comboBoxTenSinhVien = new JComboBox();
-		comboBoxTenSinhVien.setBounds(154, 233, 456, 20);
-		panel.add(comboBoxTenSinhVien);
+		JComboBox comboBoxTenNhom = new JComboBox();
+		comboBoxTenNhom.setBounds(154, 233, 456, 20);
+		panel.add(comboBoxTenNhom);
 		
 		JLabel lblNgayBaoVe = new JLabel("Ngày bảo vệ: ");
 		lblNgayBaoVe.setFont(new Font("Tahoma", Font.PLAIN, 15));

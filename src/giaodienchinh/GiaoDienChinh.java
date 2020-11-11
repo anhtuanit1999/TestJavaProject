@@ -17,7 +17,6 @@ import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
 import giaovukhoa.GiaoDien_BaoCao;
 import giaovukhoa.GiaoDien_PhanCongHoiDong;
-import giaovukhoa.GiaoDien_QuanLyDeTai;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import giaovukhoa.GiaoDien_ThongKe;
 import hethong.GiaoDien_DangNhap;
@@ -70,11 +69,9 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniTimDeTai;
 	private JMenu mnBaoCao;
 	private JMenuItem mniDanhSachSinhVienDangKyDeTai;
-	private JMenuItem mniQuanLyDeTai;
 	private JMenuItem mniQuanLyLuanVan;
 	private GiaoDien_TimDeTai GD_TDT;
 	private GiaoDien_QuanLyLuanVan GD_QLLV;
-	private GiaoDien_QuanLyDeTai GD_QLDT;
 	private GiaoDien_BaoCao GD_BC;
 	private GiaoDien_PhanCongHoiDong GD_PCHD;
 	private JMenuItem mniPhanCongHoiDong;
@@ -179,11 +176,6 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnGiaoVuKhoa);
 		
-		mniQuanLyDeTai = new JMenuItem("Quản lý đề tài");
-		mniQuanLyDeTai.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnGiaoVuKhoa.add(mniQuanLyDeTai);
-		mnGiaoVuKhoa.addSeparator();
-		
 		mniQuanLyLuanVan = new JMenuItem("Quản lý luận văn");
 		mniQuanLyLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mniQuanLyLuanVan);
@@ -282,10 +274,6 @@ public class GiaoDienChinh implements ActionListener {
 		GD_QLLV = new GiaoDien_QuanLyLuanVan();
 		pnChung.add(GD_QLLV.getPanel(), "QuanLyLuanVan");
 		
-		// Giao diện quản lý đề tài
-		GD_QLDT = new GiaoDien_QuanLyDeTai();
-		pnChung.add(GD_QLDT.getPanel(), "QuanLyDeTai");
-		
 		// Giao diện báo cáo
 		GD_BC = new GiaoDien_BaoCao();
 		pnChung.add(GD_BC.getPanel(), "BaoCaoDanhSach");
@@ -329,7 +317,6 @@ public class GiaoDienChinh implements ActionListener {
 		mniXemDiemDaNhap.addActionListener(this);
 		
 		mniQuanLyLuanVan.addActionListener(this);
-		mniQuanLyDeTai.addActionListener(this);
 		mniDanhSachSinhVienDangKyDeTai.addActionListener(this);
 		mniPhanCongHoiDong.addActionListener(this);
 		mniSinhVienBaoVeLuanVanThanhCong.addActionListener(this);
@@ -362,8 +349,6 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "XemDiemDaNhap");
 		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
-		} else if(o.equals(mniQuanLyDeTai)) {
-			card.show(pnChung, "QuanLyDeTai");
 		} else if(o.equals(mniDanhSachSinhVienDangKyDeTai)) {
 			card.show(pnChung, "BaoCaoDanhSach");
 		} else if(o.equals(mniPhanCongHoiDong)) {

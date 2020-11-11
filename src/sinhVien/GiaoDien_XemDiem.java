@@ -30,8 +30,17 @@ public class GiaoDien_XemDiem {
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
-	private JTextField textField_14;
 	private JTextField textField_15;
+	private JTextField txtDiemvong1_GV1;
+	private JTextField txtDiemvong1_GV2;
+	private JTextField txtDiemvong1_GV3;
+	private JTextField txtDiemvong1_GV4;
+	private JTextField txtDiemvong1_GV5;
+	private JTextField txtDiemvong2_GV1;
+	private JTextField txtDiemvong2_GV2;
+	private JTextField txtDiemvong2_GV3;
+	private JTextField txtDiemvong2_GV4;
+	private JTextField txtDiemvong2_GV5;
 
 	/**
 	 * Launch the application.
@@ -111,31 +120,31 @@ public class GiaoDien_XemDiem {
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setColumns(10);
-		textField.setBounds(134, 53, 441, 20);
+		textField.setBounds(134, 53, 303, 20);
 		pnDemVong1.add(textField);
 		
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
-		textField_1.setBounds(134, 103, 441, 20);
+		textField_1.setBounds(134, 103, 303, 20);
 		pnDemVong1.add(textField_1);
 		
 		textField_2 = new JTextField();
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
-		textField_2.setBounds(134, 152, 441, 20);
+		textField_2.setBounds(134, 152, 303, 20);
 		pnDemVong1.add(textField_2);
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
-		textField_3.setBounds(134, 198, 441, 20);
+		textField_3.setBounds(134, 198, 303, 20);
 		pnDemVong1.add(textField_3);
 		
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
-		textField_4.setBounds(134, 243, 441, 20);
+		textField_4.setBounds(134, 243, 303, 20);
 		pnDemVong1.add(textField_4);
 		
 		JLabel lblDiemVong1 = new JLabel("Điểm vòng 1: ");
@@ -146,7 +155,7 @@ public class GiaoDien_XemDiem {
 		textField_5 = new JTextField();
 		textField_5.setEditable(false);
 		textField_5.setColumns(10);
-		textField_5.setBounds(134, 295, 441, 20);
+		textField_5.setBounds(134, 295, 455, 20);
 		pnDemVong1.add(textField_5);
 		
 		JLabel lblGhiChu = new JLabel("Ghi chú: ");
@@ -158,6 +167,31 @@ public class GiaoDien_XemDiem {
 		txtaGhiChu.setEditable(false);
 		txtaGhiChu.setBounds(134, 345, 441, 79);
 		pnDemVong1.add(txtaGhiChu);
+		
+		txtDiemvong1_GV1 = new JTextField();
+		txtDiemvong1_GV1.setBounds(447, 55, 142, 20);
+		pnDemVong1.add(txtDiemvong1_GV1);
+		txtDiemvong1_GV1.setColumns(10);
+		
+		txtDiemvong1_GV2 = new JTextField();
+		txtDiemvong1_GV2.setColumns(10);
+		txtDiemvong1_GV2.setBounds(447, 103, 142, 20);
+		pnDemVong1.add(txtDiemvong1_GV2);
+		
+		txtDiemvong1_GV3 = new JTextField();
+		txtDiemvong1_GV3.setColumns(10);
+		txtDiemvong1_GV3.setBounds(447, 152, 142, 20);
+		pnDemVong1.add(txtDiemvong1_GV3);
+		
+		txtDiemvong1_GV4 = new JTextField();
+		txtDiemvong1_GV4.setColumns(10);
+		txtDiemvong1_GV4.setBounds(447, 200, 142, 20);
+		pnDemVong1.add(txtDiemvong1_GV4);
+		
+		txtDiemvong1_GV5 = new JTextField();
+		txtDiemvong1_GV5.setColumns(10);
+		txtDiemvong1_GV5.setBounds(447, 245, 142, 20);
+		pnDemVong1.add(txtDiemvong1_GV5);
 		
 		JPanel pnDiemVong2 = new JPanel();
 		pnDiemVong2.setLayout(null);
@@ -173,7 +207,7 @@ public class GiaoDien_XemDiem {
 		textField_6 = new JTextField();
 		textField_6.setEditable(false);
 		textField_6.setColumns(10);
-		textField_6.setBounds(142, 52, 441, 20);
+		textField_6.setBounds(142, 52, 292, 20);
 		pnDiemVong2.add(textField_6);
 		
 		JLabel lblGiaoVien2_1 = new JLabel("Giáo viên 2: ");
@@ -184,13 +218,13 @@ public class GiaoDien_XemDiem {
 		textField_7 = new JTextField();
 		textField_7.setEditable(false);
 		textField_7.setColumns(10);
-		textField_7.setBounds(142, 102, 441, 20);
+		textField_7.setBounds(142, 102, 292, 20);
 		pnDiemVong2.add(textField_7);
 		
 		textField_8 = new JTextField();
 		textField_8.setEditable(false);
 		textField_8.setColumns(10);
-		textField_8.setBounds(142, 151, 441, 20);
+		textField_8.setBounds(142, 151, 292, 20);
 		pnDiemVong2.add(textField_8);
 		
 		JLabel lblGiaoVien3_1 = new JLabel("Giáo viên 3: ");
@@ -206,13 +240,13 @@ public class GiaoDien_XemDiem {
 		textField_9 = new JTextField();
 		textField_9.setEditable(false);
 		textField_9.setColumns(10);
-		textField_9.setBounds(142, 197, 441, 20);
+		textField_9.setBounds(142, 197, 292, 20);
 		pnDiemVong2.add(textField_9);
 		
 		textField_10 = new JTextField();
 		textField_10.setEditable(false);
 		textField_10.setColumns(10);
-		textField_10.setBounds(142, 242, 441, 20);
+		textField_10.setBounds(142, 242, 292, 20);
 		pnDiemVong2.add(textField_10);
 		
 		JLabel lblGiaoVien5_1 = new JLabel("Giáo viên 5: ");
@@ -241,6 +275,31 @@ public class GiaoDien_XemDiem {
 		txtaGhiChu_1.setBounds(142, 344, 441, 79);
 		pnDiemVong2.add(txtaGhiChu_1);
 		
+		txtDiemvong2_GV1 = new JTextField();
+		txtDiemvong2_GV1.setColumns(10);
+		txtDiemvong2_GV1.setBounds(444, 54, 142, 20);
+		pnDiemVong2.add(txtDiemvong2_GV1);
+		
+		txtDiemvong2_GV2 = new JTextField();
+		txtDiemvong2_GV2.setColumns(10);
+		txtDiemvong2_GV2.setBounds(444, 104, 142, 20);
+		pnDiemVong2.add(txtDiemvong2_GV2);
+		
+		txtDiemvong2_GV3 = new JTextField();
+		txtDiemvong2_GV3.setColumns(10);
+		txtDiemvong2_GV3.setBounds(441, 151, 142, 20);
+		pnDiemVong2.add(txtDiemvong2_GV3);
+		
+		txtDiemvong2_GV4 = new JTextField();
+		txtDiemvong2_GV4.setColumns(10);
+		txtDiemvong2_GV4.setBounds(444, 199, 142, 20);
+		pnDiemVong2.add(txtDiemvong2_GV4);
+		
+		txtDiemvong2_GV5 = new JTextField();
+		txtDiemvong2_GV5.setColumns(10);
+		txtDiemvong2_GV5.setBounds(444, 242, 142, 20);
+		pnDiemVong2.add(txtDiemvong2_GV5);
+		
 		JPanel pnKetQua = new JPanel();
 		pnKetQua.setLayout(null);
 		pnKetQua.setBorder(new TitledBorder(null, "K\u1EBFt qu\u1EA3 b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -257,19 +316,14 @@ public class GiaoDien_XemDiem {
 		lblTenLuanVan.setBounds(62, 101, 134, 25);
 		pnKetQua.add(lblTenLuanVan);
 		
-		JLabel lblTenDeTai = new JLabel("Tên đề tài: ");
-		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTenDeTai.setBounds(62, 165, 119, 25);
-		pnKetQua.add(lblTenDeTai);
-		
 		JLabel lblKetQua = new JLabel("Kết quả: ");
 		lblKetQua.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblKetQua.setBounds(62, 227, 119, 25);
+		lblKetQua.setBounds(62, 164, 119, 25);
 		pnKetQua.add(lblKetQua);
 		
 		JLabel lblGhiChuLuanVan = new JLabel("Ghi Chú: ");
 		lblGhiChuLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblGhiChuLuanVan.setBounds(62, 288, 119, 25);
+		lblGhiChuLuanVan.setBounds(62, 234, 119, 25);
 		pnKetQua.add(lblGhiChuLuanVan);
 		
 		textField_12 = new JTextField();
@@ -286,24 +340,17 @@ public class GiaoDien_XemDiem {
 		textField_13.setBounds(191, 106, 961, 25);
 		pnKetQua.add(textField_13);
 		
-		textField_14 = new JTextField();
-		textField_14.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		textField_14.setEditable(false);
-		textField_14.setColumns(10);
-		textField_14.setBounds(191, 170, 961, 25);
-		pnKetQua.add(textField_14);
-		
 		textField_15 = new JTextField();
 		textField_15.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		textField_15.setEditable(false);
 		textField_15.setColumns(10);
-		textField_15.setBounds(191, 232, 961, 25);
+		textField_15.setBounds(191, 169, 961, 25);
 		pnKetQua.add(textField_15);
 		
 		JTextArea txtGhiChu = new JTextArea();
 		txtGhiChu.setFont(new Font("Monospaced", Font.PLAIN, 18));
 		txtGhiChu.setEditable(false);
-		txtGhiChu.setBounds(191, 288, 961, 69);
+		txtGhiChu.setBounds(191, 234, 961, 136);
 		pnKetQua.add(txtGhiChu);
 	}
 	public JPanel getPanel() {

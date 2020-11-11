@@ -90,7 +90,7 @@ public class GiaoDien_ThongKe {
 		panel.add(lblNamHoc);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"2019 - 2020", "2020 - 2021", "2021 - 2022"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"2019 ", "2020 ", "2021"}));
 		comboBox_1.setBounds(732, 54, 447, 20);
 		panel.add(comboBox_1);
 		

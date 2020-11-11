@@ -68,7 +68,7 @@ public class GiaoDien_DangKyDeTai implements MouseListener {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
-		deTaiDao = new DeTaiDao();
+//		deTaiDao = new DeTaiDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,24 +88,17 @@ public class GiaoDien_DangKyDeTai implements MouseListener {
 		pnCenter.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 41, 614, 469);
+		scrollPane.setBounds(10, 41, 614, 828);
 		pnCenter.add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(tabelModel = new DefaultTableModel(
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m \u0111\u0103ng k\u00FD", "H\u1ECDc k\u1EF3"
+				"STT", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m \u0111\u0103ng k\u00FD", "N\u0103m h\u1ECDc"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Object.class, String.class, String.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		));
 		scrollPane.setViewportView(table);
 		
 		JPanel pnDeTai = new JPanel();
@@ -159,27 +152,12 @@ public class GiaoDien_DangKyDeTai implements MouseListener {
 		pnDeTai.add(txtMSSV);
 		txtMSSV.setColumns(10);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Th\u00F4ng tin \u0111\u1EC1 t\u00E0i", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 564, 1244, 305);
-		pnCenter.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblMoTaDeTai = new JLabel("Mô tả đề tài: ");
-		lblMoTaDeTai.setBounds(34, 84, 107, 14);
-		panel.add(lblMoTaDeTai);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setBounds(170, 79, 991, 166);
-		panel.add(textArea);
-		
-		try {
-			updateTableData();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			updateTableData();
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		table.addMouseListener(this);
 	}

@@ -93,7 +93,7 @@ public class GiaoDien_TimDeTai {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Mã đề tài", "Tên đề tài", "Mô tả", "Tên giáo viên ra đề tài"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Mã đề tài", "Tên đề tài", "Tên giáo viên ra đề tài"}));
 		comboBox.setBounds(218, 140, 948, 22);
 		panel.add(comboBox);
 		
@@ -105,19 +105,8 @@ public class GiaoDien_TimDeTai {
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Không", "2019 - 2020", "2020 - 2021", "2021 - 2022"}));
 		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox_1.setBounds(218, 206, 373, 22);
+		comboBox_1.setBounds(218, 206, 948, 22);
 		panel.add(comboBox_1);
-		
-		JLabel lblHocKy = new JLabel("Học kỳ: ");
-		lblHocKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblHocKy.setBounds(601, 200, 156, 28);
-		panel.add(lblHocKy);
-		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setModel(new DefaultComboBoxModel(new String[] {"Không", "Kỳ 1", "Kỳ 2"}));
-		comboBox_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox_1_1.setBounds(767, 206, 399, 22);
-		panel.add(comboBox_1_1);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -144,7 +133,7 @@ public class GiaoDien_TimDeTai {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i", "M\u00F4 t\u1EA3", "Gi\u00E1o vi\u00EAn ra \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m tham gia"
+				"STT", "M\u00E3 \u0111\u1EC1 t\u00E0i", "T\u00EAn \u0111\u1EC1 t\u00E0i", " Gi\u00E1o vi\u00EAn ra \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m tham gia"
 			}
 		));
 		scrollPane.setViewportView(table);
