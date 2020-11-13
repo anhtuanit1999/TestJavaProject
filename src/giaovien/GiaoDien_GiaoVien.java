@@ -25,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
 import dao.GiaoVienDao;
-import entity.DeTai;
 import entity.GiaoVien;
 import entity.SinhVien;
 

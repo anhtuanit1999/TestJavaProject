@@ -87,7 +87,7 @@ public class GiaoDien_PhanCongHoiDong implements ActionListener {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "H\u1ED9i \u0111\u1ED3ng \u0111\u00E3 c\u00F3", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 11, 547, 145);
+		panel.setBounds(10, 11, 547, 124);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -138,48 +138,66 @@ public class GiaoDien_PhanCongHoiDong implements ActionListener {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "H\u1ED9i \u0111\u1ED3ng m\u1EDBi", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_2.setBounds(10, 167, 547, 232);
+		panel_2.setBounds(10, 146, 547, 253);
 		pnCenter.add(panel_2);
 		
 		JLabel lblTenHoiDongMoi = new JLabel("Tên hội đồng: ");
 		lblTenHoiDongMoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenHoiDongMoi.setBounds(35, 46, 109, 19);
+		lblTenHoiDongMoi.setBounds(35, 27, 109, 19);
 		panel_2.add(lblTenHoiDongMoi);
 		
 		JLabel lblMaHoiDongMoi = new JLabel("Mã hội đồng: ");
 		lblMaHoiDongMoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaHoiDongMoi.setBounds(35, 88, 109, 19);
+		lblMaHoiDongMoi.setBounds(35, 64, 109, 19);
 		panel_2.add(lblMaHoiDongMoi);
 		
 		txtMaHoiDongMoi = new JTextField();
 		txtMaHoiDongMoi.setColumns(10);
-		txtMaHoiDongMoi.setBounds(154, 89, 369, 20);
+		txtMaHoiDongMoi.setBounds(154, 65, 369, 20);
 		panel_2.add(txtMaHoiDongMoi);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(154, 47, 369, 20);
+		textField_1.setBounds(154, 28, 369, 20);
 		panel_2.add(textField_1);
 		
 		JLabel lblNgayBaoCao = new JLabel("Ngày báo cáo: ");
 		lblNgayBaoCao.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNgayBaoCao.setBounds(35, 133, 109, 19);
+		lblNgayBaoCao.setBounds(35, 106, 109, 19);
 		panel_2.add(lblNgayBaoCao);
 		
 		JDateChooser dateChNgayBaoCao = new JDateChooser();
-		dateChNgayBaoCao.setBounds(154, 133, 369, 20);
+		dateChNgayBaoCao.setBounds(154, 106, 369, 20);
 		panel_2.add(dateChNgayBaoCao);
 		
 		JLabel lblSoLuongGiaoVienThamGia = new JLabel("Số giáo viên tham gia: ");
 		lblSoLuongGiaoVienThamGia.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSoLuongGiaoVienThamGia.setBounds(35, 176, 157, 19);
+		lblSoLuongGiaoVienThamGia.setBounds(35, 202, 157, 19);
 		panel_2.add(lblSoLuongGiaoVienThamGia);
 		
 		textField_2 = new JTextField();
 		textField_2.setText("5");
 		textField_2.setColumns(10);
-		textField_2.setBounds(195, 177, 328, 20);
+		textField_2.setBounds(195, 203, 328, 20);
 		panel_2.add(textField_2);
+		
+		JLabel lblTenLuanVan = new JLabel("Tên luận văn: ");
+		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenLuanVan.setBounds(35, 144, 109, 19);
+		panel_2.add(lblTenLuanVan);
+		
+		JComboBox comboBoxTenLuanVan = new JComboBox();
+		comboBoxTenLuanVan.setBounds(154, 145, 369, 20);
+		panel_2.add(comboBoxTenLuanVan);
+		
+		JLabel lblTenNhomBaoVe = new JLabel("Nhóm bảo vệ: ");
+		lblTenNhomBaoVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenNhomBaoVe.setBounds(35, 174, 109, 19);
+		panel_2.add(lblTenNhomBaoVe);
+		
+		JComboBox comboBoxNhomBaoVe = new JComboBox();
+		comboBoxNhomBaoVe.setBounds(154, 175, 369, 20);
+		panel_2.add(comboBoxNhomBaoVe);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch gi\u00E1o vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));

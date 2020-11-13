@@ -35,9 +35,9 @@ public class SinhVienDao {
 				int namVaoTruong = Integer.parseInt(res.getString(7));
 				int namTotNghiep = Integer.parseInt(res.getString(8));
 				
-				SinhVien sv = new SinhVien(maSinhVien, tenSinhVien, diaChi, soDienThoai, ngaySinh, khoaTrucThuoc, namVaoTruong, namTotNghiep);
+//				SinhVien sv = new SinhVien(maSinhVien, tenSinhVien, diaChi, soDienThoai, ngaySinh, khoaTrucThuoc, namVaoTruong, namTotNghiep);
 //				System.out.println(kh);
-				listSinhVien.add(sv);
+//				listSinhVien.add(sv);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

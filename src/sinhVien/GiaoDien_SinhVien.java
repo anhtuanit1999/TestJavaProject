@@ -16,9 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import dao.Database;
-import dao.DeTaiDao;
 import dao.SinhVienDao;
-import entity.DeTai;
 import entity.SinhVien;
 
 import javax.swing.JTextField;
@@ -42,7 +40,6 @@ public class GiaoDien_SinhVien {
 	private JTextField txtTenLuanVan;
 	private JPanel pnChung;
 	private SinhVienDao sinhVienDao;
-	private DeTaiDao deTaiDao;
 	private JTextField txtTenSinhVienCungLamLuanVan;
 
 	/**
@@ -74,7 +71,6 @@ public class GiaoDien_SinhVien {
 	private void initialize() {
 		Database.getInstance().connec();
 //		sinhVienDao = new SinhVienDao();
-		deTaiDao = new DeTaiDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -240,8 +236,8 @@ public class GiaoDien_SinhVien {
 		txtNamTotNghiep.setText(sv.getNamTotNghiep() + "");
 		
 		
-		List<DeTai> listDeTai = deTaiDao.docTuBang();
-		DeTai dt = listDeTai.get(ma);
+//		List<DeTai> listDeTai = deTaiDao.docTuBang();
+//		DeTai dt = listDeTai.get(ma);
 //		txtTenDeTai.setText(dt.getTenDeTai());
 		
 	}

@@ -34,9 +34,9 @@ public class LuanVanDao {
 				String noiDungLuanVan = res.getString(5);
 				String tomTat = res.getString(6);
 				
-				LuanVan lv = new LuanVan(maLuanVan, maDeTai, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, tomTat);
+//				LuanVan lv = new LuanVan(maLuanVan, maDeTai, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, tomTat);
 //				System.out.println(kh);
-				listLuanVan.add(lv);
+//				listLuanVan.add(lv);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,8 +127,8 @@ public class LuanVanDao {
 				int namVaoTruong = Integer.parseInt(res.getString(7));
 				int namTotNghiep = Integer.parseInt(res.getString(8));
 				
-				SinhVien sv = new SinhVien(maSinhVien, hoTen, diaChi, soDienThoai, ngaySinh, khoaTrucThuoc, namVaoTruong, namTotNghiep);
-				listSinhVien.add(sv);
+//				SinhVien sv = new SinhVien(maSinhVien, hoTen, diaChi, soDienThoai, ngaySinh, khoaTrucThuoc, namVaoTruong, namTotNghiep);
+//				listSinhVien.add(sv);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -23,9 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
-import dao.DeTaiDao;
 import dao.LuanVanDao;
-import entity.DeTai;
 import entity.LuanVan;
 import entity.SinhVien;
 
@@ -38,7 +36,6 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 	private JPanel pnChung;
 	private JTable table;
 	private JTextField txtTenLuanVan;
-	private DeTaiDao deTaiDao;
 	private DefaultComboBoxModel<String> comboModel;
 	private LuanVanDao luanVanDao;
 	private DefaultTableModel tableModel;
@@ -202,26 +199,26 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener {
 	}
 	private void updateTableData() throws ParseException {
 		int count = 1;
-		List<LuanVan> list = luanVanDao.docTuBang();
-		for (LuanVan lv : list) {
-			String[] rowData = {
-					count++ + "", 
-					lv.getMaDeTai(), 
-					lv.getTenLuanVan(),
-					lv.getMaLuanVan(),
-					lv.getLinhVucNghienCuu(),
-					lv.getNoiDungLuanVan(),
-					lv.getTomTat()
-					};
-			tableModel.addRow(rowData);
-		}
-		table.setModel(tableModel);
+//		List<LuanVan> list = luanVanDao.docTuBang();
+//		for (LuanVan lv : list) {
+//			String[] rowData = {
+//					count++ + "", 
+//					lv.getMaDeTai(), 
+//					lv.getTenLuanVan(),
+//					lv.getMaLuanVan(),
+//					lv.getLinhVucNghienCuu(),
+//					lv.getNoiDungLuanVan(),
+//					lv.getTomTat()
+//					};
+//			tableModel.addRow(rowData);
+//		}
+//		table.setModel(tableModel);
 	}
 	private void updateComBoBoxLuanVan() throws ParseException {
-		List<DeTai> listDeTai = deTaiDao.docTuBang();
-		for (DeTai dt : listDeTai) {
-			comboModel.addElement(dt.getTenDeTai());
-		}
+//		List<DeTai> listDeTai = deTaiDao.docTuBang();
+//		for (DeTai dt : listDeTai) {
+//			comboModel.addElement(dt.getTenDeTai());
+//		}
 		
 	}
 	

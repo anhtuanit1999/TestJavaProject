@@ -21,8 +21,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
-import dao.DeTaiDao;
-import entity.DeTai;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
@@ -37,7 +35,6 @@ public class GiaoDien_DangKyDeTai implements MouseListener {
 	private JTextField txtTenSinhVien;
 	private JTextField txtMSSV;
 	private JPanel pnChung;
-	private DeTaiDao deTaiDao;
 	private DefaultTableModel tabelModel;
 
 	/**
@@ -169,20 +166,20 @@ public class GiaoDien_DangKyDeTai implements MouseListener {
 	
 	private void updateTableData() throws ParseException {
 		int count = 1;
-		List<DeTai> list = deTaiDao.docTuBang();
-		for (DeTai dt : list) {
-			String[] rowData = {
-					count++ + "", 
-					dt.getMaDeTai(), 
-					dt.getTenDeTai(),
-					dt.getSoNhomThamGia() + "",
-					dt.getNamHoc()
-					
-					};
-			System.out.println(dt);
-			tabelModel.addRow(rowData);
-		}
-		table.setModel(tabelModel);
+//		List<DeTai> list = deTaiDao.docTuBang();
+//		for (DeTai dt : list) {
+//			String[] rowData = {
+//					count++ + "", 
+//					dt.getMaDeTai(), 
+//					dt.getTenDeTai(),
+//					dt.getSoNhomThamGia() + "",
+//					dt.getNamHoc()
+//					
+//					};
+//			System.out.println(dt);
+//			tabelModel.addRow(rowData);
+//		}
+//		table.setModel(tabelModel);
 	}
 
 	@Override
