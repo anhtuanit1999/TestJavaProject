@@ -18,17 +18,28 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GiaoDien_PhanCongHoiDong {
+import javax.swing.Action;
+
+public class GiaoDien_PhanCongHoiDong implements ActionListener {
 
 	private JFrame frame;
-	private JTextField txtTenHoiDong;
 	private JTextField txtMaHoiDong;
-	private JTable table;
-	private JTextField txtTimGiaoVien;
-	private JTable table_1;
 	private JPanel pnChung;
-	private JTextField txtNgayBaoVe;
+	private JTextField txtMaHoiDongMoi;
+	private JTextField textField_1;
+	private JTable table;
+	private JTable table_1;
+	private JTable table_2;
+	private JTextField textField;
+	private JTextField textField_2;
+	private JButton btnChonCongViec;
+	private GiaoDien_ChonCongViec GD_CCV;
 
 	/**
 	 * Launch the application.
@@ -75,8 +86,8 @@ public class GiaoDien_PhanCongHoiDong {
 		pnCenter.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Th\u00F4ng tin h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 631, 307);
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "H\u1ED9i \u0111\u1ED3ng \u0111\u00E3 c\u00F3", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(10, 11, 547, 145);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -84,11 +95,6 @@ public class GiaoDien_PhanCongHoiDong {
 		lblTenHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTenHoiDong.setBounds(35, 46, 109, 19);
 		panel.add(lblTenHoiDong);
-		
-		txtTenHoiDong = new JTextField();
-		txtTenHoiDong.setBounds(154, 47, 456, 20);
-		panel.add(txtTenHoiDong);
-		txtTenHoiDong.setColumns(10);
 		
 		JLabel lblMaHoiDong = new JLabel("Mã hội đồng: ");
 		lblMaHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -98,145 +104,170 @@ public class GiaoDien_PhanCongHoiDong {
 		txtMaHoiDong = new JTextField();
 		txtMaHoiDong.setEditable(false);
 		txtMaHoiDong.setColumns(10);
-		txtMaHoiDong.setBounds(154, 89, 456, 20);
+		txtMaHoiDong.setBounds(154, 89, 372, 20);
 		panel.add(txtMaHoiDong);
 		
-		JLabel lblNamHoc = new JLabel("Năm học: ");
-		lblNamHoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNamHoc.setBounds(35, 131, 109, 19);
-		panel.add(lblNamHoc);
-		
-		JComboBox comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021", "2022"}));
-		comboBoxNamHoc.setBounds(154, 132, 456, 20);
-		panel.add(comboBoxNamHoc);
-		
-		JLabel lblTenLuanVan = new JLabel("Tên đề tài: ");
-		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenLuanVan.setBounds(35, 180, 109, 19);
-		panel.add(lblTenLuanVan);
-		
-		JComboBox comboBoxTenDeTai = new JComboBox();
-		comboBoxTenDeTai.setBounds(154, 181, 456, 20);
-		panel.add(comboBoxTenDeTai);
-		
-		JLabel lblTenNhom = new JLabel("Tên nhóm: ");
-		lblTenNhom.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenNhom.setBounds(35, 232, 109, 19);
-		panel.add(lblTenNhom);
-		
-		JComboBox comboBoxTenNhom = new JComboBox();
-		comboBoxTenNhom.setBounds(154, 233, 456, 20);
-		panel.add(comboBoxTenNhom);
-		
-		JLabel lblNgayBaoVe = new JLabel("Ngày bảo vệ: ");
-		lblNgayBaoVe.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNgayBaoVe.setBounds(35, 275, 109, 19);
-		panel.add(lblNgayBaoVe);
-		
-		txtNgayBaoVe = new JTextField();
-		txtNgayBaoVe.setColumns(10);
-		txtNgayBaoVe.setBounds(154, 276, 456, 20);
-		panel.add(txtNgayBaoVe);
+		JComboBox comboBoxTenHoiDong = new JComboBox();
+		comboBoxTenHoiDong.setBounds(154, 47, 372, 20);
+		panel.add(comboBoxTenHoiDong);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch gi\u00E1o vi\u00EAn thu\u1ED9c h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(651, 11, 603, 307);
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(567, 11, 687, 335);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 		
+		JLocaleChooser localeChooser = new JLocaleChooser();
+		localeChooser.setBounds(-78, 287, 57, 20);
+		panel_1.add(localeChooser);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 22, 583, 240);
+		scrollPane.setBounds(10, 27, 667, 297);
 		panel_1.add(scrollPane);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"Ch\u1ECDn", "STT", "M\u00E3 gi\u00E1o vi\u00EAn", "Vai tr\u00F2", "T\u00EAn gi\u00E1o vi\u00EAn", "T\u00EAn h\u1ED9i \u0111\u1ED3ng"
+				"STT", "M\u00E3 h\u1ED9i \u0111\u1ED3ng", "T\u00EAn h\u1ED9i \u0111\u1ED3ng"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Boolean.class, Object.class, Object.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		));
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Danh s\u00E1ch gi\u00E1o vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(10, 329, 1244, 540);
-		pnCenter.add(panel_2);
 		panel_2.setLayout(null);
+		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "H\u1ED9i \u0111\u1ED3ng m\u1EDBi", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBounds(10, 167, 547, 232);
+		pnCenter.add(panel_2);
 		
-		JLabel lblTinGiaoVien = new JLabel("Tên giáo viên: ");
-		lblTinGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTinGiaoVien.setBounds(36, 37, 109, 19);
-		panel_2.add(lblTinGiaoVien);
+		JLabel lblTenHoiDongMoi = new JLabel("Tên hội đồng: ");
+		lblTenHoiDongMoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenHoiDongMoi.setBounds(35, 46, 109, 19);
+		panel_2.add(lblTenHoiDongMoi);
 		
-		txtTimGiaoVien = new JTextField();
-		txtTimGiaoVien.setBounds(155, 38, 1052, 20);
-		panel_2.add(txtTimGiaoVien);
-		txtTimGiaoVien.setColumns(10);
+		JLabel lblMaHoiDongMoi = new JLabel("Mã hội đồng: ");
+		lblMaHoiDongMoi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaHoiDongMoi.setBounds(35, 88, 109, 19);
+		panel_2.add(lblMaHoiDongMoi);
 		
-		JLabel lblTieuChi = new JLabel("Tiêu chí: ");
-		lblTieuChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTieuChi.setBounds(36, 80, 109, 19);
-		panel_2.add(lblTieuChi);
+		txtMaHoiDongMoi = new JTextField();
+		txtMaHoiDongMoi.setColumns(10);
+		txtMaHoiDongMoi.setBounds(154, 89, 369, 20);
+		panel_2.add(txtMaHoiDongMoi);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Họ tên giáo viên", "Mã giáo viên", "Đơn vị công tác", "Chức danh", "Khoa công tác"}));
-		comboBox.setBounds(155, 81, 1052, 20);
-		panel_2.add(comboBox);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(154, 47, 369, 20);
+		panel_2.add(textField_1);
+		
+		JLabel lblNgayBaoCao = new JLabel("Ngày báo cáo: ");
+		lblNgayBaoCao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgayBaoCao.setBounds(35, 133, 109, 19);
+		panel_2.add(lblNgayBaoCao);
+		
+		JDateChooser dateChNgayBaoCao = new JDateChooser();
+		dateChNgayBaoCao.setBounds(154, 133, 369, 20);
+		panel_2.add(dateChNgayBaoCao);
+		
+		JLabel lblSoLuongGiaoVienThamGia = new JLabel("Số giáo viên tham gia: ");
+		lblSoLuongGiaoVienThamGia.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSoLuongGiaoVienThamGia.setBounds(35, 176, 157, 19);
+		panel_2.add(lblSoLuongGiaoVienThamGia);
+		
+		textField_2 = new JTextField();
+		textField_2.setText("5");
+		textField_2.setColumns(10);
+		textField_2.setBounds(195, 177, 328, 20);
+		panel_2.add(textField_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch gi\u00E1o vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_3.setBounds(10, 410, 581, 459);
+		pnCenter.add(panel_3);
+		panel_3.setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 167, 1224, 396);
-		panel_2.add(scrollPane_1);
+		scrollPane_1.setBounds(10, 22, 561, 426);
+		panel_3.add(scrollPane_1);
 		
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"Ch\u1ECDn", "STT", "M\u00E3 gi\u00E1o vi\u00EAn", "T\u00EAn gi\u00E1o vi\u00EAn", "\u0110\u01A1n v\u1ECB c\u00F4ng t\u00E1c", "Khoa c\u00F4ng t\u00E1c", "L\u0129nh v\u1EF1c c\u00F4ng t\u00E1c"
+				"STT", "M\u00E3 gi\u00E1o vi\u00EAn", "T\u00EAn gi\u00E1o vi\u00EAn", "Ch\u1EE9c danh", "L\u0129nh v\u1EF1c c\u00F4ng t\u00E1c", "\u0110\u01A1n v\u1ECB c\u00F4ng t\u00E1c", "Khoa c\u00F4ng t\u00E1c"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Boolean.class, Object.class, Object.class, Object.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		));
 		scrollPane_1.setViewportView(table_1);
 		
-		JButton btnTimGiaoVien = new JButton("Tìm giáo viên");
-		btnTimGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTimGiaoVien.setBounds(214, 112, 127, 44);
-		panel_2.add(btnTimGiaoVien);
+		JPanel panel_3_1 = new JPanel();
+		panel_3_1.setLayout(null);
+		panel_3_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Gi\u00E1o vi\u00EAn \u0111\u01B0\u1EE3c ph\u00E2n c\u00F4ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_3_1.setBounds(673, 410, 581, 459);
+		pnCenter.add(panel_3_1);
 		
-		JButton btnChonGiaoVien = new JButton("Chọn giáo viên");
-		btnChonGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnChonGiaoVien.setBounds(418, 112, 143, 44);
-		panel_2.add(btnChonGiaoVien);
+		JScrollPane scrollPane_1_1 = new JScrollPane();
+		scrollPane_1_1.setBounds(10, 22, 561, 426);
+		panel_3_1.add(scrollPane_1_1);
 		
-		JButton btnBoChonGiaoVien = new JButton("Bỏ chọn giáo viên");
-		btnBoChonGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBoChonGiaoVien.setBounds(621, 112, 157, 44);
-		panel_2.add(btnBoChonGiaoVien);
+		table_2 = new JTable();
+		table_2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"STT", "M\u00E3 gi\u00E1o vi\u00EAn", "T\u00EAn gi\u00E1o vi\u00EAn", "C\u00F4ng vi\u1EC7c"
+			}
+		));
+		scrollPane_1_1.setViewportView(table_2);
+		
+		JButton btnThemPhanCong = new JButton(">>");
+		btnThemPhanCong.setBounds(598, 514, 68, 23);
+		pnCenter.add(btnThemPhanCong);
+		
+		JButton btnThemPhanCong_1 = new JButton("<<");
+		btnThemPhanCong_1.setBounds(598, 700, 68, 23);
+		pnCenter.add(btnThemPhanCong_1);
+		
+		JLabel lblSoLuongGiaoVien = new JLabel("Số lượng GV:");
+		lblSoLuongGiaoVien.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSoLuongGiaoVien.setBounds(601, 574, 62, 23);
+		pnCenter.add(lblSoLuongGiaoVien);
+		
+		textField = new JTextField();
+		textField.setBounds(601, 608, 62, 20);
+		pnCenter.add(textField);
+		textField.setColumns(10);
 		
 		JButton btnLuuHoiDong = new JButton("Lưu hội đồng");
-		btnLuuHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnLuuHoiDong.setBounds(851, 112, 127, 44);
-		panel_2.add(btnLuuHoiDong);
+		btnLuuHoiDong.setBounds(577, 357, 127, 44);
+		pnCenter.add(btnLuuHoiDong);
+		
+		JButton btnCapNhatHoiDong = new JButton("Cập nhật hội đồng");
+		btnCapNhatHoiDong.setBounds(741, 355, 127, 44);
+		pnCenter.add(btnCapNhatHoiDong);
+		
+		JButton btnXoaHoiDong = new JButton("Xóa hội đồng");
+		btnXoaHoiDong.setBounds(904, 355, 127, 44);
+		pnCenter.add(btnXoaHoiDong);
+		
+		btnChonCongViec = new JButton("Chọn công việc");
+		btnChonCongViec.setBounds(1067, 357, 127, 44);
+		pnCenter.add(btnChonCongViec);
+		
+		btnChonCongViec.addActionListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnChonCongViec)) {
+			GD_CCV = new GiaoDien_ChonCongViec();
+			GD_CCV.frame.setVisible(true);
+		}
 	}
 }
 
