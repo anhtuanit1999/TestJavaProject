@@ -6,12 +6,12 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
-import entity.DanhSachHoiDong;
+import entity.DanhSach_DangKyLuanVan;
 import entity.DeTai;
 import entity.DiemBaoVeLuanVan;
 import entity.GiaoVien;
 import entity.HoiDong;
-import entity.KetQua;
+import entity.ChiTietCongViec;
 import entity.LuanVan;
 import entity.SinhVien;
 
@@ -29,7 +29,7 @@ public class Connection {
 					.addAnnotatedClass(entity.HoiDong.class)
 //					.addAnnotatedClass(entity.LuanVan.class)
 //					.addAnnotatedClass(entity.DeTai.class)
-					.addAnnotatedClass(DanhSachHoiDong.class)
+					.addAnnotatedClass(DanhSach_DangKyLuanVan.class)
 					.addAnnotatedClass(entity.Khoa_DanhSachHoiDong.class)
 //					.addAnnotatedClass(entity.KetQua.class)
 //					.addAnnotatedClass(entity.DiemBaoVeLuanVan.class)

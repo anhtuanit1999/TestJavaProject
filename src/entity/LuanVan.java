@@ -8,93 +8,71 @@ import javax.persistence.Id;
 
 @Entity
 public class LuanVan implements Serializable {
-	@Id
-	@Column(name = "MALUANVAN")
 	private String maLuanVan;
-	
-	@Column(name = "MADETAI")
-	private String maDeTai;
-	
-	
-	private SinhVien sinhVien;
-	
 	private String tenLuanVan;
-	
 	private String linhVucNghienCuu;
-	
 	private String noiDungLuanVan;
-	
+	private int namHoc;
 	private String tomTat;
-
+	private SinhVien maGiaoVien;
+	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan, int namHoc,
+			String tomTat, SinhVien maGiaoVien) {
+		super();
+		this.maLuanVan = maLuanVan;
+		this.tenLuanVan = tenLuanVan;
+		this.linhVucNghienCuu = linhVucNghienCuu;
+		this.noiDungLuanVan = noiDungLuanVan;
+		this.namHoc = namHoc;
+		this.tomTat = tomTat;
+		this.maGiaoVien = maGiaoVien;
+	}
 	public String getMaLuanVan() {
 		return maLuanVan;
 	}
-
 	public void setMaLuanVan(String maLuanVan) {
 		this.maLuanVan = maLuanVan;
 	}
-
-	public String getMaDeTai() {
-		return maDeTai;
-	}
-
-	public void setMaDeTai(String maDeTai) {
-		this.maDeTai = maDeTai;
-	}
-
 	public String getTenLuanVan() {
 		return tenLuanVan;
 	}
-
 	public void setTenLuanVan(String tenLuanVan) {
 		this.tenLuanVan = tenLuanVan;
 	}
-
 	public String getLinhVucNghienCuu() {
 		return linhVucNghienCuu;
 	}
-
 	public void setLinhVucNghienCuu(String linhVucNghienCuu) {
 		this.linhVucNghienCuu = linhVucNghienCuu;
 	}
-
 	public String getNoiDungLuanVan() {
 		return noiDungLuanVan;
 	}
-
 	public void setNoiDungLuanVan(String noiDungLuanVan) {
 		this.noiDungLuanVan = noiDungLuanVan;
 	}
-
+	public int getNamHoc() {
+		return namHoc;
+	}
+	public void setNamHoc(int namHoc) {
+		this.namHoc = namHoc;
+	}
 	public String getTomTat() {
 		return tomTat;
 	}
-
 	public void setTomTat(String tomTat) {
 		this.tomTat = tomTat;
 	}
-
-	public LuanVan(String maLuanVan, String maDeTai, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan,
-			String tomTat) {
-		super();
-		this.maLuanVan = maLuanVan;
-		this.maDeTai = maDeTai;
-		this.tenLuanVan = tenLuanVan;
-		this.linhVucNghienCuu = linhVucNghienCuu;
-		this.noiDungLuanVan = noiDungLuanVan;
-		this.tomTat = tomTat;
+	public SinhVien getMaGiaoVien() {
+		return maGiaoVien;
 	}
-
-	public LuanVan() {
-		super();
-		// TODO Auto-generated constructor stub
+	public void setMaGiaoVien(SinhVien maGiaoVien) {
+		this.maGiaoVien = maGiaoVien;
 	}
-
 	@Override
 	public String toString() {
-		return "LuanVan [maLuanVan=" + maLuanVan + ", maDeTai=" + maDeTai + ", tenLuanVan=" + tenLuanVan
-				+ ", linhVucNghienCuu=" + linhVucNghienCuu + ", noiDungLuanVan=" + noiDungLuanVan + ", tomTat=" + tomTat
-				+ "]";
+		return "LuanVan [maLuanVan=" + maLuanVan + ", tenLuanVan=" + tenLuanVan + ", linhVucNghienCuu="
+				+ linhVucNghienCuu + ", noiDungLuanVan=" + noiDungLuanVan + ", namHoc=" + namHoc + ", tomTat=" + tomTat
+				+ ", maGiaoVien=" + maGiaoVien + "]";
 	}
 	
 }

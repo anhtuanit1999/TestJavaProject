@@ -17,18 +17,30 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class HoiDong implements Serializable {
-	@Id
-	@Column(name = "MAHOIDONG")
-	private int maHoiDong;
-	
-	@Column(name = "TENHOIDONG")
+	private String maHoiDong;
 	private String tenHoiDong;
+	public HoiDong(String maHoiDong, String tenHoiDong) {
+		super();
+		this.maHoiDong = maHoiDong;
+		this.tenHoiDong = tenHoiDong;
+	}
+	public String getMaHoiDong() {
+		return maHoiDong;
+	}
+	public void setMaHoiDong(String maHoiDong) {
+		this.maHoiDong = maHoiDong;
+	}
+	public String getTenHoiDong() {
+		return tenHoiDong;
+	}
+	public void setTenHoiDong(String tenHoiDong) {
+		this.tenHoiDong = tenHoiDong;
+	}
+	@Override
+	public String toString() {
+		return "HoiDong [maHoiDong=" + maHoiDong + ", tenHoiDong=" + tenHoiDong + "]";
+	}
 	
-	@Column(name = "NGAYBAOVE")
-	private LocalDate ngayBaoVe;
-	
-	@OneToMany(mappedBy = "MA_HOIDONG")
-	private Set<DanhSachHoiDong> danhSachHoiDongs = new HashSet();
 }
 
 /*
