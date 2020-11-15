@@ -6,8 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -16,15 +24,25 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Database;
+import dao.GiaoVienDao;
+
 import javax.swing.JButton;
 
-public class GiaoDien_NhapDiem {
+public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 
 	private JFrame frame;
 	private JTextField txtTenSinhVien;
 	private JTextField txtDiemSo;
 	private JTable table;
 	private JPanel pnChung;
+	private GiaoVienDao giaoVienDao;
+	private JButton btnNhapDiem;
+	private JTextField txtMaSinhVien;
+	private JTextArea txtaGhiChu;
+	private JButton btnCapNhat;
+	private final String maGiaoVien = "GV002";
 
 	/**
 	 * Launch the application.
@@ -53,6 +71,8 @@ public class GiaoDien_NhapDiem {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,7 +92,7 @@ public class GiaoDien_NhapDiem {
 		
 		JPanel pnThongTinSinhVien = new JPanel();
 		pnThongTinSinhVien.setBorder(new TitledBorder(null, "Th\u00F4ng tin sinh vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnThongTinSinhVien.setBounds(10, 11, 656, 456);
+		pnThongTinSinhVien.setBounds(10, 11, 656, 393);
 		pnCenter.add(pnThongTinSinhVien);
 		pnThongTinSinhVien.setLayout(null);
 		
@@ -89,44 +109,33 @@ public class GiaoDien_NhapDiem {
 		
 		JLabel lblDiemSo = new JLabel("Điểm số: ");
 		lblDiemSo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDiemSo.setBounds(49, 90, 106, 19);
+		lblDiemSo.setBounds(49, 119, 106, 19);
 		pnThongTinSinhVien.add(lblDiemSo);
 		
 		txtDiemSo = new JTextField();
 		txtDiemSo.setColumns(10);
-		txtDiemSo.setBounds(176, 91, 416, 20);
+		txtDiemSo.setBounds(176, 120, 416, 20);
 		pnThongTinSinhVien.add(txtDiemSo);
-		
-		JLabel lblVongCham = new JLabel("Vòng chấm: ");
-		lblVongCham.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblVongCham.setBounds(49, 133, 106, 19);
-		pnThongTinSinhVien.add(lblVongCham);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Vòng 1", "Vòng 2"}));
-		comboBox.setBounds(180, 134, 412, 20);
-		pnThongTinSinhVien.add(comboBox);
 		
 		JLabel lblGhiChu = new JLabel("Ghi chú: ");
 		lblGhiChu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGhiChu.setBounds(49, 226, 106, 19);
+		lblGhiChu.setBounds(49, 166, 106, 19);
 		pnThongTinSinhVien.add(lblGhiChu);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(176, 225, 416, 197);
-		pnThongTinSinhVien.add(textArea);
+		txtaGhiChu = new JTextArea();
+		txtaGhiChu.setBounds(176, 165, 416, 197);
+		pnThongTinSinhVien.add(txtaGhiChu);
 		
-		JLabel lblHocKy = new JLabel("Học kỳ: ");
-		lblHocKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblHocKy.setBounds(49, 176, 106, 19);
-		pnThongTinSinhVien.add(lblHocKy);
+		JLabel lblMSinhVin = new JLabel("Mã sinh viên: ");
+		lblMSinhVin.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMSinhVin.setBounds(49, 87, 106, 19);
+		pnThongTinSinhVien.add(lblMSinhVin);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"2019 - 2020", "2020 - 2021", "2021 - 2022"}));
-		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox_1.setBounds(180, 177, 412, 20);
-		pnThongTinSinhVien.add(comboBox_1);
+		txtMaSinhVien = new JTextField();
+		txtMaSinhVien.setEditable(false);
+		txtMaSinhVien.setColumns(10);
+		txtMaSinhVien.setBounds(176, 88, 416, 20);
+		pnThongTinSinhVien.add(txtMaSinhVien);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch sinh vi\u00EAn b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -143,28 +152,105 @@ public class GiaoDien_NhapDiem {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "T\u00EAn sinh vi\u00EAn", "Lu\u1EADn v\u0103n", "\u0110i\u1EC3m s\u1ED1"
+				"STT", "M\u00E3 sinh vi\u00EAn", "T\u00EAn sinh vi\u00EAn", "Lu\u1EADn v\u0103n", "\u0110i\u1EC3m s\u1ED1", "Ghi ch\u00FA"
 			}
 		));
 		scrollPane.setViewportView(table);
 		
-		JButton btnNhapDiem = new JButton("Nhập điểm");
+		btnNhapDiem = new JButton("Nhập điểm");
 		btnNhapDiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNhapDiem.setBounds(87, 478, 127, 44);
+		btnNhapDiem.setBounds(211, 415, 127, 44);
 		pnCenter.add(btnNhapDiem);
 		
-		JButton btnCpNht = new JButton("Cập nhật");
-		btnCpNht.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCpNht.setBounds(270, 478, 127, 44);
-		pnCenter.add(btnCpNht);
+		btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnCapNhat.setBounds(394, 415, 127, 44);
+		pnCenter.add(btnCapNhat);
 		
-		JButton btnXoaTrang = new JButton("Xóa Trắng");
-		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnXoaTrang.setBounds(450, 478, 127, 44);
-		pnCenter.add(btnXoaTrang);
+		btnCapNhat.addActionListener(this);
+		btnNhapDiem.addActionListener(this);
+		table.addMouseListener(this);
+		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = table.getSelectedRow();
+		txtTenSinhVien.setText(table.getValueAt(row, 2).toString());
+		txtMaSinhVien.setText(table.getValueAt(row, 1).toString());
+		txtDiemSo.setText(table.getValueAt(row, 4) == null ? "" : table.getValueAt(row, 4).toString());
+		txtaGhiChu.setText(table.getValueAt(row, 5) == null ? "" : table.getValueAt(row, 5).toString());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public boolean kiemTra() {
+		String regex = "(10|\\d|\\d\\.\\d{0,2})";
+		if(txtDiemSo.getText().trim().matches(regex)) {
+			return true;
+		}
+		JOptionPane.showMessageDialog(frame, "Điểm là số nguyên hoặc số thực theo thang điểm 10");
+		return false;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnNhapDiem)) {
+			if(kiemTra()) {
+				String maSinhVien = txtMaSinhVien.getText();
+				float diem = Float.parseFloat(txtDiemSo.getText());
+				String ghiChu = txtaGhiChu.getText();
+				if(giaoVienDao.nhapDiem(maGiaoVien, maSinhVien, diem, ghiChu)) {
+					JOptionPane.showMessageDialog(frame, "Nhập điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.setNumRows(0);
+					giaoVienDao.capNhatBang(table, maGiaoVien);
+					return;
+				}
+				JOptionPane.showMessageDialog(frame, "Không thể nhập điểm cho sinh viên " + txtTenSinhVien.getText() + " 2 lần");
+			}
+		} else if(o.equals(btnCapNhat)) {
+			if(kiemTra()) {
+				String maSinhVien = txtMaSinhVien.getText();
+				float diem = Float.parseFloat(txtDiemSo.getText());
+				String ghiChu = txtaGhiChu.getText();
+				if(giaoVienDao.suaDiem(maGiaoVien, maSinhVien, diem, ghiChu)) {
+					JOptionPane.showMessageDialog(frame, "Sửa điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.setNumRows(0);
+					giaoVienDao.capNhatBang(table, maGiaoVien);
+					return;
+				}
+				JOptionPane.showMessageDialog(frame, "Đã sửa điểm cho sinh viên " + txtTenSinhVien.getText());
+			}
+		}
+		
 	}
 }

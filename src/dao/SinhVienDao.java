@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
 
 import entity.SinhVien;
 
@@ -27,17 +28,16 @@ public class SinhVienDao {
 			ResultSet res = statement.executeQuery(sql);
 			while (res.next()) {
 				String maSinhVien = res.getString(1);
-				String tenSinhVien = res.getString(2);
+				String hoTen = res.getString(2);
 				String ngaySinh = res.getString(3);
 				String soDienThoai = res.getString(4);
 				String diaChi = res.getString(5);
 				String khoaTrucThuoc = res.getString(6);
 				int namVaoTruong = Integer.parseInt(res.getString(7));
 				int namTotNghiep = Integer.parseInt(res.getString(8));
-				
-//				SinhVien sv = new SinhVien(maSinhVien, tenSinhVien, diaChi, soDienThoai, ngaySinh, khoaTrucThuoc, namVaoTruong, namTotNghiep);
-//				System.out.println(kh);
-//				listSinhVien.add(sv);
+				String maNhom = res.getString(9);
+				SinhVien sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
+				listSinhVien.add(sv);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,12 +46,12 @@ public class SinhVienDao {
 	}
 	
 	public boolean themSinhVien(String maSinhVien, String hoTen, String diaChi, String soDienThoai, String ngaySinh,
-			String khoaTrucThuoc, int namVaoTruong, int namTotNghiep) {
+			String khoaTrucThuoc, int namVaoTruong, int namTotNghiep, String maNhom) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into SINHVIEN values(?, ?, ?, ?, ?, ?, ?, ?)");
+			stmt = con.prepareStatement("insert into SINHVIEN values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1,maSinhVien);
 			stmt.setString(2,hoTen );
 			stmt.setString(3, diaChi);
@@ -60,6 +60,7 @@ public class SinhVienDao {
 			stmt.setString(6, khoaTrucThuoc);
 			stmt.setInt(7, namVaoTruong);
 			stmt.setInt(8, namTotNghiep);
+			stmt.setString(9, maNhom);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,5 +110,4 @@ public class SinhVienDao {
 		}
 		return n > 0;
 	}
-	
 }
