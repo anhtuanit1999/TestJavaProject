@@ -11,6 +11,9 @@ public class LuanVan implements Serializable {
 	private String tomTat;
 	private String maGiaoVien;
 	private int soNhomThamGiaToiDa;
+	private int soNhomDangKy;
+	private String tenGiaoVien;
+	
 	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan, int namHoc,
 			String tomTat, String maGiaoVien, int soNhomThamGiaToiDa) {
 		super();
@@ -23,6 +26,21 @@ public class LuanVan implements Serializable {
 		this.maGiaoVien = maGiaoVien;
 		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
+	
+	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, int namHoc, String tenGiaoVien, int soNhomThamGiaToiDa,
+			int soNhomDangKy) {
+		super();
+		this.maLuanVan = maLuanVan;
+		this.tenLuanVan = tenLuanVan;
+		this.linhVucNghienCuu = linhVucNghienCuu;
+		this.namHoc = namHoc;
+		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
+		this.soNhomDangKy = soNhomDangKy;
+		this.tenGiaoVien = tenGiaoVien;
+	}
+
+
+
 	public String getMaLuanVan() {
 		return maLuanVan;
 	}
@@ -71,6 +89,20 @@ public class LuanVan implements Serializable {
 	public void setSoNhomThamGiaToiDa(int soNhomThamGiaToiDa) {
 		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
+	public int getSoNhomDangKy() {
+		return soNhomDangKy;
+	}
+
+	public void setSoNhomDangKy(int soNhomDangKy) {
+		this.soNhomDangKy = soNhomDangKy;
+	}
+	public String getTenGiaoVien() {
+		return tenGiaoVien;
+	}
+	public void setTenGiaoVien(String tenGiaoVien) {
+		this.tenGiaoVien = tenGiaoVien;
+	}
+
 	@Override
 	public String toString() {
 		return "LuanVan [maLuanVan=" + maLuanVan + ", tenLuanVan=" + tenLuanVan + ", linhVucNghienCuu="

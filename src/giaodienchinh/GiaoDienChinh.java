@@ -17,6 +17,7 @@ import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
 import giaovukhoa.GiaoDien_BaoCao;
 import giaovukhoa.GiaoDien_PhanCongHoiDong;
+import giaovukhoa.GiaoDien_PhanCongHoiDongChamDiem;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import giaovukhoa.GiaoDien_ThongKe;
 import hethong.GiaoDien_DangNhap;
@@ -28,6 +29,8 @@ import sinhVien.GiaoDien_TimDeTai;
 import sinhVien.GiaoDien_XemDiem;
 
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -53,6 +56,7 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniSinhVienBaoVeLuanVanThanhCong;
 	private JMenuItem mniSinhVienBaoVeLuanVanKhongThanhCong;
 	private JMenuItem mniXepLoaiDiemSinhVien;
+	private JMenuItem mniPhanCongHoiDongChamDiem;
 	private GiaoDien_DangKyDeTai GD_DKDT;
 	private GiaoDien_XemDiem GD_XD;
 	private GiaoDien_GiaoVien GD_GV;
@@ -78,6 +82,7 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_ThongKe GD_SVBVLVTC;
 	private GiaoDien_ThongKe GD_SVBVLVKTC;
 	private GiaoDien_ThongKe GD_XDSV;
+	private GiaoDien_PhanCongHoiDongChamDiem GD_PCHDCD;
 
 	/**
 	 * Launch the application.
@@ -97,15 +102,19 @@ public class GiaoDienChinh implements ActionListener {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
+	 * @throws ParseException 
 	 */
-	public GiaoDienChinh() {
+	public GiaoDienChinh() throws SQLException, ParseException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
+	 * @throws ParseException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException, ParseException {
 		frame = new JFrame();
 		frame.setTitle("Giao diện chính");
 		frame.setBounds(10, 10, 1280, 1024);
@@ -184,6 +193,11 @@ public class GiaoDienChinh implements ActionListener {
 		mniPhanCongHoiDong = new JMenuItem("Phân công hội đồng");
 		mniPhanCongHoiDong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mniPhanCongHoiDong);
+		mnGiaoVuKhoa.addSeparator();
+		
+		mniPhanCongHoiDongChamDiem = new JMenuItem("Phân công hội đồng chấm điểm");
+		mniPhanCongHoiDongChamDiem.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniPhanCongHoiDongChamDiem);
 		mnGiaoVuKhoa.addSeparator();
 		
 		mnThongKe = new JMenu("Thống kê");
@@ -282,6 +296,10 @@ public class GiaoDienChinh implements ActionListener {
 		GD_PCHD = new GiaoDien_PhanCongHoiDong();
 		pnChung.add(GD_PCHD.getPanel(), "PhanCongHoiDong");
 		
+		// Giao diện phân công hội đồng chấm điểm
+		GD_PCHDCD = new GiaoDien_PhanCongHoiDongChamDiem();
+		pnChung.add(GD_PCHDCD.getPanel(), "PhanCongHoiDongChamDiem");
+		
 		// Giao diện thống kê danh sách sinh viên bảo vệ luận văn thành công
 		GD_SVBVLVTC = new GiaoDien_ThongKe();
 		pnChung.add(GD_SVBVLVTC.getPanel(), "ThongKe");
@@ -319,6 +337,7 @@ public class GiaoDienChinh implements ActionListener {
 		mniQuanLyLuanVan.addActionListener(this);
 		mniDanhSachSinhVienDangKyDeTai.addActionListener(this);
 		mniPhanCongHoiDong.addActionListener(this);
+		mniPhanCongHoiDongChamDiem.addActionListener(this);
 		mniSinhVienBaoVeLuanVanThanhCong.addActionListener(this);
 		mniSinhVienBaoVeLuanVanKhongThanhCong.addActionListener(this);
 		mniXepLoaiDiemSinhVien.addActionListener(this);
@@ -353,6 +372,8 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "BaoCaoDanhSach");
 		} else if(o.equals(mniPhanCongHoiDong)) {
 			card.show(pnChung, "PhanCongHoiDong");
+		} else if (o.equals(mniPhanCongHoiDongChamDiem)) {
+			card.show(pnChung, "PhanCongHoiDongChamDiem");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
 			card.show(pnChung, "ThongKe");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanKhongThanhCong)) {
@@ -365,7 +386,7 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "DoiMatKhau");
 		} else if(o.equals(mniDangXuat)) {
 			card.show(pnChung, "DangXuat");
-		} 
+		}
 		
 		
 	}

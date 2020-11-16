@@ -32,6 +32,7 @@ public class GiaoVien implements Serializable {
 		this.donViCongTac = donViCongTac;
 		this.khoaCongTac = khoaCongTac;
 	}
+	
 	public String getMaGiaoVien() {
 		return maGiaoVien;
 	}
