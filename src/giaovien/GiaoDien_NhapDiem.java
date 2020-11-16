@@ -42,7 +42,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 	private JTextField txtMaSinhVien;
 	private JTextArea txtaGhiChu;
 	private JButton btnCapNhat;
-	private final String maGiaoVien = "GV002";
+	private final String maGiaoVien = "GV001";
 
 	/**
 	 * Launch the application.
@@ -184,6 +184,8 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		txtMaSinhVien.setText(table.getValueAt(row, 1).toString());
 		txtDiemSo.setText(table.getValueAt(row, 4) == null ? "" : table.getValueAt(row, 4).toString());
 		txtaGhiChu.setText(table.getValueAt(row, 5) == null ? "" : table.getValueAt(row, 5).toString());
+		txtDiemSo.requestFocus();
+		
 	}
 
 	@Override

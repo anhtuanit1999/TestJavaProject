@@ -16,7 +16,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import dao.Database;
+import dao.LuanVanDao;
 import dao.SinhVienDao;
+import entity.LuanVan;
 import entity.SinhVien;
 
 import javax.swing.JTextField;
@@ -41,6 +43,10 @@ public class GiaoDien_SinhVien {
 	private JPanel pnChung;
 	private SinhVienDao sinhVienDao;
 	private JTextField txtTenSinhVienCungLamLuanVan;
+	
+	private final String maSinhVien = "SV001";
+	private JTextField txtMaNhom;
+	private LuanVanDao luanVanDao;
 
 	/**
 	 * Launch the application.
@@ -70,7 +76,8 @@ public class GiaoDien_SinhVien {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
-//		sinhVienDao = new SinhVienDao();
+		sinhVienDao = new SinhVienDao();
+		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,21 +218,35 @@ public class GiaoDien_SinhVien {
 		lblSinhVienCungNhom.setBounds(31, 116, 145, 17);
 		panel.add(lblSinhVienCungNhom);
 		
-//		try {
-//			updateTextField(0);
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		JLabel lblMaNhom = new JLabel("Mã nhóm: ");
+		lblMaNhom.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaNhom.setBounds(42, 486, 116, 17);
+		pnCenter.add(lblMaNhom);
+		
+		txtMaNhom = new JTextField();
+		txtMaNhom.setEditable(false);
+		txtMaNhom.setColumns(10);
+		txtMaNhom.setBounds(168, 483, 419, 20);
+		pnCenter.add(txtMaNhom);
+		
+		try {
+			updateTextField();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
 	}
 	
-	private void updateTextField(int ma) throws ParseException {
-		List<SinhVien> listSinhVien = sinhVienDao.docTuBang();
-		SinhVien sv = listSinhVien.get(ma);
+	private void updateTextField() throws ParseException {
+		SinhVien sv = sinhVienDao.timSinhVien(maSinhVien);
+		if(sv == null) {
+			System.out.println("hihi");
+			return;
+		}
 		txtMSSV.setText(sv.getMaSinhVien());
 		txtHoTen.setText(sv.getHoTen());
 		txtNgaySinh.setText(sv.getNgaySinh());
@@ -234,11 +255,11 @@ public class GiaoDien_SinhVien {
 		txtKhoaTrucThuoc.setText(sv.getKhoaTrucThuoc());
 		txtNamVaoTruong.setText(sv.getNamVaoTruong() + "");
 		txtNamTotNghiep.setText(sv.getNamTotNghiep() + "");
+		txtMaNhom.setText(sv.getMaNhom());
 		
+		LuanVan lv = luanVanDao.timLuanVanTheoMaSinhVien(maSinhVien);
+		txtTenLuanVan.setText(lv.getTenLuanVan());
 		
-//		List<DeTai> listDeTai = deTaiDao.docTuBang();
-//		DeTai dt = listDeTai.get(ma);
-//		txtTenDeTai.setText(dt.getTenDeTai());
-		
+		txtTenSinhVienCungLamLuanVan.setText(sinhVienDao.timSinhVienCungNhom(sv.getMaNhom(), sv.getMaSinhVien()).getHoTen());
 	}
 }

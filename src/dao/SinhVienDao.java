@@ -97,17 +97,87 @@ public class SinhVienDao {
 		return n > 0;
 	}
 	
-	public boolean xoaSinhVien(String maSinhVien) {
+//	public boolean xoaSinhVien(String maSinhVien) {
+//		Connection con = Database.getInstance().getConnection();
+//		PreparedStatement stmt = null;
+//		int n = 0;
+//		try {
+//			stmt = con.prepareStatement("delete from SINHVIEN where MaSinhVien = ?");
+//			stmt.setString(1, maSinhVien);
+//			n = stmt.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return n > 0;
+//	}
+	
+	public SinhVien timSinhVien(String maSinhVien) {
+		SinhVien sv = null;
 		Connection con = Database.getInstance().getConnection();
-		PreparedStatement stmt = null;
-		int n = 0;
+		String sql = "select * \r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"where sv.MaSinhVien = '"+ maSinhVien +"'";
+		Statement statement;
 		try {
-			stmt = con.prepareStatement("delete from SINHVIEN where MaSinhVien = ?");
-			stmt.setString(1, maSinhVien);
-			n = stmt.executeUpdate();
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			String hoTen = res.getString(2);
+			String ngaySinh = res.getString(3);
+			String soDienThoai = res.getString(4);
+			String diaChi = res.getString(5);
+			String khoaTrucThuoc = res.getString(6);
+			int namVaoTruong = res.getInt(7);
+			int namTotNghiep = res.getInt(8);
+			String maNhom = res.getString(9);
+			sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return n > 0;
+		return sv;
+	}
+	
+	public SinhVien timSinhVienCungNhom(String maNhom, String maSinhVien) {
+		SinhVien sv = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select sv.MaSinhVien, sv.HoTen, sv.NgaySinh, sv.SoDienThoai, sv.DiaChi, sv.KhoaTrucThuoc, sv.NamVaoTruong, sv.NamTotNghiep\r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaNhom = sv.MaNhom\r\n" + 
+				"where ds.MaNhom = '"+ maNhom +"' and sv.MaSinhVien <> '"+ maSinhVien +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			String hoTen = res.getString(2);
+			String ngaySinh = res.getString(3);
+			String soDienThoai = res.getString(4);
+			String diaChi = res.getString(5);
+			String khoaTrucThuoc = res.getString(6);
+			int namVaoTruong = res.getInt(7);
+			int namTotNghiep = res.getInt(8);
+			sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sv;
+	}
+	
+	public ResultSet xemDiem(String maSinhVien) {
+		ResultSet res = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select gv.HoTen, diem.Diem, diem.GhiChu\r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"inner join DIEMBAOVELUANVAN diem on diem.MaSinhVien = sv.MaSinhVien\r\n" + 
+				"inner join GIAOVIEN gv on diem.MaGiaoVien = gv.MaGiaoVien\r\n" + 
+				"where sv.MaSinhVien = '"+ maSinhVien +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			res = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 }

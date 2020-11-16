@@ -2,11 +2,6 @@ package entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class LuanVan implements Serializable {
 	private String maLuanVan;
 	private String tenLuanVan;
@@ -14,9 +9,10 @@ public class LuanVan implements Serializable {
 	private String noiDungLuanVan;
 	private int namHoc;
 	private String tomTat;
-	private SinhVien maGiaoVien;
+	private String maGiaoVien;
+	private int soNhomThamGiaToiDa;
 	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan, int namHoc,
-			String tomTat, SinhVien maGiaoVien) {
+			String tomTat, String maGiaoVien, int soNhomThamGiaToiDa) {
 		super();
 		this.maLuanVan = maLuanVan;
 		this.tenLuanVan = tenLuanVan;
@@ -25,6 +21,7 @@ public class LuanVan implements Serializable {
 		this.namHoc = namHoc;
 		this.tomTat = tomTat;
 		this.maGiaoVien = maGiaoVien;
+		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
 	public String getMaLuanVan() {
 		return maLuanVan;
@@ -62,18 +59,25 @@ public class LuanVan implements Serializable {
 	public void setTomTat(String tomTat) {
 		this.tomTat = tomTat;
 	}
-	public SinhVien getMaGiaoVien() {
+	public String getMaGiaoVien() {
 		return maGiaoVien;
 	}
-	public void setMaGiaoVien(SinhVien maGiaoVien) {
+	public void setMaGiaoVien(String maGiaoVien) {
 		this.maGiaoVien = maGiaoVien;
+	}
+	public int getSoNhomThamGiaToiDa() {
+		return soNhomThamGiaToiDa;
+	}
+	public void setSoNhomThamGiaToiDa(int soNhomThamGiaToiDa) {
+		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
 	@Override
 	public String toString() {
 		return "LuanVan [maLuanVan=" + maLuanVan + ", tenLuanVan=" + tenLuanVan + ", linhVucNghienCuu="
 				+ linhVucNghienCuu + ", noiDungLuanVan=" + noiDungLuanVan + ", namHoc=" + namHoc + ", tomTat=" + tomTat
-				+ ", maGiaoVien=" + maGiaoVien + "]";
+				+ ", maGiaoVien=" + maGiaoVien + ", soNhomThamGiaToiDa=" + soNhomThamGiaToiDa + "]";
 	}
+	
 	
 }
 

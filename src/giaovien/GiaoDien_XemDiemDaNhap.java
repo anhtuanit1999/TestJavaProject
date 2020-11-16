@@ -13,6 +13,10 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import dao.Database;
+import dao.GiaoVienDao;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -23,6 +27,9 @@ public class GiaoDien_XemDiemDaNhap {
 	private JFrame frame;
 	private JTable table;
 	private JPanel pnChung;
+	private GiaoVienDao giaoVienDao;
+	
+	private final String maGiaoVien = "GV001";
 
 	/**
 	 * Launch the application.
@@ -51,6 +58,8 @@ public class GiaoDien_XemDiemDaNhap {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,11 +92,13 @@ public class GiaoDien_XemDiemDaNhap {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "T\u00EAn sinh vi\u00EAn", "T\u00EAn lu\u1EADn v\u0103n", "\u0110i\u1EC3m", "N\u0103m h\u1ECDc"
+				"STT", "M\u00E3 sinh vi\u00EAn", "T\u00EAn sinh vi\u00EAn", "T\u00EAn lu\u1EADn v\u0103n", "\u0110i\u1EC3m", "Ghi ch\u00FA"
 			}
 		));
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
+		
+		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 	
 	public JPanel getPanel() {

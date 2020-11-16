@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import entity.LuanVan;
 import entity.SinhVien;
@@ -28,15 +32,15 @@ public class LuanVanDao {
 			ResultSet res = statement.executeQuery(sql);
 			while (res.next()) {
 				String maLuanVan = res.getString(1);
-				String maDeTai = res.getString(2);
-				String tenLuanVan = res.getString(3);
-				String linhVucNghienCuu = res.getString(4);
-				String noiDungLuanVan = res.getString(5);
+				String tenLuanVan = res.getString(2);
+				String linhVucNghienCuu = res.getString(3);
+				String noiDungLuanVan = res.getString(4);
+				int namHoc = res.getInt(5);
 				String tomTat = res.getString(6);
-				
-//				LuanVan lv = new LuanVan(maLuanVan, maDeTai, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, tomTat);
-//				System.out.println(kh);
-//				listLuanVan.add(lv);
+				String maGiaoVien = res.getString(6);
+				int soNhomThamGiaToiDa = res.getInt(7);
+				LuanVan lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+				listLuanVan.add(lv);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -44,27 +48,27 @@ public class LuanVanDao {
 		return listLuanVan;
 	}
 	
-	public boolean themLuanVan(String maLuanVan, String maDeTai, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan,
-			String tomTat) {
+	public boolean themLuanVan(LuanVan lv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into SINHVIEN values(?, ?, ?, ?, ?, ?)");
-			stmt.setString(1,maLuanVan);
-			stmt.setString(2,tenLuanVan );
-			stmt.setString(3, linhVucNghienCuu);
-			stmt.setString(4, noiDungLuanVan);
-			stmt.setString(5, tomTat);
-			stmt.setString(6, maDeTai);
+			stmt = con.prepareStatement("insert into LUANVAN values(?, ?, ?, ?, ?, ?, ?, ?)");
+			stmt.setString(1, lv.getMaLuanVan());
+			stmt.setString(2, lv.getTenLuanVan() );
+			stmt.setString(3, lv.getLinhVucNghienCuu());
+			stmt.setString(4, lv.getNoiDungLuanVan());
+			stmt.setInt(5, lv.getNamHoc());
+			stmt.setString(6, lv.getTomTat());
+			stmt.setString(7, lv.getMaGiaoVien());
+			stmt.setInt(8, lv.getSoNhomThamGiaToiDa());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return n > 0;
 	}
-	public boolean suaLuanVan(String maLuanVan, String maDeTai, String tenLuanVan, String linhVucNghienCuu, String noiDungLuanVan,
-			String tomTat) {
+	public boolean suaLuanVan(String maLuanVan, LuanVan lv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
@@ -74,13 +78,17 @@ public class LuanVanDao {
 					+ "LinhVucNghienCuu = ?,"
 					+ "NoiDungLuanVan = ?,"
 					+ "TomTat = ?,"
-					+ "MaDeTai = ? "
+					+ "NamHoc = ?,"
+					+ "MaGiaoVien = ?,"
+					+ "SoNhomThamGiaToiDa = ? "
 					+ "where MaLuanVan = ?");
-			stmt.setString(1, tenLuanVan);
-			stmt.setString(2, linhVucNghienCuu);
-			stmt.setString(3, noiDungLuanVan);
-			stmt.setString(4, tomTat);
-			stmt.setString(5, maDeTai);
+			stmt.setString(1, lv.getTenLuanVan());
+			stmt.setString(2, lv.getLinhVucNghienCuu());
+			stmt.setString(3, lv.getNoiDungLuanVan());
+			stmt.setString(4, lv.getTomTat());
+			stmt.setString(5, lv.getNamHoc() + "");
+			stmt.setString(6, lv.getMaGiaoVien() + "");
+			stmt.setString(7, lv.getSoNhomThamGiaToiDa() + "");
 			stmt.setString(8, maLuanVan);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -134,5 +142,163 @@ public class LuanVanDao {
 			e.printStackTrace();
 		}
 		return listSinhVien;
+	}
+	
+	public LuanVan timLuanVanTheoMaSinhVien(String maSinhVien) {
+		LuanVan lv = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.NoiDungLuanVan, lv.NamHoc, lv.TomTat, lv.MaGiaoVien, lv.SoNhomThamGiaToiDa\r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaNhom = sv.MaNhom\r\n" + 
+				"inner join LUANVAN lv on lv.MaLuanVan = ds.MaLuanVan\r\n" + 
+				"where sv.MaSinhVien = '"+ maSinhVien +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			String maLuanVan = res.getString(1);
+			String tenLuanVan = res.getString(2);
+			String linhVucNghienCuu = res.getString(3);
+			String noiDungLuanVan = res.getString(4);
+			int namHoc = res.getInt(5);
+			String tomTat = res.getString(6);
+			String maGiaoVien = res.getString(7);
+			int soNhomThamGiaToiDa = res.getInt(8);
+			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lv;
+	}
+	
+	public void updateTableTimLuanVanTheoTieuChi(String maLuanVan, String tenLuanVan, String tenGiaoVienRaDeTai, JTable table) {
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select lv.MaLuanVan, lv.TenLuanVan, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
+				"from LUANVAN lv\r\n" + 
+				"inner join GIAOVIEN gv on gv.MaGiaoVien = lv.MaGiaoVien\r\n" + 
+				"where lv.MaLuanVan like '%"+ maLuanVan +"%' and lv.TenLuanVan like '%"+ tenLuanVan +"%' and gv.HoTen like '%"+ tenGiaoVienRaDeTai +"%'";
+		Statement statement;
+		int count = 1;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while(res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getInt(4) + ""
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateBangLuanVan(JTable table) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.NoiDungLuanVan, lv.NamHoc, lv.TomTat, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
+					"from LUANVAN lv\r\n" + 
+					"inner join GIAOVIEN gv on gv.MaGiaoVien = lv.MaGiaoVien";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5),
+						res.getString(6),
+						res.getString(7),
+						res.getString(8)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public LuanVan timLuanVanTheoMa(String maLuanVanCanTim) {
+		LuanVan lv = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from LUANVAN lv\r\n" + 
+				"where lv.MaLuanVan = '"+ maLuanVanCanTim +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			String maLuanVan = res.getString(1);
+			String tenLuanVan = res.getString(2);
+			String linhVucNghienCuu = res.getString(3);
+			String noiDungLuanVan = res.getString(4);
+			int namHoc = res.getInt(5);
+			String tomTat = res.getString(6);
+			String maGiaoVien = res.getString(7);
+			int soNhomThamGiaToiDa = res.getInt(8);
+			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lv;
+	}
+	
+	public boolean kiemTraLuanVanDaTonTai(String tenLuanVanCanKiemTra, String linhVucNghienCuuCanKiemTra) {
+		LuanVan lv = null;
+		boolean result = true;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from LUANVAN lv\r\n" + 
+				"where lv.TenLuanVan like N'%"+ tenLuanVanCanKiemTra +"%' and lv.LinhVucNghienCuu like N'%"+ linhVucNghienCuuCanKiemTra +"%'";
+		Statement statement;
+		ResultSet res = null;
+		try {
+			statement = con.createStatement();
+			res = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			result = res.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public String sinhMaLuanVanTuDong() {
+		String count = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select COUNT(lv.MaLuanVan)\r\n" + 
+				"from LUANVAN lv";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			count = res.getInt(1) + 1 + "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i <= 3 - count.split("").length ; i++) {
+			count = "0" + count;
+		}
+		return "LV" + count;
 	}
 }

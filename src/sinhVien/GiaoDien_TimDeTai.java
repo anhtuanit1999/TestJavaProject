@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
@@ -18,13 +21,22 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.transaction.Transactional.TxType;
 
-public class GiaoDien_TimDeTai {
+import dao.Database;
+import dao.LuanVanDao;
+
+import javax.swing.JCheckBox;
+
+public class GiaoDien_TimDeTai implements ActionListener {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField txtThongTin;
 	private JTable table;
 	private JPanel pnChung;
+	private JButton btnTimKiem;
+	private LuanVanDao luanVanDao;
+	private JComboBox comboBoxTieuChi;
 
 	/**
 	 * Launch the application.
@@ -53,6 +65,8 @@ public class GiaoDien_TimDeTai {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,21 +95,21 @@ public class GiaoDien_TimDeTai {
 		lblThongTinDeTai.setBounds(52, 72, 156, 28);
 		panel.add(lblThongTinDeTai);
 		
-		textField = new JTextField();
-		textField.setBounds(218, 78, 948, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtThongTin = new JTextField();
+		txtThongTin.setBounds(218, 78, 948, 20);
+		panel.add(txtThongTin);
+		txtThongTin.setColumns(10);
 		
 		JLabel lblTieuChi = new JLabel("Tìm theo tiêu chí: ");
 		lblTieuChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTieuChi.setBounds(52, 134, 156, 28);
 		panel.add(lblTieuChi);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Mã đề tài", "Tên đề tài", "Tên giáo viên ra đề tài"}));
-		comboBox.setBounds(218, 140, 948, 22);
-		panel.add(comboBox);
+		comboBoxTieuChi = new JComboBox();
+		comboBoxTieuChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		comboBoxTieuChi.setModel(new DefaultComboBoxModel(new String[] {"Mã đề tài", "Tên đề tài", "Tên giáo viên ra đề tài"}));
+		comboBoxTieuChi.setBounds(218, 140, 948, 22);
+		panel.add(comboBoxTieuChi);
 		
 		JLabel lblNamHoc = new JLabel("Năm học: ");
 		lblNamHoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -108,7 +122,7 @@ public class GiaoDien_TimDeTai {
 		comboBox_1.setBounds(218, 206, 948, 22);
 		panel.add(comboBox_1);
 		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTimKiem.setBounds(323, 343, 127, 44);
 		panel.add(btnTimKiem);
@@ -137,9 +151,33 @@ public class GiaoDien_TimDeTai {
 			}
 		));
 		scrollPane.setViewportView(table);
+		
+		btnTimKiem.addActionListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnTimKiem)) {
+			String maLuanVan = "";
+			String tenLuanVan = "";
+			String tenGiaoVienRaDeTai = "";
+			String giaTri = comboBoxTieuChi.getSelectedItem().toString();
+			if(giaTri == "Mã đề tài") {
+				maLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+			} else if(giaTri == "Tên đề tài") {
+				tenLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+			} else if(giaTri == "Tên giáo viên ra đề tài") {
+				tenGiaoVienRaDeTai = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+			}
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			luanVanDao.updateTableTimLuanVanTheoTieuChi(maLuanVan, tenLuanVan, tenGiaoVienRaDeTai, table);
+		}
+		
 	}
 }
 
