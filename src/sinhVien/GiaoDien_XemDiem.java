@@ -283,7 +283,12 @@ public class GiaoDien_XemDiem {
 			txtaGhiChu.setText(ghiChu);
 			
 			txtHoTen.setText(sv.getHoTen());
-			txtTenLuanVan.setText(lv.getTenLuanVan());
+			if(lv == null) {
+				txtTenLuanVan.setText("");
+			} else {
+				txtTenLuanVan.setText(lv.getTenLuanVan());
+			}
+			
 			if(count == 5) {
 				if(result / count > 5) {
 					txtKetQua.setText("Bảo vệ luận văn thành công");

@@ -373,6 +373,14 @@ public class GiaoDienChinh implements ActionListener {
 		} else if(o.equals(mniPhanCongHoiDong)) {
 			card.show(pnChung, "PhanCongHoiDong");
 		} else if (o.equals(mniPhanCongHoiDongChamDiem)) {
+			try {
+				GD_PCHDCD.updateTableDanhSachHoiDong();
+				GD_PCHDCD.loadTableDanhSachHoiDong();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			card.show(pnChung, "PhanCongHoiDongChamDiem");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
 			card.show(pnChung, "ThongKe");

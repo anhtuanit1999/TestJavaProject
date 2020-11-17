@@ -156,7 +156,9 @@ public class LuanVanDao {
 		try {
 			statement = con.createStatement();
 			ResultSet res = statement.executeQuery(sql);
-			res.next();
+			if(!res.next()) {
+				return null;
+			}
 			String maLuanVan = res.getString(1);
 			String tenLuanVan = res.getString(2);
 			String linhVucNghienCuu = res.getString(3);
@@ -177,7 +179,7 @@ public class LuanVanDao {
 		String sql = "select lv.MaLuanVan, lv.TenLuanVan, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
 				"from LUANVAN lv\r\n" + 
 				"inner join GIAOVIEN gv on gv.MaGiaoVien = lv.MaGiaoVien\r\n" + 
-				"where lv.MaLuanVan like '%"+ maLuanVan +"%' and lv.TenLuanVan like '%"+ tenLuanVan +"%' and gv.HoTen like '%"+ tenGiaoVienRaDeTai +"%'";
+				"where lv.MaLuanVan like N'%"+ maLuanVan +"%' and lv.TenLuanVan like N'%"+ tenLuanVan +"%' and gv.HoTen like N'%"+ tenGiaoVienRaDeTai +"%'";
 		Statement statement;
 		int count = 1;
 		try {

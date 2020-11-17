@@ -258,8 +258,14 @@ public class GiaoDien_SinhVien {
 		txtMaNhom.setText(sv.getMaNhom());
 		
 		LuanVan lv = luanVanDao.timLuanVanTheoMaSinhVien(maSinhVien);
-		txtTenLuanVan.setText(lv.getTenLuanVan());
+		if(lv != null) {
+			txtTenLuanVan.setText(lv.getTenLuanVan());
+		} else {
+			txtTenLuanVan.setText("");
+		}
 		
-		txtTenSinhVienCungLamLuanVan.setText(sinhVienDao.timSinhVienCungNhom(sv.getMaNhom(), sv.getMaSinhVien()).getHoTen());
+		String tenSinhVienCungNhom = sinhVienDao.timSinhVienCungNhom(sv.getMaNhom(), sv.getMaSinhVien()) == null ? "" : 
+			sinhVienDao.timSinhVienCungNhom(sv.getMaNhom(), sv.getMaSinhVien()).getHoTen();
+		txtTenSinhVienCungLamLuanVan.setText(tenSinhVienCungNhom);
 	}
 }
