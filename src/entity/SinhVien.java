@@ -32,6 +32,15 @@ public class SinhVien implements Serializable {
 		this.namTotNghiep = namTotNghiep;
 		this.maNhom = maNhom;
 	}
+	
+	public SinhVien(String maSinhVien, String hoTen, String khoaTrucThuoc, String maNhom) {
+		super();
+		this.maSinhVien = maSinhVien;
+		this.hoTen = hoTen;
+		this.khoaTrucThuoc = khoaTrucThuoc;
+		this.maNhom = maNhom;
+	}
+
 	public String getMaSinhVien() {
 		return maSinhVien;
 	}

@@ -19,10 +19,28 @@ import javax.persistence.OneToMany;
 public class HoiDong implements Serializable {
 	private String maHoiDong;
 	private String tenHoiDong;
-	public HoiDong(String maHoiDong, String tenHoiDong) {
+	private String ngayLap;
+	private String ngayBaoCao;
+	
+	
+	public HoiDong(String maHoiDong, String tenHoiDong, String ngayLap, String ngayBaoCao) {
 		super();
 		this.maHoiDong = maHoiDong;
 		this.tenHoiDong = tenHoiDong;
+		this.ngayLap = ngayLap;
+		this.ngayBaoCao = ngayBaoCao;
+	}
+	public String getNgayLap() {
+		return ngayLap;
+	}
+	public void setNgayLap(String ngayLap) {
+		this.ngayLap = ngayLap;
+	}
+	public String getNgayBaoCao() {
+		return ngayBaoCao;
+	}
+	public void setNgayBaoCao(String ngayBaoCao) {
+		this.ngayBaoCao = ngayBaoCao;
 	}
 	public String getMaHoiDong() {
 		return maHoiDong;

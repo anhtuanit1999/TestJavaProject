@@ -22,11 +22,11 @@ public class GiaoVienDao {
 		listGiaoVien = new ArrayList<GiaoVien>();
 	}
 	
-	public ArrayList<GiaoVien> docTuBang() throws ParseException {
+	public ArrayList<GiaoVien> docTuBang() {
 		Connection con = null;
 		try {
 			con = Database.getInstance().getConnection();
-			String sql = "select * from GiAOVIEN";
+			String sql = "select MaGiaoVien, HoTen, ChucDanh, LinhVucCongTac, KhoaCongTac, DonViCongTac from GiAOVIEN";
 			Statement statement = con.createStatement();
 			ResultSet res = statement.executeQuery(sql);
 			while (res.next()) {
@@ -37,7 +37,7 @@ public class GiaoVienDao {
 				String donViCongTac = res.getString(5);
 				String khoaCongTac = res.getString(6);
 				
-				GiaoVien gv = new GiaoVien(maGiaoVien, hoTen, chucDanh, donViCongTac, khoaCongTac, linhVucCongTac);
+				GiaoVien gv = new GiaoVien(maGiaoVien, hoTen, chucDanh, linhVucCongTac, khoaCongTac, donViCongTac);
 //				System.out.println(kh);
 				listGiaoVien.add(gv);
 			}

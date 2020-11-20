@@ -5,7 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import entity.HoiDong;
 
 public class HoiDongDao {
@@ -24,7 +31,9 @@ public class HoiDongDao {
 			while (res.next()) {
 				String maHoiDong = res.getString(1);
 				String tenHoiDong = res.getNString(2);
-				HoiDong hd = new HoiDong(maHoiDong, tenHoiDong);
+				String ngayLap = res.getString(3);
+				String ngayBaoCao = res.getString(4);
+				HoiDong hd = new HoiDong(maHoiDong, tenHoiDong, ngayLap, ngayBaoCao);
 				listHoiDong.add(hd);
 			}
 		}catch (SQLException e) {
@@ -34,7 +43,7 @@ public class HoiDongDao {
 		return listHoiDong;
 	}
 	
-	public String taoHoiDong(String tenHoiDong) throws SQLException {
+	public String taoHoiDong(String tenHoiDong, String ngayBaoCao) throws SQLException {
 		int tempID = 0;
 		String maHoiDong = null;
 		Connection con = Database.getInstance().getConnection();
@@ -51,13 +60,35 @@ public class HoiDongDao {
 		}else if(Integer.toString(tempID).length() == 1) {
 			maHoiDong = "HD" + "00" + tempID; 
 		}
-		
-		String sql = "INSERT INTO HOIDONG(MaHoiDong, TenHoiDong) VALUES (?,?)";
+		String ngayHienTai = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String sql = "INSERT INTO HOIDONG(MaHoiDong, TenHoiDong, NgayLap, NgayBaoCao) VALUES (?,?,?,?)";
 		PreparedStatement preStatement = con.prepareStatement(sql);
 		preStatement.setString(1, maHoiDong);
 		preStatement.setNString(2, tenHoiDong);
+		preStatement.setString(3, ngayHienTai);
+		preStatement.setString(4, ngayBaoCao);
 		preStatement.executeUpdate();
 		return maHoiDong;
+	}
+	
+	public void timKiemHoiDongTheoTieuChi(String maHoiDong, String tenHoiDong, String ngayLap, String NgayBaoCao, JTable table) throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		int i = 1;
+		ResultSet res = statement.executeQuery("SELECT * FROM HOIDONG WHERE MaHoiDong LIKE '%"+maHoiDong+"%' AND TenHoiDong LIKE N'%"+tenHoiDong+"%' AND NgayLap LIKE '%"+ngayLap+"%' AND NgayBaoCao LIKE '%"+NgayBaoCao+"%'");
+		while(res.next()) {
+			Object[] rowData = {
+					i,
+					res.getString(1),
+					res.getString(2),
+					res.getString(3),
+					res.getString(4)
+			};
+			model.addRow(rowData);
+			i++;
+		}
+		table.setModel(model);
 	}
 	
 	public void suaHoiDong(String maHoiDong, String tenHoiDong) throws SQLException {

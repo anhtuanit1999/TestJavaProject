@@ -20,6 +20,7 @@ import giaovukhoa.GiaoDien_PhanCongHoiDong;
 import giaovukhoa.GiaoDien_PhanCongHoiDongChamDiem;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import giaovukhoa.GiaoDien_ThongKe;
+import giaovukhoa.GiaoDien_TraCuuThongTinHoiDong;
 import hethong.GiaoDien_DangNhap;
 import hethong.GiaoDien_DangXuat;
 import hethong.GiaoDien_DoiMatKhau;
@@ -83,6 +84,8 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_ThongKe GD_SVBVLVKTC;
 	private GiaoDien_ThongKe GD_XDSV;
 	private GiaoDien_PhanCongHoiDongChamDiem GD_PCHDCD;
+	private JMenuItem mniTraCuuThongTinHoiDong;
+	private GiaoDien_TraCuuThongTinHoiDong GD_TCHD;
 
 	/**
 	 * Launch the application.
@@ -200,6 +203,11 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.add(mniPhanCongHoiDongChamDiem);
 		mnGiaoVuKhoa.addSeparator();
 		
+		mniTraCuuThongTinHoiDong = new JMenuItem("Tra cứu thông tin hội đồng");
+		mniTraCuuThongTinHoiDong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniTraCuuThongTinHoiDong);
+		mnGiaoVuKhoa.addSeparator();
+		
 		mnThongKe = new JMenu("Thống kê");
 		mnThongKe.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mnGiaoVuKhoa.add(mnThongKe);
@@ -300,6 +308,9 @@ public class GiaoDienChinh implements ActionListener {
 		GD_PCHDCD = new GiaoDien_PhanCongHoiDongChamDiem();
 		pnChung.add(GD_PCHDCD.getPanel(), "PhanCongHoiDongChamDiem");
 		
+		GD_TCHD = new GiaoDien_TraCuuThongTinHoiDong();
+		pnChung.add(GD_TCHD.getPanel(), "TraCuuThongTinHoiDong");
+		
 		// Giao diện thống kê danh sách sinh viên bảo vệ luận văn thành công
 		GD_SVBVLVTC = new GiaoDien_ThongKe();
 		pnChung.add(GD_SVBVLVTC.getPanel(), "ThongKe");
@@ -374,6 +385,8 @@ public class GiaoDienChinh implements ActionListener {
 			card.show(pnChung, "PhanCongHoiDong");
 		} else if (o.equals(mniPhanCongHoiDongChamDiem)) {
 			card.show(pnChung, "PhanCongHoiDongChamDiem");
+		} else if(o.equals(mniTraCuuThongTinHoiDong)) {
+			card.show(pnChung, "TraCuuThongTinHoiDong");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
 			card.show(pnChung, "ThongKe");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanKhongThanhCong)) {
