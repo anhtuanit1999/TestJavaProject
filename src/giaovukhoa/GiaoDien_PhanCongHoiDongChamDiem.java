@@ -16,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
@@ -33,6 +35,11 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.UIManager;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.tableeditors.DateTableEditor;
+import com.github.lgooddatepicker.tableeditors.TimeTableEditor;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDateChooserCellEditor;
 import com.toedter.components.JLocaleChooser;
@@ -63,43 +70,15 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 	private DefaultTableModel modelDanhSachHoiDong;
 	private ArrayList<HoiDong> listHoiDong;
 	private DefaultTableModel modelDanhSachNhomDuocChon;
-
+	private JTextField txtNgayBaoCao;
+	private JTextField txtTimKiemNhom;
+	private JTextField txtNgayLapHoiDong;
+	private DefaultTableModel modelNhomChuaDuocPhanCong;
+	private DefaultTableModel modelNhomDuocPhanCong;
 	/**
 	 * Launch the application.
 	 */
 
-	class JDateChooserEditor extends DefaultCellEditor
-	{
-		public JDateChooserEditor(JCheckBox checkBox)
-		{
-			super(checkBox);
-
-		}
-
-		JDateChooser date;
-		public Component getTableCellEditorComponent(JTable table, Object value,
-				boolean isSelected, int row, int column) 
-		{
-
-			date = new JDateChooser();
-			date.setDateFormatString("yyyy-MM-dd");
-			return date;
-		}
-
-		public Object getCellEditorValue() 
-		{
-			return new String(((JTextField)date.getDateEditor().getUiComponent()).getText());
-		}
-
-		public boolean stopCellEditing()
-		{
-			return super.stopCellEditing();
-		}
-
-		protected void fireEditingStopped() {
-			super.fireEditingStopped();
-		}
-	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -163,7 +142,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 
 
 		tableDanhSachHoiDong = new JTable();
-		modelDanhSachHoiDong = new DefaultTableModel("STT, Mã Hội Đồng, Tên Hội Đồng".split(","),0);
+		modelDanhSachHoiDong = new DefaultTableModel("STT, Mã Hội Đồng, Tên Hội Đồng, Ngày Lập Hội Đồng, Ngày Chấm Báo Cáo".split(","),0);
 		tableDanhSachHoiDong.setModel(modelDanhSachHoiDong);
 		scrollPane.setViewportView(tableDanhSachHoiDong);
 
@@ -177,7 +156,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		panel_1.add(txtTimKiemHoiDong);
 
 		JComboBox comboBoxTimKiemHoiDong = new JComboBox();
-		comboBoxTimKiemHoiDong.setModel(new DefaultComboBoxModel(new String[] {"Chọn tiêu chí...", "Mã Hội Đồng", "Tên Hội Đồng"}));
+		comboBoxTimKiemHoiDong.setModel(new DefaultComboBoxModel(new String[] {"Chọn tiêu chí...", "Mã Hội Đồng", "Tên Hội Đồng", "Ngày Lập", "Ngày Chấm Báo Cáo"}));
 		comboBoxTimKiemHoiDong.setBounds(455, 18, 113, 27);
 		panel_1.add(comboBoxTimKiemHoiDong);
 
@@ -194,10 +173,28 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		tableDanhSachNhom = new JTable();
 		scrollPane_1.setViewportView(tableDanhSachNhom);
 
+		modelNhomChuaDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn".split(","),0);
+		modelNhomDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn, Mã Hội Đồng, Ngày Báo Cáo, Giờ Báo Cáo".split(","),0);
 		JComboBox comboBoxLocNhom = new JComboBox();
 		comboBoxLocNhom.setModel(new DefaultComboBoxModel(new String[] {"Nhóm chưa được phân công", "Nhóm đã được phân công"}));
-		comboBoxLocNhom.setBounds(378, 22, 193, 27);
+		comboBoxLocNhom.setBounds(404, 22, 167, 27);
 		panel_3.add(comboBoxLocNhom);
+
+		txtTimKiemNhom = new JTextField();
+		txtTimKiemNhom.setColumns(10);
+		txtTimKiemNhom.setBounds(10, 22, 190, 27);
+		panel_3.add(txtTimKiemNhom);
+
+		JComboBox comboBoxTimKiemNhom = new JComboBox();
+		comboBoxTimKiemNhom.setBounds(207, 22, 109, 27);
+		comboBoxTimKiemNhom.addItem("Mã Nhóm");
+		comboBoxTimKiemNhom.addItem("Mã Luận Văn");
+
+		panel_3.add(comboBoxTimKiemNhom);
+
+		JButton btnTimKiemNhom = new JButton("Tìm");
+		btnTimKiemNhom.setBounds(320, 20, 74, 31);
+		panel_3.add(btnTimKiemNhom);
 
 		JPanel panel_3_1 = new JPanel();
 		panel_3_1.setLayout(null);
@@ -209,10 +206,18 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		scrollPane_1_1.setBounds(10, 22, 561, 395);
 		panel_3_1.add(scrollPane_1_1);
 
+
+		TimePickerSettings ts = new TimePickerSettings();
+		ts.use24HourClockFormat();
+		TimePicker timePicker = new TimePicker(ts);
 		tableDanhSachNhomDuocChon = new JTable();
-		modelDanhSachNhomDuocChon = new DefaultTableModel("Mã Nhóm, Mã Luận Văn, Ngày Báo Cáo".split(","), 0);
+		modelDanhSachNhomDuocChon = new DefaultTableModel("Mã Nhóm, Mã Luận Văn, Giờ Báo Cáo".split(","), 0);
 		tableDanhSachNhomDuocChon.setModel(modelDanhSachNhomDuocChon);
+
+		tableDanhSachNhomDuocChon.setDefaultEditor(LocalTime.class, new TimeTableEditor());
+		tableDanhSachNhomDuocChon.getColumnModel().getColumn(2).setCellEditor(tableDanhSachNhomDuocChon.getDefaultEditor(LocalTime.class));
 		scrollPane_1_1.setViewportView(tableDanhSachNhomDuocChon);
+
 
 		JButton btnThemNhom = new JButton(">>");
 
@@ -251,7 +256,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		panel_1_1.add(btnTimKiemHoiDong_2);
 
 		txtMaHoiDong = new JTextField();
-		txtMaHoiDong.setBounds(159, 39, 372, 20);
+		txtMaHoiDong.setBounds(199, 40, 349, 20);
 		panel_1_1.add(txtMaHoiDong);
 		txtMaHoiDong.setEditable(false);
 		txtMaHoiDong.setColumns(10);
@@ -267,27 +272,51 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		lblTenHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		txtTenHoiDong = new JTextField();
-		txtTenHoiDong.setBounds(159, 88, 372, 20);
+		txtTenHoiDong.setBounds(199, 88, 349, 20);
 		panel_1_1.add(txtTenHoiDong);
 		txtTenHoiDong.setEditable(false);
 		txtTenHoiDong.setColumns(10);
 
 		JButton btnLuuHoiDong = new JButton("Phân Công Hội Đồng Chấm Điểm");
-		btnLuuHoiDong.setBounds(159, 147, 267, 38);
+		btnLuuHoiDong.setBounds(199, 213, 267, 38);
 		panel_1_1.add(btnLuuHoiDong);
 		btnLuuHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+		JLabel lblNgyChmBo = new JLabel("Ngày chấm báo cáo:");
+		lblNgyChmBo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgyChmBo.setBounds(40, 171, 149, 19);
+		panel_1_1.add(lblNgyChmBo);
+
+		txtNgayBaoCao = new JTextField();
+		txtNgayBaoCao.setEditable(false);
+		txtNgayBaoCao.setColumns(10);
+		txtNgayBaoCao.setBounds(199, 173, 349, 20);
+		panel_1_1.add(txtNgayBaoCao);
+
+		JLabel lblNgayLapHoiDong = new JLabel("Ngày lập hội đồng:");
+		lblNgayLapHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgayLapHoiDong.setBounds(40, 130, 149, 19);
+		panel_1_1.add(lblNgayLapHoiDong);
+
+		txtNgayLapHoiDong = new JTextField();
+		txtNgayLapHoiDong.setEditable(false);
+		txtNgayLapHoiDong.setColumns(10);
+		txtNgayLapHoiDong.setBounds(199, 132, 349, 20);
+		panel_1_1.add(txtNgayLapHoiDong);
 
 		tableDanhSachHoiDong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				txtMaHoiDong.setText(tableDanhSachHoiDong.getValueAt(tableDanhSachHoiDong.getSelectedRow(), 1).toString());
 				txtTenHoiDong.setText(tableDanhSachHoiDong.getValueAt(tableDanhSachHoiDong.getSelectedRow(), 2).toString());
+				txtNgayBaoCao.setText(tableDanhSachHoiDong.getValueAt(tableDanhSachHoiDong.getSelectedRow(), 4).toString());
+				txtNgayLapHoiDong.setText(tableDanhSachHoiDong.getValueAt(tableDanhSachHoiDong.getSelectedRow(), 3).toString());
 				String maHoiDong = txtMaHoiDong.getText();
 				try {
 					Connection con = Database.getInstance().getConnection();
 					modelDanhSachNhomDuocChon.setRowCount(0);
 					Statement st = con.createStatement();
-					ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan, NgayBaoCao FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong = '"+maHoiDong+"'");
+					ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan, CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong = '"+maHoiDong+"'");
 					while(res.next()) {
 						Object[] rowData = {
 								res.getString(1),
@@ -303,16 +332,12 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				}
 			}
 		});
-
-
-
-		tableDanhSachNhomDuocChon.getColumnModel().getColumn(2).setCellEditor(new JDateChooserEditor(new JCheckBox()));
 		btnThemNhom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] rowData = {
 						tableDanhSachNhom.getValueAt(tableDanhSachNhom.getSelectedRow(),1),
 						tableDanhSachNhom.getValueAt(tableDanhSachNhom.getSelectedRow(), 2),
-						"Chọn ngày..."
+						"Chọn giờ..."
 				};
 				modelDanhSachNhomDuocChon.addRow(rowData);
 				txtSoLuong.setText(String.valueOf((modelDanhSachNhomDuocChon.getRowCount())));
@@ -320,61 +345,38 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 			}
 
 		});	
-		
+
 		btnTimKiemHoiDong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modelDanhSachHoiDong.setRowCount(0);
 				String tieuChi = comboBoxTimKiemHoiDong.getSelectedItem().toString();
 				String noiDungTimKiem = txtTimKiemHoiDong.getText();
-				int i = 1;
-				if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
-					try {
+				HoiDongDao  hd = new HoiDongDao();
+				try {
+					if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
-						loadTableDanhSachHoiDong();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
-					for(HoiDong hd : listHoiDong) {
-						if(hd.getMaHoiDong().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									hd.getMaHoiDong(),
-									hd.getTenHoiDong()
-							};
-							modelDanhSachHoiDong.addRow(rowData);
-						}
+						updateTableDanhSachHoiDong();
+					}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
+						hd.timKiemHoiDongTheoTieuChi(noiDungTimKiem, "", "", "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
+						hd.timKiemHoiDongTheoTieuChi("", noiDungTimKiem, "", "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Ngày Lập")) {
+						hd.timKiemHoiDongTheoTieuChi("", "", noiDungTimKiem, "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Ngày Chấm Báo Cáo")) {
+						hd.timKiemHoiDongTheoTieuChi("", "", "", noiDungTimKiem, tableDanhSachHoiDong);
 					}
 					if(modelDanhSachHoiDong.getRowCount() == 0) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
 						try {
-							JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-							loadTableDanhSachHoiDong();
+							updateTableDanhSachHoiDong();
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-				}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
-					for(HoiDong hd : listHoiDong) {
-						if(hd.getTenHoiDong().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									hd.getMaHoiDong(),
-									hd.getTenHoiDong()
-							};
-							modelDanhSachHoiDong.addRow(rowData);
-						}
-					}
-					if(modelDanhSachHoiDong.getRowCount() == 0) {
-						try {
-							JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-							loadTableDanhSachHoiDong();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+				}catch (SQLException e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 		});
@@ -386,7 +388,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				// TODO Auto-generated method stub
 				if(txtTimKiemHoiDong.getText().trim().length() == 0) {
 					try {
-						loadTableDanhSachHoiDong();
+						updateTableDanhSachHoiDong();
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -408,10 +410,20 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		comboBoxLocNhom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String tieuChi = comboBoxLocNhom.getSelectedItem().toString();
+				//				DefaultComboBoxModel<String> modelNhomChuaPhanCong = new DefaultComboBoxModel<>();
+				//				comboBoxTimKiemHoiDong.
 				try {
 					if(tieuChi.equalsIgnoreCase("Nhóm chưa được phân công")){
+						comboBoxTimKiemNhom.setModel(new DefaultComboBoxModel<>());
+						comboBoxTimKiemNhom.addItem("Mã Nhóm");
+						comboBoxTimKiemNhom.addItem("Mã Luận Văn");
 						updateTableDanhSachNhomChuaPhanCong();
 					}else {
+						comboBoxTimKiemNhom.setModel(new DefaultComboBoxModel<>());
+						comboBoxTimKiemNhom.addItem("Mã Nhóm");
+						comboBoxTimKiemNhom.addItem("Mã Luận Văn");
+						comboBoxTimKiemNhom.addItem("Mã Hội Đồng");
+						comboBoxTimKiemNhom.addItem("Ngày Báo Cáo");
 						updateTableDanhSachNhomDaPhanCong();;
 					}
 				} catch (SQLException e) {
@@ -420,7 +432,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				}
 			}
 		});
-		
+
 		btnLuuHoiDong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(txtMaHoiDong.getText().length() == 0) {
@@ -434,7 +446,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 					st.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaHoiDong = NULL WHERE MaHoiDong = '"+maHoiDong+"'");
 					for(int i = 0; i < tableDanhSachNhomDuocChon.getRowCount(); i++) {
 						String maNhom = tableDanhSachNhomDuocChon.getValueAt(i, 0).toString();
-						String ngayBaoCao = tableDanhSachNhomDuocChon.getValueAt(i, 2).toString();
+						String ngayBaoCao = txtNgayBaoCao.getText() + " " + tableDanhSachNhomDuocChon.getValueAt(i, 2).toString();
 						PreparedStatement stmt = con.prepareStatement("UPDATE DANHSACH_DANGKYLUANVAN SET MaHoiDong = ?, NgayBaoCao = ? WHERE MaNhom = ?");
 						stmt.setString(1, maHoiDong);
 						stmt.setString(2, ngayBaoCao);
@@ -442,9 +454,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 						stmt.executeUpdate();
 					}
 					updateTableDanhSachHoiDong();
-					loadTableDanhSachHoiDong();
 					updateTableDanhSachNhomChuaPhanCong();
 					modelDanhSachNhomDuocChon.setRowCount(0);
+					comboBoxLocNhom.setSelectedItem("Nhóm chưa được phân công");
 					JOptionPane.showMessageDialog(null, "Lưu thành công!");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -454,35 +466,127 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				}
 			}
 		});
+
+		btnTimKiemNhom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//				tableDanhSachNhom.setModel(new DefaultTableModel());
+				String tieuChi = comboBoxTimKiemNhom.getSelectedItem().toString();
+				String tieuChiLoc = comboBoxLocNhom.getSelectedItem().toString();
+				String noiDungTimKiem = txtTimKiemNhom.getText();
+				try {
+					if(tieuChiLoc.equalsIgnoreCase("Nhóm chưa được phân công")) {
+						if(tieuChi.equalsIgnoreCase("Mã Nhóm")) {
+							timKiemNhomChuaPhanCong(noiDungTimKiem, "");
+						}else if(tieuChi.equalsIgnoreCase("Mã Luận Văn")) {
+							timKiemNhomChuaPhanCong("", noiDungTimKiem);
+						}
+
+					}else {
+						if(tieuChi.equalsIgnoreCase("Mã Nhóm")) {
+							timKiemNhomDaPhanCong(noiDungTimKiem, "","","");
+						}else if(tieuChi.equalsIgnoreCase("Mã Luận Văn")) {
+							timKiemNhomDaPhanCong("", noiDungTimKiem,"","");
+						}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")) {
+							timKiemNhomDaPhanCong("", "",noiDungTimKiem,"");
+						}else if(tieuChi.equalsIgnoreCase("Ngày Báo Cáo")) {
+							timKiemNhomDaPhanCong("", "","",noiDungTimKiem);
+						}
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		updateTableDanhSachHoiDong();
-		loadTableDanhSachHoiDong();
 		updateTableDanhSachNhomChuaPhanCong();
 	}
 
 	public void updateTableDanhSachHoiDong() throws SQLException {
-		HoiDongDao dao = new HoiDongDao();
-		listHoiDong = dao.docTuBang();
-	}
-
-	public void loadTableDanhSachHoiDong() throws SQLException {
 		modelDanhSachHoiDong.setRowCount(0);
 		int i = 1;
-		for(HoiDong hd : listHoiDong) {
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select * from HOIDONG WHERE YEAR(NgayLap) = '"+LocalDate.now().getYear()+"'";
+		Statement statement = con.createStatement();
+		ResultSet res = statement.executeQuery(sql);
+		while (res.next()) {
 			Object[] rowData = {
 					i,
-					hd.getMaHoiDong(),
-					hd.getTenHoiDong()
+					res.getString(1),
+					res.getNString(2),
+					res.getString(3),
+					res.getString(4)
 			};
 			modelDanhSachHoiDong.addRow(rowData);
 			i++;
 		}
 	}
 
+	public void timKiemNhomDaPhanCong(String maNhom, String maLuanVan, String maHoiDong, String ngayBaoCao) throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
+		model.setRowCount(0);
+		int i = 1;
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao]FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
+		while(res.next()) {
+			Object[] rowData = {
+					i,
+					res.getString(1),
+					res.getString(2),
+					res.getString(3),
+					res.getString(4),
+					res.getString(5)
+			};
+			model.addRow(rowData);
+			i++;
+		}
+		if(model.getRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Không tìm thấy!");
+			try {
+				updateTableDanhSachNhomDaPhanCong();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		tableDanhSachNhom.setModel(model);
+	}
+
+	public void timKiemNhomChuaPhanCong(String maNhom, String maLuanVan) throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
+		model.setRowCount(0);
+		int i = 1;
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong IS NULL");
+		while(res.next()) {
+			Object[] rowData = {
+					i,
+					res.getString(1),
+					res.getString(2),
+			};
+			model.addRow(rowData);
+			i++;
+		}
+		if(model.getRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Không tìm thấy!");
+			try {
+				updateTableDanhSachNhomChuaPhanCong();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		tableDanhSachNhom.setModel(model);
+	}
+
+
 	public void updateTableDanhSachNhomChuaPhanCong() throws SQLException {
 		Database.getInstance().connec();
-		Connection con = Database.getInstance().getConnection();
-		DefaultTableModel modelGiaoVienChuaDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn".split(","),0);
-		modelGiaoVienChuaDuocPhanCong.setRowCount(0);
+		Connection con = Database.getInstance().getConnection();;
+		modelNhomChuaDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
 		ResultSet res = st.executeQuery("SELECT * FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NULL");
@@ -495,33 +599,34 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 					res.getString(4)
 			};
 			i++;
-			modelGiaoVienChuaDuocPhanCong.addRow(rowData);
+			modelNhomChuaDuocPhanCong.addRow(rowData);
 		}
-		tableDanhSachNhom.setModel(modelGiaoVienChuaDuocPhanCong);
+		tableDanhSachNhom.setModel(modelNhomChuaDuocPhanCong);
 	}
 
 	public void updateTableDanhSachNhomDaPhanCong() throws SQLException {
 		Database.getInstance().connec();
 		Connection con = Database.getInstance().getConnection();
-		DefaultTableModel modelGiaoVienDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn, Mã Hội Đồng, Ngày Báo Cáo".split(","),0);
-		modelGiaoVienDuocPhanCong.setRowCount(0);
+		modelNhomDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery("SELECT * FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NOT NULL");
+		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NOT NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
 					res.getString(1),
 					res.getString(2),
 					res.getString(3),
-					res.getString(4)
+					res.getString(4),
+					res.getString(5)
 			};
 			i++;
-			modelGiaoVienDuocPhanCong.addRow(rowData);
+			modelNhomDuocPhanCong.addRow(rowData);
 		}
-		tableDanhSachNhom.setModel(modelGiaoVienDuocPhanCong);
+		tableDanhSachNhom.setModel(modelNhomDuocPhanCong);
 	}
-	
+
+
 	public JPanel getPanel() {
 		return pnChung;
 	}

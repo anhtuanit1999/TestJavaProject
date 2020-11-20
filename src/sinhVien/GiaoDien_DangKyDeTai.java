@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,22 +40,36 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
 
 public class GiaoDien_DangKyDeTai {
 
 	private JFrame frame;
 	private JTable table;
-	private JTextField txtMaDeTai;
-	private JTextField txtTenDeTai;
-	private JTextField txtTenSinhVien;
-	private JTextField txtMSSV;
+	private JTextField txtMaDeTaiDaDangKy;
+	private JTextField txtTenDeTaiDaDangKy;
+	private JTextField txtTenSinhVien_2;
+	private JTextField txtTenSinhVien_1;
 	private JPanel pnChung;
 	private JTextField txtMaNhom;
 	private JTextField txtTimKiem;
-	private JTextField txtGiaoVienHuongDan;
+	private JTextField txtGiaoVienHuongDanDaDangKy;
 	private JTextField txtKhoaTrucThuoc;
 	private DefaultTableModel tableModel;
 	private ArrayList<LuanVan> listLuanVan;
+	private JTextField txtMaDeTai;
+	private JTextField txtTenDeTai;
+	private JTextField txtNamHoc;
+	private JTextField txtGiaoVienHuongDan;
+	private JTextField txtLinhVucNghienCuu;
+	private JTextField txtNamHocDaDangKy;
+	private JTextField txtMaSinhVien_1;
+	private JTextField txtMaSinhVien_2;
+	private JTextField txtMaHoiDong;
+	private JTextField txtTenHoiDong;
+	private JTextField txtGioBaoCao;
+	private JTextField txtNgayBaoCao;
 	/**
 	 * Launch the application.
 	 */
@@ -104,7 +119,7 @@ public class GiaoDien_DangKyDeTai {
 		pnCenter.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 74, 653, 469);
+		scrollPane.setBounds(10, 310, 581, 458);
 		pnCenter.add(scrollPane);
 
 		table = new JTable();
@@ -112,155 +127,258 @@ public class GiaoDien_DangKyDeTai {
 		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
 
-		JPanel pnDeTai = new JPanel();
-		pnDeTai.setBorder(new TitledBorder(null, "Ch\u1ECDn \u0111\u1EC1 t\u00E0i", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnDeTai.setBounds(673, 74, 581, 469);
-		pnCenter.add(pnDeTai);
-		pnDeTai.setLayout(null);
+		JPanel pnThongTinNhom = new JPanel();
+		pnThongTinNhom.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin nh\u00F3m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pnThongTinNhom.setBounds(10, 61, 581, 201);
+		pnCenter.add(pnThongTinNhom);
+		pnThongTinNhom.setLayout(null);
 
-		JLabel lblMaDeTai = new JLabel("Mã đề tài: ");
-		lblMaDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaDeTai.setBounds(32, 246, 93, 14);
-		pnDeTai.add(lblMaDeTai);
+		JLabel lblMSSV_1 = new JLabel("MSSV 1: ");
+		lblMSSV_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMSSV_1.setBounds(367, 78, 93, 14);
+		pnThongTinNhom.add(lblMSSV_1);
 
-		txtMaDeTai = new JTextField();
-		txtMaDeTai.setEditable(false);
-		txtMaDeTai.setBounds(186, 246, 362, 20);
-		pnDeTai.add(txtMaDeTai);
-		txtMaDeTai.setColumns(10);
-
-		JLabel lblTenDeTai = new JLabel("Tên đề tài: ");
-		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenDeTai.setBounds(32, 297, 93, 14);
-		pnDeTai.add(lblTenDeTai);
-
-		txtTenDeTai = new JTextField();
-		txtTenDeTai.setEditable(false);
-		txtTenDeTai.setBounds(186, 294, 362, 20);
-		pnDeTai.add(txtTenDeTai);
-		txtTenDeTai.setColumns(10);
-
-		JButton btnDangKy = new JButton("Đăng ký");
-
-		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		btnDangKy.setBounds(240, 395, 164, 33);
-		pnDeTai.add(btnDangKy);
-
-		JLabel lblTenSinhVien = new JLabel("Tên sinh viên: ");
-		lblTenSinhVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenSinhVien.setBounds(32, 157, 116, 14);
-		pnDeTai.add(lblTenSinhVien);
-
-		txtTenSinhVien = new JTextField();
-		txtTenSinhVien.setEditable(false);
-		txtTenSinhVien.setBounds(186, 155, 362, 20);
-		pnDeTai.add(txtTenSinhVien);
-		txtTenSinhVien.setColumns(10);
-
-		JLabel lblMSSV = new JLabel("MSSV: ");
-		lblMSSV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMSSV.setBounds(32, 62, 93, 14);
-		pnDeTai.add(lblMSSV);
-
-		txtMSSV = new JTextField();
-		txtMSSV.setEditable(false);
-		txtMSSV.setBounds(186, 59, 362, 20);
-		pnDeTai.add(txtMSSV);
-		txtMSSV.setColumns(10);
+		txtTenSinhVien_1 = new JTextField();
+		txtTenSinhVien_1.setEditable(false);
+		txtTenSinhVien_1.setBounds(141, 78, 216, 20);
+		pnThongTinNhom.add(txtTenSinhVien_1);
+		txtTenSinhVien_1.setColumns(10);
 
 		JLabel lblMaNhom = new JLabel("Mã Nhóm:");
 		lblMaNhom.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaNhom.setBounds(32, 109, 116, 14);
-		pnDeTai.add(lblMaNhom);
+		lblMaNhom.setBounds(24, 32, 116, 14);
+		pnThongTinNhom.add(lblMaNhom);
 
 		txtMaNhom = new JTextField();
+		txtMaNhom.setEditable(false);
 		txtMaNhom.setColumns(10);
-		txtMaNhom.setBounds(186, 109, 362, 20);
-		pnDeTai.add(txtMaNhom);
-
-		JLabel lblGiaoVienHuongDan = new JLabel("Giáo viên hướng dẫn:");
-		lblGiaoVienHuongDan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGiaoVienHuongDan.setBounds(32, 341, 152, 21);
-		pnDeTai.add(lblGiaoVienHuongDan);
-
-		txtGiaoVienHuongDan = new JTextField();
-		txtGiaoVienHuongDan.setEditable(false);
-		txtGiaoVienHuongDan.setColumns(10);
-		txtGiaoVienHuongDan.setBounds(186, 342, 362, 20);
-		pnDeTai.add(txtGiaoVienHuongDan);
+		txtMaNhom.setBounds(142, 32, 415, 20);
+		pnThongTinNhom.add(txtMaNhom);
 
 		JLabel lblKhoaTrucThuoc = new JLabel("Khoa trực thuộc:");
 		lblKhoaTrucThuoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblKhoaTrucThuoc.setBounds(32, 199, 116, 20);
-		pnDeTai.add(lblKhoaTrucThuoc);
+		lblKhoaTrucThuoc.setBounds(24, 163, 116, 20);
+		pnThongTinNhom.add(lblKhoaTrucThuoc);
 
 		txtKhoaTrucThuoc = new JTextField();
+		txtKhoaTrucThuoc.setEditable(false);
 		txtKhoaTrucThuoc.setColumns(10);
-		txtKhoaTrucThuoc.setBounds(186, 200, 362, 20);
-		pnDeTai.add(txtKhoaTrucThuoc);
+		txtKhoaTrucThuoc.setBounds(142, 166, 415, 20);
+		pnThongTinNhom.add(txtKhoaTrucThuoc);
 
 		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(169, 36, 258, 25);
+		txtTimKiem.setBounds(94, 272, 258, 25);
 		pnCenter.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 
 		JButton btnTimKiem = new JButton("Tìm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTimKiem.setBounds(583, 36, 80, 28);
+		btnTimKiem.setBounds(508, 272, 80, 28);
 		pnCenter.add(btnTimKiem);
 
 		JComboBox comboBoxTimKiem = new JComboBox();
 		comboBoxTimKiem.setModel(new DefaultComboBoxModel(new String[] {"Chọn tiêu chí...", "Mã đề tài", "Tên đề tài", "Giáo viên hướng dẫn"}));
-		comboBoxTimKiem.setBounds(435, 36, 138, 25);
+		comboBoxTimKiem.setBounds(360, 272, 138, 25);
 		pnCenter.add(comboBoxTimKiem);
 
-		JButton btnLamMoi = new JButton("Làm mới");
-		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnLamMoi.setBounds(10, 36, 89, 28);
-		pnCenter.add(btnLamMoi);
+		JLabel lblTenSinhVien_1 = new JLabel("Tên sinh viên 1: ");
+		lblTenSinhVien_1.setBounds(24, 78, 116, 14);
+		pnThongTinNhom.add(lblTenSinhVien_1);
+		lblTenSinhVien_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-		txtKhoaTrucThuoc.setText("Công Nghệ Thông Tin");
-		txtMaNhom.setText("NH001");
-		btnLamMoi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					updateTableData();
-					loadTable();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-			}
-		});
+		txtTenSinhVien_2 = new JTextField();
+		txtTenSinhVien_2.setBounds(141, 122, 216, 20);
+		pnThongTinNhom.add(txtTenSinhVien_2);
+		txtTenSinhVien_2.setEditable(false);
+		txtTenSinhVien_2.setColumns(10);
 
-		btnDangKy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		txtMaSinhVien_1 = new JTextField();
+		txtMaSinhVien_1.setEditable(false);
+		txtMaSinhVien_1.setColumns(10);
+		txtMaSinhVien_1.setBounds(432, 78, 125, 20);
+		pnThongTinNhom.add(txtMaSinhVien_1);
 
-				String maNhom = txtMaNhom.getText().toString();
-				String maDeTai = txtMaDeTai.getText();
-				try {
-					Connection con = Database.getInstance().getConnection();
-					Statement stmt = con.createStatement();
-					ResultSet rs = stmt.executeQuery("SELECT MaNhom, MaLuanVan FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom = '"+maNhom+"'");
-					while(rs.next()) {
-						if(rs.getString(2) != null) {
-							JOptionPane.showMessageDialog(null, "Nhóm đã đăng ký luận văn trước đó. Nếu muốn sửa đổi, liên hệ Giáo Vụ Khoa.");
-							return;
-						}
-					}
+		JLabel lblTenSinhVien_2 = new JLabel("Tên sinh viên 2: ");
+		lblTenSinhVien_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenSinhVien_2.setBounds(24, 122, 116, 14);
+		pnThongTinNhom.add(lblTenSinhVien_2);
 
-					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
-					JOptionPane.showMessageDialog(null, "Đăng Ký Thành Công!");
-					updateTableData();
-					loadTable();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		JLabel lblMaSinhVien_2 = new JLabel("MSSV 2: ");
+		lblMaSinhVien_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaSinhVien_2.setBounds(367, 122, 93, 14);
+		pnThongTinNhom.add(lblMaSinhVien_2);
 
-			}
+		txtMaSinhVien_2 = new JTextField();
+		txtMaSinhVien_2.setEditable(false);
+		txtMaSinhVien_2.setColumns(10);
+		txtMaSinhVien_2.setBounds(432, 122, 125, 20);
+		pnThongTinNhom.add(txtMaSinhVien_2);
 
-		});
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin lu\u1EADn v\u0103n \u0111\u00E3 \u0111\u0103ng k\u00FD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(601, 64, 655, 164);
+		pnCenter.add(panel);
+		panel.setLayout(null);
+
+		JLabel lblMaDeTaiDaDangKy = new JLabel("Mã đề tài: ");
+		lblMaDeTaiDaDangKy.setBounds(59, 26, 93, 14);
+		panel.add(lblMaDeTaiDaDangKy);
+		lblMaDeTaiDaDangKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+		txtMaDeTaiDaDangKy = new JTextField();
+		txtMaDeTaiDaDangKy.setBounds(218, 26, 362, 20);
+		panel.add(txtMaDeTaiDaDangKy);
+		txtMaDeTaiDaDangKy.setEditable(false);
+		txtMaDeTaiDaDangKy.setColumns(10);
+
+		JLabel lblTenDeTaiDaDangKy = new JLabel("Tên đề tài: ");
+		lblTenDeTaiDaDangKy.setBounds(59, 62, 93, 14);
+		panel.add(lblTenDeTaiDaDangKy);
+		lblTenDeTaiDaDangKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+		txtTenDeTaiDaDangKy = new JTextField();
+		txtTenDeTaiDaDangKy.setBounds(218, 62, 362, 20);
+		panel.add(txtTenDeTaiDaDangKy);
+		txtTenDeTaiDaDangKy.setEditable(false);
+		txtTenDeTaiDaDangKy.setColumns(10);
+
+		JLabel lblGiaoVienHuongDantxtMaDeTaiDaDangKy = new JLabel("Giáo viên hướng dẫn:");
+		lblGiaoVienHuongDantxtMaDeTaiDaDangKy.setBounds(59, 128, 152, 21);
+		panel.add(lblGiaoVienHuongDantxtMaDeTaiDaDangKy);
+		lblGiaoVienHuongDantxtMaDeTaiDaDangKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+		txtGiaoVienHuongDanDaDangKy = new JTextField();
+		txtGiaoVienHuongDanDaDangKy.setBounds(219, 131, 362, 20);
+		panel.add(txtGiaoVienHuongDanDaDangKy);
+		txtGiaoVienHuongDanDaDangKy.setEditable(false);
+		txtGiaoVienHuongDanDaDangKy.setColumns(10);
+
+		JLabel lblNamHocDaDangKy = new JLabel("Năm học:");
+		lblNamHocDaDangKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNamHocDaDangKy.setBounds(58, 92, 93, 24);
+		panel.add(lblNamHocDaDangKy);
+
+		txtNamHocDaDangKy = new JTextField();
+		txtNamHocDaDangKy.setEditable(false);
+		txtNamHocDaDangKy.setColumns(10);
+		txtNamHocDaDangKy.setBounds(218, 97, 362, 20);
+		panel.add(txtNamHocDaDangKy);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin lu\u1EADn v\u0103n \u0111ang l\u1EF1a chon ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(601, 429, 655, 339);
+		pnCenter.add(panel_1);
+
+		JLabel lblMaDeTai = new JLabel("Mã đề tài: ");
+		lblMaDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaDeTai.setBounds(59, 37, 93, 14);
+		panel_1.add(lblMaDeTai);
+
+		txtMaDeTai = new JTextField();
+		txtMaDeTai.setEditable(false);
+		txtMaDeTai.setColumns(10);
+		txtMaDeTai.setBounds(218, 37, 362, 20);
+		panel_1.add(txtMaDeTai);
+
+		JLabel lblTenDeTai = new JLabel("Tên đề tài: ");
+		lblTenDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenDeTai.setBounds(59, 73, 93, 14);
+		panel_1.add(lblTenDeTai);
+
+		txtTenDeTai = new JTextField();
+		txtTenDeTai.setEditable(false);
+		txtTenDeTai.setColumns(10);
+		txtTenDeTai.setBounds(218, 73, 362, 20);
+		panel_1.add(txtTenDeTai);
+
+		JLabel lblGiaoVienHuongDan = new JLabel("Giáo viên hướng dẫn:");
+		lblGiaoVienHuongDan.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGiaoVienHuongDan.setBounds(59, 189, 152, 21);
+		panel_1.add(lblGiaoVienHuongDan);
+
+		txtNamHoc = new JTextField();
+		txtNamHoc.setEditable(false);
+		txtNamHoc.setColumns(10);
+		txtNamHoc.setBounds(219, 112, 362, 20);
+		panel_1.add(txtNamHoc);
+
+		JButton btnDangKy = new JButton("Đăng ký");
+		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnDangKy.setBounds(218, 242, 164, 33);
+		panel_1.add(btnDangKy);
+
+		JLabel lblNamHoc = new JLabel("Năm học:");
+		lblNamHoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNamHoc.setBounds(59, 107, 93, 24);
+		panel_1.add(lblNamHoc);
+
+		txtGiaoVienHuongDan = new JTextField();
+		txtGiaoVienHuongDan.setEditable(false);
+		txtGiaoVienHuongDan.setColumns(10);
+		txtGiaoVienHuongDan.setBounds(218, 192, 362, 20);
+		panel_1.add(txtGiaoVienHuongDan);
+
+		JLabel lblLinhVucNghienCuu = new JLabel("Lĩnh vực nghiên cứu:");
+		lblLinhVucNghienCuu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblLinhVucNghienCuu.setBounds(59, 146, 152, 24);
+		panel_1.add(lblLinhVucNghienCuu);
+
+		txtLinhVucNghienCuu = new JTextField();
+		txtLinhVucNghienCuu.setEditable(false);
+		txtLinhVucNghienCuu.setColumns(10);
+		txtLinhVucNghienCuu.setBounds(218, 151, 362, 20);
+		panel_1.add(txtLinhVucNghienCuu);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin H\u1ED9i \u0110\u1ED3ng ch\u1EA5m b\u00E1o c\u00E1o", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBounds(601, 248, 655, 171);
+		pnCenter.add(panel_2);
+
+		JLabel lblMaHoiDong = new JLabel("Mã hội đồng:");
+		lblMaHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMaHoiDong.setBounds(59, 26, 93, 20);
+		panel_2.add(lblMaHoiDong);
+
+		txtMaHoiDong = new JTextField();
+		txtMaHoiDong.setEditable(false);
+		txtMaHoiDong.setColumns(10);
+		txtMaHoiDong.setBounds(218, 26, 362, 20);
+		panel_2.add(txtMaHoiDong);
+
+		JLabel lblTenHoiDong = new JLabel("Tên hội đồng");
+		lblTenHoiDong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenHoiDong.setBounds(59, 62, 93, 20);
+		panel_2.add(lblTenHoiDong);
+
+		txtTenHoiDong = new JTextField();
+		txtTenHoiDong.setEditable(false);
+		txtTenHoiDong.setColumns(10);
+		txtTenHoiDong.setBounds(218, 62, 362, 20);
+		panel_2.add(txtTenHoiDong);
+
+		JLabel lblGioBaoCao = new JLabel("Giờ báo cáo:");
+		lblGioBaoCao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGioBaoCao.setBounds(59, 128, 152, 21);
+		panel_2.add(lblGioBaoCao);
+
+		txtGioBaoCao = new JTextField();
+		txtGioBaoCao.setEditable(false);
+		txtGioBaoCao.setColumns(10);
+		txtGioBaoCao.setBounds(219, 131, 362, 20);
+		panel_2.add(txtGioBaoCao);
+
+		JLabel lblNgayBaoCao = new JLabel("Ngày báo cáo:");
+		lblNgayBaoCao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgayBaoCao.setBounds(58, 92, 106, 24);
+		panel_2.add(lblNgayBaoCao);
+
+		txtNgayBaoCao = new JTextField();
+		txtNgayBaoCao.setEditable(false);
+		txtNgayBaoCao.setColumns(10);
+		txtNgayBaoCao.setBounds(218, 97, 362, 20);
+		panel_2.add(txtNgayBaoCao);
 
 		table.addMouseListener(new MouseListener() {
 
@@ -277,6 +395,9 @@ public class GiaoDien_DangKyDeTai {
 				txtMaDeTai.setText(table.getValueAt(row, 1).toString());
 				txtTenDeTai.setText(table.getValueAt(row, 2).toString());
 				txtGiaoVienHuongDan.setText(table.getValueAt(row, 5).toString());
+				txtNamHoc.setText(table.getValueAt(row, 4).toString());
+				txtLinhVucNghienCuu.setText(table.getValueAt(row, 3).toString());
+
 			}
 
 			@Override
@@ -303,102 +424,106 @@ public class GiaoDien_DangKyDeTai {
 				tableModel.setRowCount(0);
 				String tieuChi = comboBoxTimKiem.getSelectedItem().toString();
 				String noiDungTimKiem = txtTimKiem.getText();
-				int i = 1;
-				if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
-					loadTable();	
-				}else if(tieuChi.equalsIgnoreCase("Mã đề tài")){
-					for(LuanVan lv : listLuanVan) {
-						if(lv.getMaLuanVan().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									lv.getMaLuanVan(),
-									lv.getTenLuanVan(),
-									lv.getLinhVucNghienCuu(),
-									lv.getNamHoc(),
-									lv.getTenGiaoVien(),
-									lv.getSoNhomThamGiaToiDa(),
-									lv.getSoNhomDangKy()
-							};
-							i++;
-							tableModel.addRow(rowData);
+				try {
+					if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
+						try {
+							updateTableData();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}	
+					}else if(tieuChi.equalsIgnoreCase("Mã đề tài")){
+						timKiemLuanVan(noiDungTimKiem, "", "");
+					}else if(tieuChi.equalsIgnoreCase("Tên đề tài")) {
+						timKiemLuanVan("", noiDungTimKiem, "");
+					}else if(tieuChi.equalsIgnoreCase("Giáo viên hướng dẫn")) {
+						timKiemLuanVan("", "", noiDungTimKiem);
 					}
 					if(tableModel.getRowCount() == 0) {
 						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-						loadTable();
+						try {
+							updateTableData();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-				}else if(tieuChi.equalsIgnoreCase("Tên đề tài")) {
-					for(LuanVan lv : listLuanVan) {
-						if(lv.getTenLuanVan().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									lv.getMaLuanVan(),
-									lv.getTenLuanVan(),
-									lv.getLinhVucNghienCuu(),
-									lv.getNamHoc(),
-									lv.getTenGiaoVien(),
-									lv.getSoNhomThamGiaToiDa(),
-									lv.getSoNhomDangKy()
-							};
-							i++;
-							tableModel.addRow(rowData);
-						}	
-					}
-					if(tableModel.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-						loadTable();
-					}
-				}else if(tieuChi.equalsIgnoreCase("Giáo viên hướng dẫn")) {
-					for(LuanVan lv : listLuanVan) {
-						if(lv.getTenGiaoVien().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									lv.getMaLuanVan(),
-									lv.getTenLuanVan(),
-									lv.getLinhVucNghienCuu(),
-									lv.getNamHoc(),
-									lv.getTenGiaoVien(),
-									lv.getSoNhomThamGiaToiDa(),
-									lv.getSoNhomDangKy()
-							};
-							i++;
-							tableModel.addRow(rowData);
-						}	
-					}
-					if(tableModel.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-						loadTable();
-					}
+				}catch (SQLException e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
-			}
-		});
-		
-		txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				if(txtTimKiem.getText().trim().length() == 0) {
-					loadTable();
-				}
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
+		txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				if(txtTimKiem.getText().isEmpty()) {
+					try {
+						updateTableData();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		btnDangKy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String maNhom = txtMaNhom.getText();
+				String maDeTai = txtMaDeTai.getText();
+				try {
+					Connection con = Database.getInstance().getConnection();
+					Statement stmt = con.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT MaNhom, MaLuanVan FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom = '"+maNhom+"'");
+					while(rs.next()) {
+						if(rs.getString(2) != null) {
+							JOptionPane.showMessageDialog(null, "Nhóm đã đăng ký luận văn trước đó. Nếu muốn sửa đổi, liên hệ Giáo Vụ Khoa.");
+							return;
+						}
+					}
+
+					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
+					JOptionPane.showMessageDialog(null, "Đăng Ký Thành Công!");
+					updateTableData();
+					loadDeTaiDaDangKy();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+
+		txtMaSinhVien_1.setText("SV005");
+		txtTenSinhVien_1.setText("Bùi Nhân Hưng");
+		txtKhoaTrucThuoc.setText("Công Nghệ Thông Tin");
+		txtMaNhom.setText("NH003");
+
 		updateTableData();
-		loadTable();
+		loadThongTinNhom();
+		loadDeTaiDaDangKy();
+		updateThongTinHoiDong();
+
+
 
 	}
 
@@ -406,53 +531,107 @@ public class GiaoDien_DangKyDeTai {
 		return pnChung;
 	}
 
-	private void loadTable() {
-		tableModel.setRowCount(0);
-		int i = 1;
-		for(LuanVan lv:listLuanVan) {
-			Object[] rowData = {
-					i,
-					lv.getMaLuanVan(),
-					lv.getTenLuanVan(),
-					lv.getLinhVucNghienCuu(),
-					lv.getNamHoc(),
-					lv.getTenGiaoVien(),
-					lv.getSoNhomThamGiaToiDa(),
-					lv.getSoNhomDangKy()
-			};
-			i++;
-			tableModel.addRow(rowData);
+	private void updateThongTinHoiDong() throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaHoiDong, TenHoiDong, CONVERT(VARCHAR(10),DANHSACH_DANGKYLUANVAN.NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),DANHSACH_DANGKYLUANVAN.NgayBaoCao,114) AS [GioBaoCao]  FROM DANHSACH_DANGKYLUANVAN JOIN HOIDONG ON DANHSACH_DANGKYLUANVAN.MaHoiDong = HOIDONG.MaHoiDong WHERE MaNhom = '"+txtMaNhom.getText()+"'");
+		while(rs.next()) {
+			txtMaHoiDong.setText(rs.getString(1));
+			txtTenHoiDong.setText(rs.getString(2));
+			txtNgayBaoCao.setText(rs.getString(3));
+			txtGioBaoCao.setText(rs.getString(4));
+		}
+	}
+
+	private void loadThongTinNhom() throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen FROM SINHVIEN WHERE MaNhom = '"+txtMaNhom.getText()+"' AND HoTen <> N'"+txtTenSinhVien_1+"'");
+		while(rs.next()) {
+			txtTenSinhVien_2.setText(rs.getString("HoTen"));
+			txtMaSinhVien_2.setText(rs.getString("MaSinhVien"));
+		}
+	}
+
+	private void loadDeTaiDaDangKy() throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(NgayLap) AS NamHoc, HoTen FROM DANHSACH_DANGKYLUANVAN JOIN LUANVAN ON DANHSACH_DANGKYLUANVAN.MaLuanVan = LUANVAN.MaLuanVan JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE MaNhom = '"+txtMaNhom.getText()+"'");
+		while(rs.next()) {
+			int namHoc_temp = rs.getInt("NamHoc") + 1;
+			String namHoc = rs.getInt("NamHoc") + " - " + namHoc_temp;
+			txtMaDeTaiDaDangKy.setText(rs.getString("MaLuanVan"));
+			txtTenDeTaiDaDangKy.setText(rs.getString("TenLuanVan")); 
+			txtNamHocDaDangKy.setText(namHoc);
+			txtGiaoVienHuongDanDaDangKy.setText(rs.getString("HoTen"));
 		}
 	}
 	private void updateTableData() throws SQLException {
-		int index = 1;
-		int row = 0;
-		listLuanVan = new ArrayList<LuanVan>();
 		String linhVucNghienCuu = txtKhoaTrucThuoc.getText();
-		String maLuanVan, tenLuanVan, tenGiaoVien;
-		int namHoc, soNhomToiDa, soNhomDangKy;
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT LUANVAN.MaLuanVan, TenLuanVan, LinhVucNghienCuu, NamHoc, GIAOVIEN.HoTen, SoNhomThamGiaToiDa FROM LUANVAN JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"'");
-		
+		tableModel.setRowCount(0);
+		int namHienTai = LocalDate.now().getYear();
+		int namHienTai_temp = namHienTai +1;
+		String namHoc = namHienTai + " - " + namHienTai_temp;
+		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), TomTat, GIAOVIEN.HoTen, SoNhomThamGiaToiDa FROM LUANVAN JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND YEAR(NgayLap) = "+namHienTai+"");
+		int i =1;
 		try {
 			while(rs.next()) {
 				Statement stmt_2 = con.createStatement();
 				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy FROM DANHSACH_DANGKYLUANVAN WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
 				rs_2.next();
-				soNhomDangKy = rs_2.getInt("SoNhomDangKy");
-				maLuanVan = rs.getString("MaLuanVan");
-				tenLuanVan = rs.getString("TenLuanVan");
-				namHoc = rs.getInt("NamHoc");
-				tenGiaoVien = rs.getString("HoTen");
-				soNhomToiDa = rs.getInt("SoNhomThamGiaToiDa");
-				LuanVan lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, namHoc, tenGiaoVien, soNhomToiDa, soNhomDangKy);
-				listLuanVan.add(lv);
+				Object[] rowData = {
+						i,
+						rs.getString("MaLuanVan"),
+						rs.getString("TenLuanVan"),
+						linhVucNghienCuu,
+						namHoc,
+						rs.getString("HoTen"),
+						rs.getString("SoNhomThamGiaToiDa"),
+						rs_2.getString("SoNhomDangKy")
+				};
+				i++;
+				tableModel.addRow(rowData);
 			}
+			table.setModel(tableModel);
 		}catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		};
 	}
 
+	public void timKiemLuanVan(String maLuanVan, String tenLuanVan, String giaoVien) throws SQLException {
+		Connection con = Database.getInstance().getConnection();
+		Statement stmt = con.createStatement();
+		int i = 1;
+		String linhVucNghienCuu = txtKhoaTrucThuoc.getText();
+		int namHienTai = LocalDate.now().getYear();
+		int namHienTai_temp = namHienTai +1;
+		String namHoc = namHienTai + " - " + namHienTai_temp;
+		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), TomTat, GIAOVIEN.HoTen, SoNhomThamGiaToiDa FROM LUANVAN JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND TenLuanVan LIKE N'%"+tenLuanVan+"%' AND GIAOVIEN.HoTen LIKE N'%"+giaoVien+"%' AND YEAR(NgayLap) = "+namHienTai+"");
+		try {
+			while(rs.next()) {
+				Statement stmt_2 = con.createStatement();
+				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy FROM DANHSACH_DANGKYLUANVAN WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
+				rs_2.next();
+				Object[] rowData = {
+						i,
+						rs.getString("MaLuanVan"),
+						rs.getString("TenLuanVan"),
+						linhVucNghienCuu,
+						namHoc,
+						rs.getString("HoTen"),
+						rs.getString("SoNhomThamGiaToiDa"),
+						rs_2.getString("SoNhomDangKy")
+				};
+				i++;
+				tableModel.addRow(rowData);
+			}
+			table.setModel(tableModel);
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		};
+	}
 }

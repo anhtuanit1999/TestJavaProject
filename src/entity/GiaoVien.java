@@ -22,8 +22,8 @@ public class GiaoVien implements Serializable {
 	private String linhVucCongTac;
 	private String donViCongTac;
 	private String khoaCongTac;
-	public GiaoVien(String maGiaoVien, String hoTen, String chucDanh, String linhVucCongTac, String donViCongTac,
-			String khoaCongTac) {
+	public GiaoVien(String maGiaoVien, String hoTen, String chucDanh, String linhVucCongTac, String khoaCongTac,
+			String donViCongTac) {
 		super();
 		this.maGiaoVien = maGiaoVien;
 		this.hoTen = hoTen;
