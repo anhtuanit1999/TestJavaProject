@@ -1,55 +1,29 @@
 package entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class LuanVan implements Serializable {
 	private String maLuanVan;
 	private String tenLuanVan;
 	private String linhVucNghienCuu;
-	private LocalDate ngayLap;
-	private String namHoc;
-	private String tomTat;
+	private String moTa;
+	
+	private Date ngayLap;
+	
 	private String maGiaoVien;
 	private int soNhomThamGiaToiDa;
-	private int soNhomDangKy;
-	private String tenGiaoVien;
-	
-	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, LocalDate ngayLap,
-			String tomTat, String maGiaoVien, int soNhomThamGiaToiDa) {
+	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, String moTa, Date ngayLap,
+			String maGiaoVien, int soNhomThamGiaToiDa) {
 		super();
 		this.maLuanVan = maLuanVan;
 		this.tenLuanVan = tenLuanVan;
 		this.linhVucNghienCuu = linhVucNghienCuu;
+		this.moTa = moTa;
 		this.ngayLap = ngayLap;
-		this.tomTat = tomTat;
 		this.maGiaoVien = maGiaoVien;
 		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
-	
-	
-
-	public LuanVan(String maLuanVan, String tenLuanVan, String linhVucNghienCuu, String namHoc,
-			String tenGiaoVien, int soNhomThamGiaToiDa, int soNhomDangKy) {
-		super();
-		this.maLuanVan = maLuanVan;
-		this.tenLuanVan = tenLuanVan;
-		this.linhVucNghienCuu = linhVucNghienCuu;
-		this.namHoc = namHoc;
-		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
-		this.soNhomDangKy = soNhomDangKy;
-		this.tenGiaoVien = tenGiaoVien;
-	}
-
-	public String getNamHoc() {
-		return namHoc;
-	}
-
-	public void setNamHoc(String namHoc) {
-		this.namHoc = namHoc;
-	}
-
-
 	public String getMaLuanVan() {
 		return maLuanVan;
 	}
@@ -68,21 +42,17 @@ public class LuanVan implements Serializable {
 	public void setLinhVucNghienCuu(String linhVucNghienCuu) {
 		this.linhVucNghienCuu = linhVucNghienCuu;
 	}
-
-
-	public LocalDate getNgayLap() {
+	public String getMoTa() {
+		return moTa;
+	}
+	public void setMoTa(String moTa) {
+		this.moTa = moTa;
+	}
+	public Date getNgayLap() {
 		return ngayLap;
 	}
-
-	public void setNgayLap(LocalDate ngayLap) {
+	public void setNgayLap(Date ngayLap) {
 		this.ngayLap = ngayLap;
-	}
-
-	public String getTomTat() {
-		return tomTat;
-	}
-	public void setTomTat(String tomTat) {
-		this.tomTat = tomTat;
 	}
 	public String getMaGiaoVien() {
 		return maGiaoVien;
@@ -96,26 +66,13 @@ public class LuanVan implements Serializable {
 	public void setSoNhomThamGiaToiDa(int soNhomThamGiaToiDa) {
 		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
-	public int getSoNhomDangKy() {
-		return soNhomDangKy;
+	@Override
+	public String toString() {
+		return "LuanVan [maLuanVan=" + maLuanVan + ", tenLuanVan=" + tenLuanVan + ", linhVucNghienCuu="
+				+ linhVucNghienCuu + ", moTa=" + moTa + ", ngayLap=" + ngayLap + ", maGiaoVien=" + maGiaoVien
+				+ ", soNhomThamGiaToiDa=" + soNhomThamGiaToiDa + "]";
 	}
-
-	public void setSoNhomDangKy(int soNhomDangKy) {
-		this.soNhomDangKy = soNhomDangKy;
-	}
-	public String getTenGiaoVien() {
-		return tenGiaoVien;
-	}
-	public void setTenGiaoVien(String tenGiaoVien) {
-		this.tenGiaoVien = tenGiaoVien;
-	}
-
-//	@Override
-//	public String toString() {
-//		return "LuanVan [maLuanVan=" + maLuanVan + ", tenLuanVan=" + tenLuanVan + ", linhVucNghienCuu="
-//				+ linhVucNghienCuu + ", noiDungLuanVan=" + noiDungLuanVan + ", namHoc=" + namHoc + ", tomTat=" + tomTat
-//				+ ", maGiaoVien=" + maGiaoVien + ", soNhomThamGiaToiDa=" + soNhomThamGiaToiDa + "]";
-//	}
+	
 	
 	
 }

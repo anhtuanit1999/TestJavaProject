@@ -5,8 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -34,12 +39,11 @@ public class LuanVanDao {
 				String maLuanVan = res.getString(1);
 				String tenLuanVan = res.getString(2);
 				String linhVucNghienCuu = res.getString(3);
-				String noiDungLuanVan = res.getString(4);
-				int namHoc = res.getInt(5);
-				String tomTat = res.getString(6);
+				Date ngayLap = new SimpleDateFormat("yyyy-MM-dd").parse(res.getString(4));
+				String moTa = res.getString(5);
 				String maGiaoVien = res.getString(6);
 				int soNhomThamGiaToiDa = res.getInt(7);
-				LuanVan lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+				LuanVan lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
 				listLuanVan.add(lv);
 			}
 		} catch (SQLException e) {
@@ -53,15 +57,14 @@ public class LuanVanDao {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into LUANVAN values(?, ?, ?, ?, ?, ?, ?, ?)");
+			stmt = con.prepareStatement("insert into LUANVAN values(?, ?, ?, ?, ?, ?, ?)");
 			stmt.setString(1, lv.getMaLuanVan());
 			stmt.setString(2, lv.getTenLuanVan() );
 			stmt.setString(3, lv.getLinhVucNghienCuu());
-			stmt.setString(4, lv.getNoiDungLuanVan());
-			stmt.setInt(5, lv.getNamHoc());
-			stmt.setString(6, lv.getTomTat());
-			stmt.setString(7, lv.getMaGiaoVien());
-			stmt.setInt(8, lv.getSoNhomThamGiaToiDa());
+			stmt.setString(4, new SimpleDateFormat("yyyy-MM-dd").format(lv.getNgayLap()));
+			stmt.setString(5, lv.getMoTa());
+			stmt.setString(6, lv.getMaGiaoVien());
+			stmt.setInt(7, lv.getSoNhomThamGiaToiDa());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,20 +79,18 @@ public class LuanVanDao {
 			stmt = con.prepareStatement("update LUANVAN "
 					+ "set TenLuanVan = ?,"
 					+ "LinhVucNghienCuu = ?,"
-					+ "NoiDungLuanVan = ?,"
-					+ "TomTat = ?,"
-					+ "NamHoc = ?,"
+					+ "NgayLap = ?,"
+					+ "MoTa = ?,"
 					+ "MaGiaoVien = ?,"
 					+ "SoNhomThamGiaToiDa = ? "
 					+ "where MaLuanVan = ?");
 			stmt.setString(1, lv.getTenLuanVan());
 			stmt.setString(2, lv.getLinhVucNghienCuu());
-			stmt.setString(3, lv.getNoiDungLuanVan());
-			stmt.setString(4, lv.getTomTat());
-			stmt.setString(5, lv.getNamHoc() + "");
-			stmt.setString(6, lv.getMaGiaoVien() + "");
-			stmt.setString(7, lv.getSoNhomThamGiaToiDa() + "");
-			stmt.setString(8, maLuanVan);
+			stmt.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(lv.getNgayLap()));
+			stmt.setString(4, lv.getMoTa());
+			stmt.setString(5, lv.getMaGiaoVien() + "");
+			stmt.setString(6, lv.getSoNhomThamGiaToiDa() + "");
+			stmt.setString(7, maLuanVan);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,7 +148,7 @@ public class LuanVanDao {
 	public LuanVan timLuanVanTheoMaSinhVien(String maSinhVien) {
 		LuanVan lv = null;
 		Connection con = Database.getInstance().getConnection();
-		String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.NoiDungLuanVan, lv.NamHoc, lv.TomTat, lv.MaGiaoVien, lv.SoNhomThamGiaToiDa\r\n" + 
+		String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.MoTa, lv.NgayLap, lv.MaGiaoVien\r\n" + 
 				"from SINHVIEN sv\r\n" + 
 				"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaNhom = sv.MaNhom\r\n" + 
 				"inner join LUANVAN lv on lv.MaLuanVan = ds.MaLuanVan\r\n" + 
@@ -162,13 +163,15 @@ public class LuanVanDao {
 			String maLuanVan = res.getString(1);
 			String tenLuanVan = res.getString(2);
 			String linhVucNghienCuu = res.getString(3);
-			String noiDungLuanVan = res.getString(4);
-			int namHoc = res.getInt(5);
-			String tomTat = res.getString(6);
-			String maGiaoVien = res.getString(7);
-			int soNhomThamGiaToiDa = res.getInt(8);
-			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+			Date ngayLap = new SimpleDateFormat("yyyy-MM-dd").parse(res.getString(4));
+			String moTa = res.getString(5);
+			String maGiaoVien = res.getString(6);
+			int soNhomThamGiaToiDa = res.getInt(7);
+			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return lv;
@@ -208,7 +211,7 @@ public class LuanVanDao {
 		int count = 1;
 		try {
 			con = Database.getInstance().getConnection();
-			String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.NoiDungLuanVan, lv.NamHoc, lv.TomTat, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
+			String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.NgayLap, lv.MoTa, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
 					"from LUANVAN lv\r\n" + 
 					"inner join GIAOVIEN gv on gv.MaGiaoVien = lv.MaGiaoVien";
 			Statement statement = con.createStatement();
@@ -222,8 +225,7 @@ public class LuanVanDao {
 						res.getString(4),
 						res.getString(5),
 						res.getString(6),
-						res.getString(7),
-						res.getString(8)
+						res.getString(7)
 				};
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(rowData);
@@ -248,13 +250,15 @@ public class LuanVanDao {
 			String maLuanVan = res.getString(1);
 			String tenLuanVan = res.getString(2);
 			String linhVucNghienCuu = res.getString(3);
-			String noiDungLuanVan = res.getString(4);
-			int namHoc = res.getInt(5);
-			String tomTat = res.getString(6);
-			String maGiaoVien = res.getString(7);
-			int soNhomThamGiaToiDa = res.getInt(8);
-			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGiaToiDa);
+			Date ngayLap = new SimpleDateFormat("yyyy-MM-dd").parse(res.getString(4));
+			String moTa = res.getString(5);
+			String maGiaoVien = res.getString(6);
+			int soNhomThamGiaToiDa = res.getInt(7);
+			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return lv;

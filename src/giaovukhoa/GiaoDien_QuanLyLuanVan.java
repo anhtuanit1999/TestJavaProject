@@ -14,8 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +41,7 @@ import entity.SinhVien;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import com.toedter.calendar.JDateChooser;
 
 public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 
@@ -48,16 +52,15 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 	private DefaultComboBoxModel<String> comboModel;
 	private DefaultTableModel tableModel;
 	private JTextField txtLinhVucNghienCuu;
-	private JTextField txtNoiDungLuanVan;
 	private GiaoVienDao giaoVienDao;
 	private JComboBox comboBoxTenGiaoVien;
 	private LuanVanDao luanVanDao;
 	private JButton btnThem;
-	private JComboBox comboBoxNamHoc;
-	private JTextArea txtaTomTat;
-	private JComboBox comboBoxSoNhomThamGia;
+	private JTextArea txtaMoTa;
 	private JButton btnSua;
 	private JButton btnXoa;
+	private JTextField txtSoNhomThamGiaToiDa;
+	private JDateChooser dateChooserNgayLap;
 
 	/**
 	 * Launch the application.
@@ -113,16 +116,16 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		lblLinhVucNghienCuu.setBounds(56, 73, 140, 20);
 		pnThongTinLuanVan.add(lblLinhVucNghienCuu);
 		
-		JLabel lblTomTat = new JLabel("Tóm tắt:");
-		lblTomTat.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTomTat.setBounds(56, 144, 103, 14);
-		pnThongTinLuanVan.add(lblTomTat);
+		JLabel lblMoTa = new JLabel("Mô tả: ");
+		lblMoTa.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblMoTa.setBounds(56, 119, 103, 14);
+		pnThongTinLuanVan.add(lblMoTa);
 		
 		comboModel = new DefaultComboBoxModel<String>();
 		
-		txtaTomTat = new JTextArea();
-		txtaTomTat.setBounds(217, 141, 955, 53);
-		pnThongTinLuanVan.add(txtaTomTat);
+		txtaMoTa = new JTextArea();
+		txtaMoTa.setBounds(217, 116, 955, 53);
+		pnThongTinLuanVan.add(txtaMoTa);
 		
 		JLabel lblTenLuanVan = new JLabel("Tên luận văn:");
 		lblTenLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -134,25 +137,15 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		txtTenLuanVan.setBounds(217, 41, 955, 20);
 		pnThongTinLuanVan.add(txtTenLuanVan);
 		
-		JLabel lblNoiDungLuanVan = new JLabel("Nội dung luận văn: ");
-		lblNoiDungLuanVan.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNoiDungLuanVan.setBounds(56, 104, 140, 20);
-		pnThongTinLuanVan.add(lblNoiDungLuanVan);
-		
 		txtLinhVucNghienCuu = new JTextField();
 		txtLinhVucNghienCuu.setColumns(10);
 		txtLinhVucNghienCuu.setBounds(217, 75, 955, 20);
 		pnThongTinLuanVan.add(txtLinhVucNghienCuu);
 		
-		txtNoiDungLuanVan = new JTextField();
-		txtNoiDungLuanVan.setColumns(10);
-		txtNoiDungLuanVan.setBounds(217, 106, 955, 20);
-		pnThongTinLuanVan.add(txtNoiDungLuanVan);
-		
-		JLabel lblNamHoc = new JLabel("Năm học: ");
-		lblNamHoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNamHoc.setBounds(56, 206, 107, 20);
-		pnThongTinLuanVan.add(lblNamHoc);
+		JLabel lblNgayLap = new JLabel("Ngày lập: ");
+		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNgayLap.setBounds(56, 206, 107, 20);
+		pnThongTinLuanVan.add(lblNgayLap);
 		
 		JLabel lblGiaoVienRaDeTai = new JLabel("Giáo viên ra đề tài: ");
 		lblGiaoVienRaDeTai.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -168,14 +161,15 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		comboBoxTenGiaoVien.setBounds(217, 239, 955, 18);
 		pnThongTinLuanVan.add(comboBoxTenGiaoVien);
 		
-		comboBoxSoNhomThamGia = new JComboBox();
-		comboBoxSoNhomThamGia.setModel(new DefaultComboBoxModel(new String[] {"2", "3", "5"}));
-		comboBoxSoNhomThamGia.setBounds(217, 271, 955, 18);
-		pnThongTinLuanVan.add(comboBoxSoNhomThamGia);
+		txtSoNhomThamGiaToiDa = new JTextField();
+		txtSoNhomThamGiaToiDa.setText("3");
+		txtSoNhomThamGiaToiDa.setColumns(10);
+		txtSoNhomThamGiaToiDa.setBounds(217, 270, 955, 20);
+		pnThongTinLuanVan.add(txtSoNhomThamGiaToiDa);
 		
-		comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setBounds(217, 208, 955, 18);
-		pnThongTinLuanVan.add(comboBoxNamHoc);
+		dateChooserNgayLap = new JDateChooser();
+		dateChooserNgayLap.setBounds(217, 206, 955, 20);
+		pnThongTinLuanVan.add(dateChooserNgayLap);
 		
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(258, 370, 127, 44);
@@ -205,7 +199,7 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "M\u00E3 lu\u1EADn v\u0103n", "T\u00EAn lu\u1EADn v\u0103n", "L\u0129nh v\u1EF1c nghi\u00EAn c\u1EE9u", "N\u1ED9i dung", "N\u0103m h\u1ECDc", "T\u00F3m t\u1EAFt", "Gi\u00E1o vi\u00EAn ra \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m tham gia t\u1ED1i \u0111a"
+				"STT", "M\u00E3 lu\u1EADn v\u0103n", "T\u00EAn lu\u1EADn v\u0103n", "L\u0129nh v\u1EF1c nghi\u00EAn c\u1EE9u", "Ng\u00E0y l\u1EADp", "M\u00F4 t\u1EA3", "Gi\u00E1o vi\u00EAn ra \u0111\u1EC1 t\u00E0i", "S\u1ED1 nh\u00F3m tham gia t\u1ED1i \u0111a"
 			}
 		));
 		scrollPane.setViewportView(table);
@@ -216,7 +210,6 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
 		updateComboBoxTenGiaoVien();
-		updateComboBoxNamHoc();
 		luanVanDao.updateBangLuanVan(table);
 		btnThem.addActionListener(this);
 		table.addMouseListener(this);
@@ -226,17 +219,6 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 	}
 	public JPanel getPanel() {
 		return pnChung;
-	}
-	
-	public int timChiSoComboNamHoc() {
-		int row = table.getSelectedRow();
-		int index = 0;
-		for (int i = 0; i < 3; i++) {
-			if(table.getValueAt(row, 5).toString().trim().equals(comboBoxNamHoc.getItemAt(i).toString().trim())) {
-				index = i;
-			}
-		}
-		return index;
 	}
 	
 	public int timChiSoTenGiaoVien() {
@@ -251,29 +233,20 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		return index;
 	}
 	
-	public int timChiSoNhomThamGia() {
-		int row = table.getSelectedRow();
-		int index = 0;
-		for (int i = 0; i < comboBoxSoNhomThamGia.getItemCount(); i++) {
-			if(comboBoxSoNhomThamGia.getItemAt(i).toString().trim().equals(table.getValueAt(row, 8).toString().trim())) {
-				index = i;
-			}
-		}
-		return index;
-	}
-	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = table.getSelectedRow();
 		txtTenLuanVan.setText(table.getValueAt(row, 2).toString());
 		txtLinhVucNghienCuu.setText(table.getValueAt(row, 3).toString());
-		txtNoiDungLuanVan.setText(table.getValueAt(row, 4).toString());
-		txtaTomTat.setText(table.getValueAt(row, 6).toString());
-		
-		comboBoxNamHoc.setSelectedIndex(timChiSoComboNamHoc());
-		comboBoxTenGiaoVien.setSelectedIndex(timChiSoTenGiaoVien());
-		comboBoxSoNhomThamGia.setSelectedIndex(timChiSoNhomThamGia());
+		txtaMoTa.setText(table.getValueAt(row, 5).toString());
+		try {
+			dateChooserNgayLap.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(table.getValueAt(row, 4).toString()));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		txtSoNhomThamGiaToiDa.setText(table.getValueAt(row, 7).toString());
 	}
 
 	@Override
@@ -302,29 +275,17 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 	
 	public void updateComboBoxTenGiaoVien() {
 		ArrayList<GiaoVien> listGV = null;
-		try {
-			listGV = giaoVienDao.docTuBang();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		listGV = giaoVienDao.docTuBang();
 		for(GiaoVien gv: listGV) {
 			DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) comboBoxTenGiaoVien.getModel();
 			comboBoxModel.addElement(gv.getHoTen() + " - " + gv.getMaGiaoVien());
 		}
 	}
-	
-	public void updateComboBoxNamHoc() {
-		LocalDate date = LocalDate.now();
-		int nam = date.getYear();
-		DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) comboBoxNamHoc.getModel();
-		comboBoxModel.addElement(nam);
-		comboBoxModel.addElement(nam + 1);
-		comboBoxModel.addElement(nam + 2);
-	}
+
 	
 	public boolean kiemTraTextField() {
 		String regex = "[A-Z]+.*(\\s[A-Z]+.*)*";
+		String regexSo = "\\d+";
 		if(!txtTenLuanVan.getText().trim().matches(regex)) {
 			JOptionPane.showMessageDialog(frame, "Chữ đầu tiên là chữ hoa, theo sau là các ký tự thường.");
 			txtTenLuanVan.requestFocus();
@@ -337,13 +298,28 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 			txtLinhVucNghienCuu.selectAll();
 			return false;
 		}
-		if(!txtNoiDungLuanVan.getText().trim().matches(regex)) {
-			JOptionPane.showMessageDialog(frame, "Chữ đầu tiên là chữ hoa, theo sau là các ký tự thường.");
-			txtNoiDungLuanVan.requestFocus();
-			txtNoiDungLuanVan.selectAll();
+		if(dateChooserNgayLap.getDate() == null) {
+			JOptionPane.showMessageDialog(frame, "Sai định dạng ngày dd-MM-yyyy");
+			dateChooserNgayLap.setDate(null);
+			dateChooserNgayLap.requestFocus();
+			return false;
+		}
+		if(!txtSoNhomThamGiaToiDa.getText().trim().matches(regexSo)) {
+			JOptionPane.showMessageDialog(frame, "Chỉ chấp nhận số nguyên.");
+			txtLinhVucNghienCuu.requestFocus();
+			txtLinhVucNghienCuu.selectAll();
 			return false;
 		}
 		return true;
+	}
+	
+	public void xoaTrang() {
+		txtTenLuanVan.setText("");
+		txtLinhVucNghienCuu.setText("");
+		txtaMoTa.setText("");
+		dateChooserNgayLap.setDate(null);
+		comboBoxTenGiaoVien.setSelectedIndex(0);
+		txtSoNhomThamGiaToiDa.setText("3");
 	}
 
 	@Override
@@ -354,10 +330,9 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 				String regex = "GV\\d{3}";
 				String tenLuanVan = txtTenLuanVan.getText();
 				String linhVucNghienCuu = txtLinhVucNghienCuu.getText();
-				String noiDungLuanVan = txtNoiDungLuanVan.getText();
-				String tomTat = txtaTomTat.getText();
-				int namHoc = Integer.parseInt(comboBoxNamHoc.getSelectedItem().toString());
-				int soNhomThamGia = Integer.parseInt(comboBoxSoNhomThamGia.getSelectedItem().toString());
+				String moTa = txtaMoTa.getText();
+				Date ngayLap = dateChooserNgayLap.getDate();
+				int soNhomThamGiaToiDa = Integer.parseInt(txtSoNhomThamGiaToiDa.getText());
 				
 				Pattern pattern = Pattern.compile(regex);
 				Matcher matcher = pattern.matcher(comboBoxTenGiaoVien.getSelectedItem().toString());
@@ -365,11 +340,13 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 				while(matcher.find()) {
 					maGiaoVien += comboBoxTenGiaoVien.getSelectedItem().toString().substring(matcher.start(), matcher.end());
 				}
-				LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGia);
+				LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
 				if(luanVanDao.kiemTraLuanVanDaTonTai(tenLuanVan, linhVucNghienCuu)) {
 					JOptionPane.showMessageDialog(frame, "Luận văn đã tồn tại");
 					return;
 				}
+				System.out.println(dateChooserNgayLap.getDate());
+				JOptionPane.showMessageDialog(frame, "Thêm thành công!");
 				luanVanDao.themLuanVan(lv);
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setRowCount(0);
@@ -385,6 +362,7 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 						DefaultTableModel model = (DefaultTableModel) table.getModel();
 						model.setRowCount(0);
 						luanVanDao.updateBangLuanVan(table);
+						xoaTrang();
 					}
 				}
 			}
@@ -392,10 +370,9 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 			String regex = "GV\\d{3}";
 			String tenLuanVan = txtTenLuanVan.getText();
 			String linhVucNghienCuu = txtLinhVucNghienCuu.getText();
-			String noiDungLuanVan = txtNoiDungLuanVan.getText();
-			String tomTat = txtaTomTat.getText();
-			int namHoc = Integer.parseInt(comboBoxNamHoc.getSelectedItem().toString());
-			int soNhomThamGia = Integer.parseInt(comboBoxSoNhomThamGia.getSelectedItem().toString());
+			String moTa = txtaMoTa.getText();
+			Date ngayLap = dateChooserNgayLap.getDate();
+			int soNhomThamGiaToiDa = Integer.parseInt(txtSoNhomThamGiaToiDa.getText());
 			
 			Pattern pattern = Pattern.compile(regex);
 			Matcher matcher = pattern.matcher(comboBoxTenGiaoVien.getSelectedItem().toString());
@@ -403,13 +380,13 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 			while(matcher.find()) {
 				maGiaoVien += comboBoxTenGiaoVien.getSelectedItem().toString().substring(matcher.start(), matcher.end());
 			}
-			LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, noiDungLuanVan, namHoc, tomTat, maGiaoVien, soNhomThamGia);
+			LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
 			String maLuanVan = table.getValueAt(table.getSelectedRow(), 1).toString();
-			LuanVan lvCu = luanVanDao.timLuanVanTheoMa(maLuanVan);
 			if(luanVanDao.kiemTraLuanVanDaTonTai(tenLuanVan, linhVucNghienCuu) && (!lv.getTenLuanVan().equals(tenLuanVan) || !lv.getLinhVucNghienCuu().equals(linhVucNghienCuu))) {
 				JOptionPane.showMessageDialog(frame, "Luận văn đã tồn tại");
 				return;
 			}
+			JOptionPane.showMessageDialog(frame, "Sửa thành công!");
 			luanVanDao.suaLuanVan(maLuanVan, lv);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setRowCount(0);

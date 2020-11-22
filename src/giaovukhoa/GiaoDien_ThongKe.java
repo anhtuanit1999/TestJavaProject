@@ -113,7 +113,7 @@ public class GiaoDien_ThongKe {
 			new Object[][] {
 			},
 			new String[] {
-				"STT", "M\u00E3 sinh vi\u00EAn", "T\u00EAn sinh vi\u00EAn", "\u0110i\u1EC3m v\u00F2ng 1", "\u0110i\u1EC3m v\u00F2ng 2", "X\u1EBFp lo\u1EA1i"
+				"STT", "M\u00E3 sinh vi\u00EAn", "T\u00EAn sinh vi\u00EAn", "\u0110i\u1EC3m b\u1EA3o v\u1EC7", "X\u1EBFp lo\u1EA1i"
 			}
 		));
 		scrollPane.setViewportView(table);

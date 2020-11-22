@@ -31,7 +31,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
+import dao.SinhVienDao;
 import entity.LuanVan;
+import entity.SinhVien;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextArea;
@@ -70,6 +72,8 @@ public class GiaoDien_DangKyDeTai {
 	private JTextField txtTenHoiDong;
 	private JTextField txtGioBaoCao;
 	private JTextField txtNgayBaoCao;
+	private String maSinhVien = "SV001";
+	private SinhVienDao SinhVienDao;
 	/**
 	 * Launch the application.
 	 */
@@ -100,6 +104,7 @@ public class GiaoDien_DangKyDeTai {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		SinhVienDao = new SinhVienDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -492,15 +497,21 @@ public class GiaoDien_DangKyDeTai {
 				try {
 					Connection con = Database.getInstance().getConnection();
 					Statement stmt = con.createStatement();
-					ResultSet rs = stmt.executeQuery("SELECT MaNhom, MaLuanVan FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom = '"+maNhom+"'");
+					ResultSet rs = stmt.executeQuery("SELECT MaNhom, MaLuanVan "
+							+ "FROM DANHSACH_DANGKYLUANVAN "
+							+ "WHERE MaNhom = '"+maNhom+"'");
 					while(rs.next()) {
 						if(rs.getString(2) != null) {
 							JOptionPane.showMessageDialog(null, "Nhóm đã đăng ký luận văn trước đó. Nếu muốn sửa đổi, liên hệ Giáo Vụ Khoa.");
 							return;
 						}
 					}
-
-					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
+					if(table.getValueAt(table.getSelectedRow(), 8) == table.getValueAt(table.getSelectedRow(), 7)) {
+						JOptionPane.showMessageDialog(null, "Luận văn đã đủ số nhóm đăng ký.");
+						return;
+					}
+					System.out.println(table.getValueAt(table.getSelectedRow(), 0));
+//					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
 					JOptionPane.showMessageDialog(null, "Đăng Ký Thành Công!");
 					updateTableData();
 					loadDeTaiDaDangKy();
@@ -512,11 +523,11 @@ public class GiaoDien_DangKyDeTai {
 			}
 
 		});
-
-		txtMaSinhVien_1.setText("SV005");
-		txtTenSinhVien_1.setText("Bùi Nhân Hưng");
-		txtKhoaTrucThuoc.setText("Công Nghệ Thông Tin");
-		txtMaNhom.setText("NH003");
+		SinhVien sv = SinhVienDao.timSinhVien(maSinhVien);
+		txtMaSinhVien_1.setText(sv.getMaSinhVien());
+		txtTenSinhVien_1.setText(sv.getHoTen());
+		txtKhoaTrucThuoc.setText(sv.getKhoaTrucThuoc());
+		txtMaNhom.setText(sv.getMaNhom());
 
 		updateTableData();
 		loadThongTinNhom();
@@ -534,7 +545,10 @@ public class GiaoDien_DangKyDeTai {
 	private void updateThongTinHoiDong() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaHoiDong, TenHoiDong, CONVERT(VARCHAR(10),DANHSACH_DANGKYLUANVAN.NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),DANHSACH_DANGKYLUANVAN.NgayBaoCao,114) AS [GioBaoCao]  FROM DANHSACH_DANGKYLUANVAN JOIN HOIDONG ON DANHSACH_DANGKYLUANVAN.MaHoiDong = HOIDONG.MaHoiDong WHERE MaNhom = '"+txtMaNhom.getText()+"'");
+		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaHoiDong, TenHoiDong, CONVERT(VARCHAR(10),DANHSACH_DANGKYLUANVAN.NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),DANHSACH_DANGKYLUANVAN.NgayBaoCao,114) AS [GioBaoCao]  "
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "JOIN HOIDONG ON DANHSACH_DANGKYLUANVAN.MaHoiDong = HOIDONG.MaHoiDong "
+				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"'");
 		while(rs.next()) {
 			txtMaHoiDong.setText(rs.getString(1));
 			txtTenHoiDong.setText(rs.getString(2));
@@ -546,7 +560,9 @@ public class GiaoDien_DangKyDeTai {
 	private void loadThongTinNhom() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen FROM SINHVIEN WHERE MaNhom = '"+txtMaNhom.getText()+"' AND HoTen <> N'"+txtTenSinhVien_1+"'");
+		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen "
+				+ "FROM SINHVIEN "
+				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"' AND HoTen <> N'"+txtTenSinhVien_1+"'");
 		while(rs.next()) {
 			txtTenSinhVien_2.setText(rs.getString("HoTen"));
 			txtMaSinhVien_2.setText(rs.getString("MaSinhVien"));
@@ -556,7 +572,11 @@ public class GiaoDien_DangKyDeTai {
 	private void loadDeTaiDaDangKy() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(NgayLap) AS NamHoc, HoTen FROM DANHSACH_DANGKYLUANVAN JOIN LUANVAN ON DANHSACH_DANGKYLUANVAN.MaLuanVan = LUANVAN.MaLuanVan JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE MaNhom = '"+txtMaNhom.getText()+"'");
+		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(NgayLap) AS NamHoc, HoTen "
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "JOIN LUANVAN ON DANHSACH_DANGKYLUANVAN.MaLuanVan = LUANVAN.MaLuanVan "
+				+ "JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien "
+				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"'");
 		while(rs.next()) {
 			int namHoc_temp = rs.getInt("NamHoc") + 1;
 			String namHoc = rs.getInt("NamHoc") + " - " + namHoc_temp;
@@ -574,12 +594,17 @@ public class GiaoDien_DangKyDeTai {
 		int namHienTai = LocalDate.now().getYear();
 		int namHienTai_temp = namHienTai +1;
 		String namHoc = namHienTai + " - " + namHienTai_temp;
-		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), TomTat, GIAOVIEN.HoTen, SoNhomThamGiaToiDa FROM LUANVAN JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND YEAR(NgayLap) = "+namHienTai+"");
+		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), MoTa, GIAOVIEN.HoTen, SoNhomThamGiaToiDa "
+				+ "FROM LUANVAN "
+				+ "JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien "
+				+ "WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND YEAR(NgayLap) = "+namHienTai+"");
 		int i =1;
 		try {
 			while(rs.next()) {
 				Statement stmt_2 = con.createStatement();
-				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy FROM DANHSACH_DANGKYLUANVAN WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
+				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy "
+						+ "FROM DANHSACH_DANGKYLUANVAN "
+						+ "WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
 				rs_2.next();
 				Object[] rowData = {
 						i,
@@ -609,11 +634,16 @@ public class GiaoDien_DangKyDeTai {
 		int namHienTai = LocalDate.now().getYear();
 		int namHienTai_temp = namHienTai +1;
 		String namHoc = namHienTai + " - " + namHienTai_temp;
-		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), TomTat, GIAOVIEN.HoTen, SoNhomThamGiaToiDa FROM LUANVAN JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND TenLuanVan LIKE N'%"+tenLuanVan+"%' AND GIAOVIEN.HoTen LIKE N'%"+giaoVien+"%' AND YEAR(NgayLap) = "+namHienTai+"");
+		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), MoTa, GIAOVIEN.HoTen, SoNhomThamGiaToiDa "
+				+ "FROM LUANVAN "
+				+ "JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien "
+				+ "WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND TenLuanVan LIKE N'%"+tenLuanVan+"%' AND GIAOVIEN.HoTen LIKE N'%"+giaoVien+"%' AND YEAR(NgayLap) = "+namHienTai+"");
 		try {
 			while(rs.next()) {
 				Statement stmt_2 = con.createStatement();
-				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy FROM DANHSACH_DANGKYLUANVAN WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
+				ResultSet rs_2 = stmt_2.executeQuery("SELECT COUNT(MaLuanVan) AS SoNhomDangKy "
+						+ "FROM DANHSACH_DANGKYLUANVAN "
+						+ "WHERE MaLuanVan = '"+rs.getString("MaLuanVan")+"'");
 				rs_2.next();
 				Object[] rowData = {
 						i,
