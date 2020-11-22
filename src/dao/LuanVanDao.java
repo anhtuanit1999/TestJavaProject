@@ -148,7 +148,7 @@ public class LuanVanDao {
 	public LuanVan timLuanVanTheoMaSinhVien(String maSinhVien) {
 		LuanVan lv = null;
 		Connection con = Database.getInstance().getConnection();
-		String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.MoTa, lv.NgayLap, lv.MaGiaoVien\r\n" + 
+		String sql = "select lv.MaLuanVan, lv.TenLuanVan, lv.LinhVucNghienCuu, lv.MoTa, lv.NgayLap, lv.MaGiaoVien, lv.SoNhomThamGiaToiDa\r\n" + 
 				"from SINHVIEN sv\r\n" + 
 				"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaNhom = sv.MaNhom\r\n" + 
 				"inner join LUANVAN lv on lv.MaLuanVan = ds.MaLuanVan\r\n" + 
@@ -163,8 +163,8 @@ public class LuanVanDao {
 			String maLuanVan = res.getString(1);
 			String tenLuanVan = res.getString(2);
 			String linhVucNghienCuu = res.getString(3);
-			Date ngayLap = new SimpleDateFormat("yyyy-MM-dd").parse(res.getString(4));
-			String moTa = res.getString(5);
+			Date ngayLap = new SimpleDateFormat("yyyy-MM-dd").parse(res.getString(5));
+			String moTa = res.getString(4);
 			String maGiaoVien = res.getString(6);
 			int soNhomThamGiaToiDa = res.getInt(7);
 			lv = new LuanVan(maLuanVan, tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);

@@ -506,12 +506,12 @@ public class GiaoDien_DangKyDeTai {
 							return;
 						}
 					}
-					if(table.getValueAt(table.getSelectedRow(), 8) == table.getValueAt(table.getSelectedRow(), 7)) {
+					if(table.getValueAt(table.getSelectedRow(), 7) == table.getValueAt(table.getSelectedRow(), 6)) {
 						JOptionPane.showMessageDialog(null, "Luận văn đã đủ số nhóm đăng ký.");
 						return;
 					}
 					System.out.println(table.getValueAt(table.getSelectedRow(), 0));
-//					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
+					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
 					JOptionPane.showMessageDialog(null, "Đăng Ký Thành Công!");
 					updateTableData();
 					loadDeTaiDaDangKy();

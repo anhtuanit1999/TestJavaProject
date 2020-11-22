@@ -334,6 +334,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		});
 		btnThemNhom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(tableDanhSachNhom.getSelectedRow() == -1) {
+					return;
+				}
 				Object[] rowData = {
 						tableDanhSachNhom.getValueAt(tableDanhSachNhom.getSelectedRow(),1),
 						tableDanhSachNhom.getValueAt(tableDanhSachNhom.getSelectedRow(), 2),
