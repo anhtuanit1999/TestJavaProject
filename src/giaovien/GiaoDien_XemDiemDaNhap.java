@@ -29,7 +29,7 @@ public class GiaoDien_XemDiemDaNhap {
 	private JPanel pnChung;
 	private GiaoVienDao giaoVienDao;
 	
-	private final String maGiaoVien = "GV001";
+	private String maGiaoVien;
 
 	/**
 	 * Launch the application.
@@ -38,7 +38,7 @@ public class GiaoDien_XemDiemDaNhap {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_XemDiemDaNhap window = new GiaoDien_XemDiemDaNhap();
+					GiaoDien_XemDiemDaNhap window = new GiaoDien_XemDiemDaNhap("GV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,8 @@ public class GiaoDien_XemDiemDaNhap {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_XemDiemDaNhap() {
+	public GiaoDien_XemDiemDaNhap(String maGiaoVien) {
+		this.maGiaoVien = maGiaoVien;
 		initialize();
 	}
 

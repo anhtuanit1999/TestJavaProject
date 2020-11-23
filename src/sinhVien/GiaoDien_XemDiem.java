@@ -44,7 +44,7 @@ public class GiaoDien_XemDiem {
 	private JTextField txtDiem_GV5;
 	private SinhVienDao sinhVienDao;
 	
-	private final String maSinhVien = "SV001";
+	private String maSinhVien;
 	private JTextArea txtaGhiChu;
 	private LuanVanDao luanVanDao;
 
@@ -55,7 +55,7 @@ public class GiaoDien_XemDiem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_XemDiem window = new GiaoDien_XemDiem();
+					GiaoDien_XemDiem window = new GiaoDien_XemDiem("SV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +67,8 @@ public class GiaoDien_XemDiem {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_XemDiem() {
+	public GiaoDien_XemDiem(String maSinhVien) {
+		this.maSinhVien = maSinhVien;
 		initialize();
 	}
 

@@ -40,6 +40,7 @@ public class GiaoDien_GiaoVien {
 	private JLabel lblIcon;
 	private JPanel pnChung;
 	private GiaoVienDao giaoVienDao;
+	private String maGiaoVien;
 
 	/**
 	 * Launch the application.
@@ -48,7 +49,7 @@ public class GiaoDien_GiaoVien {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_GiaoVien window = new GiaoDien_GiaoVien();
+					GiaoDien_GiaoVien window = new GiaoDien_GiaoVien("GV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +61,8 @@ public class GiaoDien_GiaoVien {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_GiaoVien() {
+	public GiaoDien_GiaoVien(String maGiaoVien) {
+		this.maGiaoVien = maGiaoVien;
 		initialize();
 	}
 
@@ -161,7 +163,7 @@ public class GiaoDien_GiaoVien {
 		pnCenter.add(lblIcon);
 		
 		try {
-			updateTextField(0);
+			updateTextField();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,9 +173,8 @@ public class GiaoDien_GiaoVien {
 	public JPanel getPanel() {
 		return pnChung;
 	}
-	private void updateTextField(int ma) throws ParseException {
-		List<GiaoVien> listGiaoVien = giaoVienDao.docTuBang();
-		GiaoVien gv = listGiaoVien.get(ma);
+	private void updateTextField() throws ParseException {
+		GiaoVien gv = giaoVienDao.timGiaoVien(maGiaoVien);
 		txtMSGV.setText(gv.getMaGiaoVien());
 		txtHoTen.setText(gv.getHoTen());
 		txtChucDanh.setText(gv.getChucDanh());

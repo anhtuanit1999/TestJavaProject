@@ -42,7 +42,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 	private JTextField txtMaSinhVien;
 	private JTextArea txtaGhiChu;
 	private JButton btnCapNhat;
-	private final String maGiaoVien = "GV001";
+	private final String maGiaoVien;
 
 	/**
 	 * Launch the application.
@@ -51,7 +51,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_NhapDiem window = new GiaoDien_NhapDiem();
+					GiaoDien_NhapDiem window = new GiaoDien_NhapDiem("GV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +63,8 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_NhapDiem() {
+	public GiaoDien_NhapDiem(String maGiaoVien) {
+		this.maGiaoVien = maGiaoVien;
 		initialize();
 	}
 

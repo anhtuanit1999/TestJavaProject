@@ -72,7 +72,7 @@ public class GiaoDien_DangKyDeTai {
 	private JTextField txtTenHoiDong;
 	private JTextField txtGioBaoCao;
 	private JTextField txtNgayBaoCao;
-	private String maSinhVien = "SV001";
+	private String maSinhVien;
 	private SinhVienDao SinhVienDao;
 	/**
 	 * Launch the application.
@@ -81,7 +81,7 @@ public class GiaoDien_DangKyDeTai {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_DangKyDeTai window = new GiaoDien_DangKyDeTai();
+					GiaoDien_DangKyDeTai window = new GiaoDien_DangKyDeTai("SV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -94,7 +94,8 @@ public class GiaoDien_DangKyDeTai {
 	 * Create the application.
 	 * @throws SQLException 
 	 */
-	public GiaoDien_DangKyDeTai() throws SQLException {
+	public GiaoDien_DangKyDeTai(String maSinhVien) throws SQLException {
+		this.maSinhVien = maSinhVien;
 		initialize();
 	}
 
@@ -597,7 +598,7 @@ public class GiaoDien_DangKyDeTai {
 		ResultSet rs = stmt.executeQuery("SELECT MaLuanVan, TenLuanVan, LinhVucNghienCuu, YEAR(NgayLap), MoTa, GIAOVIEN.HoTen, SoNhomThamGiaToiDa "
 				+ "FROM LUANVAN "
 				+ "JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien "
-				+ "WHERE LinhVucNghienCuu = N'"+linhVucNghienCuu+"' AND YEAR(NgayLap) = "+namHienTai+"");
+				+ "WHERE YEAR(NgayLap) = "+namHienTai+"");
 		int i =1;
 		try {
 			while(rs.next()) {

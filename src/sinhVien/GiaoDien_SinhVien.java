@@ -44,7 +44,7 @@ public class GiaoDien_SinhVien {
 	private SinhVienDao sinhVienDao;
 	private JTextField txtTenSinhVienCungLamLuanVan;
 	
-	private final String maSinhVien = "SV001";
+	private final String maSinhVien;
 	private JTextField txtMaNhom;
 	private LuanVanDao luanVanDao;
 
@@ -55,7 +55,7 @@ public class GiaoDien_SinhVien {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_SinhVien window = new GiaoDien_SinhVien();
+					GiaoDien_SinhVien window = new GiaoDien_SinhVien("SV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,7 +67,8 @@ public class GiaoDien_SinhVien {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_SinhVien() {
+	public GiaoDien_SinhVien(String maSinhVien) {
+		this.maSinhVien = maSinhVien;
 		initialize();
 	}
 

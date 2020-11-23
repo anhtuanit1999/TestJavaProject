@@ -1,4 +1,4 @@
-package hethong;
+package giaodienchinh;
 
 import java.awt.EventQueue;
 
@@ -6,20 +6,33 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+
+import dao.DangNhapDao;
+import dao.Database;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
+import javax.swing.JPasswordField;
 
-public class GiaoDien_DangNhap {
+public class GiaoDien_DangNhap implements ActionListener {
 
-	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	public JFrame frame;
+	private JTextField txtTaiKhoan;
 	private JPanel pnChung;
+	private JPasswordField pwdMatKhau;
+	private JButton btnTiepTuc;
+	private DangNhapDao dangNhapDao;
 
 	/**
 	 * Launch the application.
@@ -48,9 +61,11 @@ public class GiaoDien_DangNhap {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1280, 950);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		dangNhapDao = new DangNhapDao();
+		frame.setBounds(100, 100, 488, 333);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		pnChung = new JPanel();
@@ -69,7 +84,7 @@ public class GiaoDien_DangNhap {
 		JPanel pnDangNhap = new JPanel();
 		pnDangNhap.setLayout(null);
 		pnDangNhap.setBorder(new TitledBorder(null, "\u0110\u0103ng Nh\u1EADp", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnDangNhap.setBounds(438, 147, 464, 263);
+		pnDangNhap.setBounds(0, 0, 464, 263);
 		pnCenter.add(pnDangNhap);
 		
 		JLabel lblTaiKhoan = new JLabel("Tài Khoản :");
@@ -82,28 +97,57 @@ public class GiaoDien_DangNhap {
 		lblMatKhau.setBounds(23, 104, 78, 19);
 		pnDangNhap.add(lblMatKhau);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(148, 67, 265, 20);
-		pnDangNhap.add(textField);
+		txtTaiKhoan = new JTextField();
+		txtTaiKhoan.setColumns(10);
+		txtTaiKhoan.setBounds(148, 67, 265, 20);
+		pnDangNhap.add(txtTaiKhoan);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(148, 105, 265, 20);
-		pnDangNhap.add(textField_1);
-		
-		JButton btnTiepTuc = new JButton("Đăng nhập");
+		btnTiepTuc = new JButton("Đăng nhập");
 		btnTiepTuc.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTiepTuc.setBounds(80, 183, 127, 44);
+		btnTiepTuc.setBounds(180, 162, 127, 44);
 		pnDangNhap.add(btnTiepTuc);
 		
-		JButton btnHuy = new JButton("Hủy");
-		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnHuy.setBounds(260, 183, 127, 44);
-		pnDangNhap.add(btnHuy);
+		pwdMatKhau = new JPasswordField();
+		pwdMatKhau.setBounds(148, 105, 265, 19);
+		pnDangNhap.add(pwdMatKhau);
+		
+		btnTiepTuc.addActionListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
 	}
 
+	public void xoaTrang() {
+		txtTaiKhoan.setText("");
+		pwdMatKhau.setText("");
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnTiepTuc)) {
+			String taiKhoan = txtTaiKhoan.getText().trim();
+			String matKhau = pwdMatKhau.getText().trim();
+			if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, matKhau)) {
+				JOptionPane.showMessageDialog(frame, "Đăng nhập thành công");
+				xoaTrang();
+				try {
+					GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
+					giaoDienChinh.frame.setVisible(true);
+					System.out.println(taiKhoan);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frame.dispose();
+				return;
+			}
+			JOptionPane.showMessageDialog(frame, "Tài khoản hoặc mật khẩu không đúng");
+			xoaTrang();
+			return;
+		}
+		
+	}
 }

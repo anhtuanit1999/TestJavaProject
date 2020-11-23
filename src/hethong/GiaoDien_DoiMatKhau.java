@@ -6,9 +6,15 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import dao.DangNhapDao;
+import dao.Database;
+
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import java.awt.SystemColor;
@@ -16,8 +22,9 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
-public class GiaoDien_DoiMatKhau {
+public class GiaoDien_DoiMatKhau implements ActionListener {
 
 	private JFrame frame;
 	private JPanel pnChung;
@@ -26,12 +33,13 @@ public class GiaoDien_DoiMatKhau {
 	private JLabel lblMatKhauCu;
 	private JLabel lblMtKhuMi;
 	private JLabel lblXacNhanMK;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	private JButton btnDoiMatKhau;
-	private JButton btnHuy;
 	private JLabel lblTieuDe;
+	private String taiKhoan;
+	private DangNhapDao dangNhapDao;
+	private JPasswordField pwdMatKhau;
+	private JPasswordField pwdMatKhauMoi;
+	private JPasswordField pwdXacNhanMatKhauMoi;
 
 	/**
 	 * Launch the application.
@@ -40,7 +48,7 @@ public class GiaoDien_DoiMatKhau {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GiaoDien_DoiMatKhau window = new GiaoDien_DoiMatKhau();
+					GiaoDien_DoiMatKhau window = new GiaoDien_DoiMatKhau("GV001");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +60,8 @@ public class GiaoDien_DoiMatKhau {
 	/**
 	 * Create the application.
 	 */
-	public GiaoDien_DoiMatKhau() {
+	public GiaoDien_DoiMatKhau(String taiKhoan) {
+		this.taiKhoan = taiKhoan;
 		initialize();
 	}
 
@@ -60,6 +69,8 @@ public class GiaoDien_DoiMatKhau {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Database.getInstance().connec();
+		dangNhapDao = new DangNhapDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,7 +92,7 @@ public class GiaoDien_DoiMatKhau {
 		pnDoiMatKhau = new JPanel();
 		pnDoiMatKhau.setLayout(null);
 		pnDoiMatKhau.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0110\u1ED5i M\u1EADt Kh\u1EA9u", TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.windowText));
-		pnDoiMatKhau.setBounds(350, 115, 630, 311);
+		pnDoiMatKhau.setBounds(350, 115, 630, 280);
 		pnCenter.add(pnDoiMatKhau);
 		
 		lblMatKhauCu = new JLabel("Mật Khẩu Cũ :");
@@ -99,34 +110,78 @@ public class GiaoDien_DoiMatKhau {
 		lblXacNhanMK.setBounds(22, 102, 192, 14);
 		pnDoiMatKhau.add(lblXacNhanMK);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(198, 30, 367, 20);
-		pnDoiMatKhau.add(textField);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(198, 64, 367, 20);
-		pnDoiMatKhau.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(198, 102, 367, 20);
-		pnDoiMatKhau.add(textField_2);
-		
-		btnDoiMatKhau = new JButton("Tiếp Tục");
+		btnDoiMatKhau = new JButton("Đổi mật khẩu");
 		btnDoiMatKhau.setForeground(Color.BLACK);
 		btnDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnDoiMatKhau.setBounds(160, 186, 127, 44);
+		btnDoiMatKhau.setBounds(240, 179, 127, 44);
 		pnDoiMatKhau.add(btnDoiMatKhau);
 		
-		btnHuy = new JButton("Hủy");
-		btnHuy.setForeground(Color.BLACK);
-		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnHuy.setBounds(357, 186, 127, 44);
-		pnDoiMatKhau.add(btnHuy);
+		pwdMatKhau = new JPasswordField();
+		pwdMatKhau.setBounds(198, 29, 367, 20);
+		pnDoiMatKhau.add(pwdMatKhau);
+		
+		pwdMatKhauMoi = new JPasswordField();
+		pwdMatKhauMoi.setBounds(198, 63, 367, 20);
+		pnDoiMatKhau.add(pwdMatKhauMoi);
+		
+		pwdXacNhanMatKhauMoi = new JPasswordField();
+		pwdXacNhanMatKhauMoi.setBounds(198, 101, 367, 20);
+		pnDoiMatKhau.add(pwdXacNhanMatKhauMoi);
+		
+		btnDoiMatKhau.addActionListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	public boolean kiemTraPasswordField() {
+		String regex = ".+";
+		if(!pwdMatKhau.getText().matches(regex)) {
+			JOptionPane.showMessageDialog(frame, "Mật khẩu không hợp lệ");
+			pwdMatKhau.requestFocus();
+			pwdMatKhau.selectAll();
+			return false;
+		}
+		if(!pwdMatKhauMoi.getText().matches(regex)) {
+			JOptionPane.showMessageDialog(frame, "Mật khẩu mới không hợp lệ");
+			pwdMatKhauMoi.requestFocus();
+			pwdMatKhauMoi.selectAll();
+			return false;
+		}
+		if(!pwdXacNhanMatKhauMoi.getText().equals(pwdMatKhauMoi.getText())) {
+			JOptionPane.showMessageDialog(frame, "Mật khẩu xác nhận không trùng khớp");
+			pwdXacNhanMatKhauMoi.requestFocus();
+			pwdXacNhanMatKhauMoi.selectAll();
+			return false;
+		}
+		return true;
+	}
+	
+	public void xoaTrang() {
+		pwdMatKhau.setText("");
+		pwdMatKhauMoi.setText("");
+		pwdXacNhanMatKhauMoi.setText("");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnDoiMatKhau)) {
+			if(kiemTraPasswordField()) {
+				if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, pwdMatKhau.getText())) {
+					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn đổi mật khẩu?", "WARNING",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						if (dangNhapDao.doiMatKhau(taiKhoan, pwdMatKhau.getText(), pwdMatKhauMoi.getText())) {
+							JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thành công");
+							xoaTrang();
+							return;
+						}
+						JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thất bại");
+						xoaTrang();
+					}
+
+				}
+			}
+		}
+		
 	}
 }

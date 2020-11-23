@@ -6,13 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import entity.GiaoVien;
+import entity.LuanVan;
 
 
 public class GiaoVienDao {
@@ -180,5 +183,30 @@ public class GiaoVienDao {
 			e.printStackTrace();
 		}
 		return n > 0;
+	}
+	
+	public GiaoVien timGiaoVien(String maGiaoVienCanTim) {
+		GiaoVien gv = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from GIAOVIEN gv\r\n" + 
+				"where gv.MaGiaoVien = '"+ maGiaoVienCanTim +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			if(res.next()) {
+				String maGiaoVien = res.getString(1);
+				String hoTen = res.getString(2);
+				String chucDanh = res.getString(3);
+				String linhVucCongTac = res.getString(4);
+				String donViCongTac = res.getString(5);
+				String khoaCongTac = res.getString(6);
+				gv = new GiaoVien(maGiaoVien, hoTen, chucDanh, linhVucCongTac, khoaCongTac, donViCongTac);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return gv;
 	}
 }
