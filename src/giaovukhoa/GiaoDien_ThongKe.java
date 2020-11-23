@@ -143,10 +143,14 @@ public class GiaoDien_ThongKe {
 		txtTongSo.setColumns(10);
 		updateComboBoxNamHoc();
 		
+		
 		comboBoxNamHoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modelTable.setRowCount(0);
 				comboBoxTieuChi.setSelectedItem("Chọn tiêu chí...");
+				if(comboBoxNamHoc.getSelectedIndex() == 0) {			
+					return;
+				}
 				try {
 					updateDanhSachSinhVien();
 				} catch (SQLException e) {
