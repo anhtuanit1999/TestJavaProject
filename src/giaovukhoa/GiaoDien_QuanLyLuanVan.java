@@ -222,6 +222,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 	
 	public void capNhat() {
 		updateComboBoxTenGiaoVien();
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
 		luanVanDao.updateBangLuanVan(table);
 	}
 	

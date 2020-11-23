@@ -177,6 +177,12 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 	public JPanel getPanel() {
 		return pnChung;
 	}
+	
+	public void capNhap() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		giaoVienDao.capNhatBang(table, maGiaoVien);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -220,10 +226,6 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		}
 		JOptionPane.showMessageDialog(frame, "Điểm là số nguyên hoặc số thực theo thang điểm 10");
 		return false;
-	}
-	
-	public void capNhap() {
-		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 
 	@Override

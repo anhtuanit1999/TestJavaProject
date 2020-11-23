@@ -107,6 +107,8 @@ public class GiaoDien_XemDiemDaNhap {
 	}
 
 	public void capNhat() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
 		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 }
