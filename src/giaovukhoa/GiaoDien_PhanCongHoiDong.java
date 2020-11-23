@@ -594,7 +594,7 @@ public class GiaoDien_PhanCongHoiDong {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "Một giáo viên không thể làm hai công việc trong một Hội Đồng!");
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 			}
 		});
@@ -611,7 +611,9 @@ public class GiaoDien_PhanCongHoiDong {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
 		int i = 1;
-		ResultSet rs = stmt.executeQuery("select MaGiaoVien, HoTen, ChucDanh, LinhVucCongTac, KhoaCongTac, DonViCongTac from GiAOVIEN WHERE MaGiaoVien LIKE '%"+maGiaoVien+"%' AND HoTen LIKE N'%"+tenGiaoVien+"%' AND KhoaCongTac LIKE N'%"+khoaCongTac+"%'");
+		ResultSet rs = stmt.executeQuery("select MaGiaoVien, HoTen, ChucDanh, LinhVucCongTac, KhoaCongTac, DonViCongTac "
+				+ "from GiAOVIEN "
+				+ "WHERE MaGiaoVien LIKE '%"+maGiaoVien+"%' AND HoTen LIKE N'%"+tenGiaoVien+"%' AND KhoaCongTac LIKE N'%"+khoaCongTac+"%'");
 		while(rs.next()) {
 			Object[] rowData = {
 					i,
