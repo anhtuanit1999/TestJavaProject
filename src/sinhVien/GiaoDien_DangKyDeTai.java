@@ -562,7 +562,7 @@ public class GiaoDien_DangKyDeTai {
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen "
 				+ "FROM SINHVIEN "
-				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"' AND HoTen <> N'"+txtTenSinhVien_1+"'");
+				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"' AND MaSinhVien <> '"+txtMaSinhVien_1.getText()+"'");
 		while(rs.next()) {
 			txtTenSinhVien_2.setText(rs.getString("HoTen"));
 			txtMaSinhVien_2.setText(rs.getString("MaSinhVien"));

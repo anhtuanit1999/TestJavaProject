@@ -352,7 +352,7 @@ public class GiaoDienChinh implements ActionListener {
 		mniSinhVienBaoVeLuanVanThanhCong.addActionListener(this);
 		mniSinhVienBaoVeLuanVanKhongThanhCong.addActionListener(this);
 		mniXepLoaiDiemSinhVien.addActionListener(this);
-		
+		mniTraCuuThongTinHoiDong.addActionListener(this);
 		mniDangNhap.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
 		mniDangXuat.addActionListener(this);
