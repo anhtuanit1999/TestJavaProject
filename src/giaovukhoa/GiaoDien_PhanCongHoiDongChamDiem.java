@@ -463,7 +463,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 					JOptionPane.showMessageDialog(null, "Lưu thành công!");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+//					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày báo cáo!");
 					return;
 				}
@@ -532,7 +532,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
 		model.setRowCount(0);
 		int i = 1;
-		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao]FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao]"
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -563,7 +565,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
 		model.setRowCount(0);
 		int i = 1;
-		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan FROM DANHSACH_DANGKYLUANVAN WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong IS NULL");
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan "
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong IS NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -592,7 +596,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		modelNhomChuaDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery("SELECT * FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NULL");
+		ResultSet res = st.executeQuery("SELECT * "
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "WHERE MaHoiDong IS NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -613,7 +619,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		modelNhomDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NOT NULL");
+		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] "
+				+ "FROM DANHSACH_DANGKYLUANVAN "
+				+ "WHERE MaHoiDong IS NOT NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
