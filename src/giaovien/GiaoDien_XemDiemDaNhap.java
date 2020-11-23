@@ -9,8 +9,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +38,7 @@ public class GiaoDien_XemDiemDaNhap {
 	private GiaoVienDao giaoVienDao;
 	
 	private String maGiaoVien;
+	private JComboBox comboBoxNamHoc;
 
 	/**
 	 * Launch the application.
@@ -49,16 +58,18 @@ public class GiaoDien_XemDiemDaNhap {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public GiaoDien_XemDiemDaNhap(String maGiaoVien) {
+	public GiaoDien_XemDiemDaNhap(String maGiaoVien) throws SQLException {
 		this.maGiaoVien = maGiaoVien;
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		Database.getInstance().connec();
 		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
@@ -85,7 +96,7 @@ public class GiaoDien_XemDiemDaNhap {
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 29, 1224, 818);
+		scrollPane.setBounds(10, 48, 1224, 799);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -99,16 +110,47 @@ public class GiaoDien_XemDiemDaNhap {
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
 		
+		comboBoxNamHoc = new JComboBox();
+		comboBoxNamHoc.setBounds(1082, 17, 152, 21);
+		panel.add(comboBoxNamHoc);
+		
 		capNhat();
+		
+		comboBoxNamHoc.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				if(comboBoxNamHoc.getSelectedIndex() == 0) {
+					return;
+				}
+				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
+			}
+		});
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
 	}
+	
+	public void updateComboBoxNamHoc() throws SQLException {
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel<>());
+		comboBoxNamHoc.addItem("Chọn năm học...");
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		ResultSet res = statement.executeQuery("SELECT DISTINCT YEAR(NgayBaoCao) AS NamHoc FROM HOIDONG ORDER BY YEAR(NgayBaoCao) ASC");
+		while(res.next()) {
+			int namHoc_temp = res.getInt(1) + 1;
+			comboBoxNamHoc.addItem(res.getString(1) + " - " +namHoc_temp);
+		}
+	}
 
-	public void capNhat() {
+	public void capNhat() throws SQLException {
+		updateComboBoxNamHoc();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
-		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 }

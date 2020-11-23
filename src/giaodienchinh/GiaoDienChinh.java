@@ -497,10 +497,20 @@ public class GiaoDienChinh implements ActionListener {
 			}
 		} else if(o.equals(mniNhapDiem)) {
 			card.show(pnChung, "NhapDiem");
-			GD_ND.capNhap();
+			try {
+				GD_ND.capNhap();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniXemDiemDaNhap)) {
 			card.show(pnChung, "XemDiemDaNhap");
-			GD_XDDN.capNhat();
+			try {
+				GD_XDDN.capNhat();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
 			GD_QLLV.capNhat();

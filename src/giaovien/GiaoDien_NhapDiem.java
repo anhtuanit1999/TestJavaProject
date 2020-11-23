@@ -13,6 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,6 +47,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 	private JTextArea txtaGhiChu;
 	private JButton btnCapNhat;
 	private final String maGiaoVien;
+	private JComboBox comboBoxNamHoc;
 
 	/**
 	 * Launch the application.
@@ -62,16 +67,18 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public GiaoDien_NhapDiem(String maGiaoVien) {
+	public GiaoDien_NhapDiem(String maGiaoVien) throws SQLException {
 		this.maGiaoVien = maGiaoVien;
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
 		Database.getInstance().connec();
 		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
@@ -145,7 +152,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 29, 558, 818);
+		scrollPane.setBounds(10, 49, 558, 798);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -157,6 +164,10 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 			}
 		));
 		scrollPane.setViewportView(table);
+		
+		comboBoxNamHoc = new JComboBox();
+		comboBoxNamHoc.setBounds(453, 18, 115, 21);
+		panel.add(comboBoxNamHoc);
 		
 		btnNhapDiem = new JButton("Nhập điểm");
 		btnNhapDiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -172,16 +183,31 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		btnNhapDiem.addActionListener(this);
 		table.addMouseListener(this);
 		capNhap();
+		
+		comboBoxNamHoc.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setRowCount(0);
+				if(comboBoxNamHoc.getSelectedIndex() == 0) {
+					return;
+				}
+				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
+			}
+		});
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
 	}
 	
-	public void capNhap() {
+	public void capNhap() throws SQLException {
+		updateComboBoxNamHoc();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
-		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 
 	@Override
@@ -227,12 +253,25 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		JOptionPane.showMessageDialog(frame, "Điểm là số nguyên hoặc số thực theo thang điểm 10");
 		return false;
 	}
+	
+	public void updateComboBoxNamHoc() throws SQLException {
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel<>());
+		comboBoxNamHoc.addItem("Chọn năm học...");
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		ResultSet res = statement.executeQuery("SELECT DISTINCT YEAR(NgayBaoCao) AS NamHoc FROM HOIDONG ORDER BY YEAR(NgayBaoCao) ASC");
+		while(res.next()) {
+			int namHoc_temp = res.getInt(1) + 1;
+			comboBoxNamHoc.addItem(res.getString(1) + " - " +namHoc_temp);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnNhapDiem)) {
 			if(kiemTra()) {
+				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
 				String maSinhVien = txtMaSinhVien.getText();
 				float diem = Float.parseFloat(txtDiemSo.getText());
 				String ghiChu = txtaGhiChu.getText();
@@ -240,13 +279,14 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 					JOptionPane.showMessageDialog(frame, "Nhập điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.setNumRows(0);
-					giaoVienDao.capNhatBang(table, maGiaoVien);
+					giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
 					return;
 				}
 				JOptionPane.showMessageDialog(frame, "Không thể nhập điểm cho sinh viên " + txtTenSinhVien.getText() + " 2 lần");
 			}
 		} else if(o.equals(btnCapNhat)) {
 			if(kiemTra()) {
+				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
 				String maSinhVien = txtMaSinhVien.getText();
 				float diem = Float.parseFloat(txtDiemSo.getText());
 				String ghiChu = txtaGhiChu.getText();
@@ -254,7 +294,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 					JOptionPane.showMessageDialog(frame, "Sửa điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.setNumRows(0);
-					giaoVienDao.capNhatBang(table, maGiaoVien);
+					giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
 					return;
 				}
 				JOptionPane.showMessageDialog(frame, "Đã sửa điểm cho sinh viên " + txtTenSinhVien.getText());
