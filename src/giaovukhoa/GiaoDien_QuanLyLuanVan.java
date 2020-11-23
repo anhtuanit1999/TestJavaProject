@@ -209,8 +209,7 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
-		updateComboBoxTenGiaoVien();
-		luanVanDao.updateBangLuanVan(table);
+		capNhat();
 		btnThem.addActionListener(this);
 		table.addMouseListener(this);
 		btnXoa.addActionListener(this);
@@ -219,6 +218,11 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public void capNhat() {
+		updateComboBoxTenGiaoVien();
+		luanVanDao.updateBangLuanVan(table);
 	}
 	
 	public int timChiSoTenGiaoVien() {

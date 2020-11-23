@@ -251,11 +251,15 @@ public class GiaoDien_XemDiem {
 		txtaGhiChu.setBounds(191, 234, 961, 136);
 		pnKetQua.add(txtaGhiChu);
 		
-		updateTextField();
+		capNhat();
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public void capNhat() {
+		updateTextField();
 	}
 	
 	public void updateTextField() {

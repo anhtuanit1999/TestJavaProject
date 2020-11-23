@@ -163,7 +163,7 @@ public class GiaoDien_GiaoVien {
 		pnCenter.add(lblIcon);
 		
 		try {
-			updateTextField();
+			capNhat();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,7 +173,11 @@ public class GiaoDien_GiaoVien {
 	public JPanel getPanel() {
 		return pnChung;
 	}
-	private void updateTextField() throws ParseException {
+	
+	public void capNhat() throws ParseException {
+		updateTextField();
+	}
+	public void updateTextField() throws ParseException {
 		GiaoVien gv = giaoVienDao.timGiaoVien(maGiaoVien);
 		txtMSGV.setText(gv.getMaGiaoVien());
 		txtHoTen.setText(gv.getHoTen());

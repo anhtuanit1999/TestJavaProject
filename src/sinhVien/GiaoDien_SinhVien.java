@@ -231,7 +231,7 @@ public class GiaoDien_SinhVien {
 		pnCenter.add(txtMaNhom);
 		
 		try {
-			updateTextField();
+			capNhat();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -242,7 +242,11 @@ public class GiaoDien_SinhVien {
 		return pnChung;
 	}
 	
-	private void updateTextField() throws ParseException {
+	public void capNhat() throws ParseException {
+		updateTextField();
+	}
+	
+	public void updateTextField() throws ParseException {
 		SinhVien sv = sinhVienDao.timSinhVien(maSinhVien);
 		if(sv == null) {
 			System.out.println("hihi");

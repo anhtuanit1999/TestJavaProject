@@ -502,6 +502,10 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				}
 			}
 		});
+		capNhat();
+	}
+	
+	public void capNhat() throws SQLException {
 		updateTableDanhSachHoiDong();
 		updateTableDanhSachNhomChuaPhanCong();
 	}

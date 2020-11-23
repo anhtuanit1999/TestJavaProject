@@ -599,12 +599,16 @@ public class GiaoDien_PhanCongHoiDong {
 			}
 		});
 
-		updateTableDanhSachHoiDong();
-		updateTableDanhSachGiaoVien();
-		loadTableDanhSachGiaoVien();
+		capNhat();
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public void capNhat() throws SQLException {
+		updateTableDanhSachHoiDong();
+		updateTableDanhSachGiaoVien();
+		loadTableDanhSachGiaoVien();
 	}
 	
 	public void timKiemGiaoVien(String maGiaoVien, String tenGiaoVien, String khoaCongTac) throws SQLException {

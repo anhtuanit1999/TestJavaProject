@@ -469,28 +469,64 @@ public class GiaoDienChinh implements ActionListener {
 		Object o = e.getSource();
 		if(o.equals(mniThongTinSinhVien)) { // Sinh viên -------------------------------
 			card.show(pnChung, "ThongTinSinhVien");
+			try {
+				GD_SV.capNhat();
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniDangKyDeTai)) {
 			card.show(pnChung, "DangKyDeTai");
+			try {
+				GD_DKDT.capNhat();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
 		} else if(o.equals(mniXemDiem)) {
 			card.show(pnChung, "XemDiem");
+			GD_XD.capNhat();
 		} else if(o.equals(mniTimDeTai)) {
 			card.show(pnChung, "TimDeTai");
 		} else if(o.equals(mniThongTinGiaovien)) { // Giáo viên --------------------------
 			card.show(pnChung, "ThongTinGiaoVien");
+			try {
+				GD_GV.capNhat();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniNhapDiem)) {
 			card.show(pnChung, "NhapDiem");
+			GD_ND.capNhap();
 		} else if(o.equals(mniXemDiemDaNhap)) {
 			card.show(pnChung, "XemDiemDaNhap");
+			GD_XDDN.capNhat();
 		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
+			GD_QLLV.capNhat();
 		} else if(o.equals(mniDanhSachSinhVienDangKyDeTai)) {
 			card.show(pnChung, "BaoCaoDanhSach");
 		} else if(o.equals(mniPhanCongHoiDong)) {
 			card.show(pnChung, "PhanCongHoiDong");
+			try {
+				GD_PCHD.capNhat();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		} else if (o.equals(mniPhanCongHoiDongChamDiem)) {
 			card.show(pnChung, "PhanCongHoiDongChamDiem");
+			try {
+				GD_PCHDCD.capNhat();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniTraCuuThongTinHoiDong)) {
 			card.show(pnChung, "TraCuuThongTinHoiDong");
+			try {
+				GD_TCHD.capNhat();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
 			card.show(pnChung, "ThongKe");
 		} else if(o.equals(mniSinhVienBaoVeLuanVanKhongThanhCong)) {

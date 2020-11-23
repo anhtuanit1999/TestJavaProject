@@ -223,7 +223,7 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 		scrollPane_1_1.setViewportView(tableDanhSachGiaoVien);
 		modelGiaoVienDuocPhanCong = new DefaultTableModel("STT,Mã Giáo Viên, Tên Giáo Viên, Công Việc".split(","),0);
 		tableDanhSachGiaoVien.setModel(modelGiaoVienDuocPhanCong);
-		updateComboBoxNamHoc();
+		
 
 		comboBoxNamHoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -329,6 +329,11 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 				
 			}
 		});
+		capNhat();
+	}
+	
+	public void capNhat() throws SQLException {
+		updateComboBoxNamHoc();
 	}
 
 	public void updateComboBoxNamHoc() throws SQLException {

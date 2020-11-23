@@ -133,7 +133,6 @@ public class GiaoDien_DangNhap implements ActionListener {
 				try {
 					GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
 					giaoDienChinh.frame.setVisible(true);
-					System.out.println(taiKhoan);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -171,7 +171,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		btnCapNhat.addActionListener(this);
 		btnNhapDiem.addActionListener(this);
 		table.addMouseListener(this);
-		giaoVienDao.capNhatBang(table, maGiaoVien);
+		capNhap();
 	}
 	
 	public JPanel getPanel() {
@@ -220,6 +220,10 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		}
 		JOptionPane.showMessageDialog(frame, "Điểm là số nguyên hoặc số thực theo thang điểm 10");
 		return false;
+	}
+	
+	public void capNhap() {
+		giaoVienDao.capNhatBang(table, maGiaoVien);
 	}
 
 	@Override

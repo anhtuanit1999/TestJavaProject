@@ -507,11 +507,10 @@ public class GiaoDien_DangKyDeTai {
 							return;
 						}
 					}
-					if(table.getValueAt(table.getSelectedRow(), 7) == table.getValueAt(table.getSelectedRow(), 6)) {
+					if(table.getValueAt(table.getSelectedRow(), 7).equals(table.getValueAt(table.getSelectedRow(), 6))) {
 						JOptionPane.showMessageDialog(null, "Luận văn đã đủ số nhóm đăng ký.");
 						return;
 					}
-					System.out.println(table.getValueAt(table.getSelectedRow(), 0));
 					stmt.executeUpdate("UPDATE DANHSACH_DANGKYLUANVAN SET MaLuanVan = '"+maDeTai+"' WHERE MaNhom = '"+maNhom+"'");
 					JOptionPane.showMessageDialog(null, "Đăng Ký Thành Công!");
 					updateTableData();
@@ -530,20 +529,21 @@ public class GiaoDien_DangKyDeTai {
 		txtKhoaTrucThuoc.setText(sv.getKhoaTrucThuoc());
 		txtMaNhom.setText(sv.getMaNhom());
 
+		capNhat();
+	}
+	
+	public void capNhat() throws SQLException {
 		updateTableData();
 		loadThongTinNhom();
 		loadDeTaiDaDangKy();
 		updateThongTinHoiDong();
-
-
-
 	}
 
 	public JPanel getPanel() {
 		return pnChung;
 	}
 
-	private void updateThongTinHoiDong() throws SQLException {
+	public void updateThongTinHoiDong() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaHoiDong, TenHoiDong, CONVERT(VARCHAR(10),DANHSACH_DANGKYLUANVAN.NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),DANHSACH_DANGKYLUANVAN.NgayBaoCao,114) AS [GioBaoCao]  "
@@ -558,7 +558,7 @@ public class GiaoDien_DangKyDeTai {
 		}
 	}
 
-	private void loadThongTinNhom() throws SQLException {
+	public void loadThongTinNhom() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen "
@@ -570,7 +570,7 @@ public class GiaoDien_DangKyDeTai {
 		}
 	}
 
-	private void loadDeTaiDaDangKy() throws SQLException {
+	public void loadDeTaiDaDangKy() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(NgayLap) AS NamHoc, HoTen "
@@ -587,7 +587,7 @@ public class GiaoDien_DangKyDeTai {
 			txtGiaoVienHuongDanDaDangKy.setText(rs.getString("HoTen"));
 		}
 	}
-	private void updateTableData() throws SQLException {
+	public void updateTableData() throws SQLException {
 		String linhVucNghienCuu = txtKhoaTrucThuoc.getText();
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();

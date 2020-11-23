@@ -99,11 +99,14 @@ public class GiaoDien_XemDiemDaNhap {
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		scrollPane.setViewportView(table);
 		
-		giaoVienDao.capNhatBang(table, maGiaoVien);
+		capNhat();
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
 	}
 
+	public void capNhat() {
+		giaoVienDao.capNhatBang(table, maGiaoVien);
+	}
 }
