@@ -148,7 +148,7 @@ public class GiaoDien_ThongKe {
 			public void actionPerformed(ActionEvent arg0) {
 				modelTable.setRowCount(0);
 				comboBoxTieuChi.setSelectedItem("Chọn tiêu chí...");
-				if(comboBoxNamHoc.getSelectedIndex() == 0) {			
+				if(comboBoxNamHoc.getSelectedIndex() == 0) {				
 					return;
 				}
 				try {
