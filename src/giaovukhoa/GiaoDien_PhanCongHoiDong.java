@@ -477,6 +477,10 @@ public class GiaoDien_PhanCongHoiDong {
 					JOptionPane.showMessageDialog(null, "Ngày báo cáo không được nhỏ hơn ngày hiện tại!");
 					return;
 				}
+				if(txtTenHoiDongMoi.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Tên Hội Đồng không được trống!");
+					return;
+				}
 				
 				String tenHoiDong = txtTenHoiDongMoi.getText();
 				String ngayBaoCao = dateNgayChamBaoCaoMoi.toString();
@@ -551,6 +555,10 @@ public class GiaoDien_PhanCongHoiDong {
 			public void actionPerformed(ActionEvent arg0) {
 				String maGiaoVien;
 				String congViec;
+				if(txtTenHoiDong.getText().length() == 0) {
+					JOptionPane.showMessageDialog(null, "Tên Hội Đồng không được trống!");
+					return;
+				}
 				for(int i = 0; i < tableGiaoVienDuocPhanCong.getRowCount(); i++ ) {
 					congViec = tableGiaoVienDuocPhanCong.getValueAt(i, 2).toString();
 					if(congViec.equalsIgnoreCase("Chọn công việc...")) {
