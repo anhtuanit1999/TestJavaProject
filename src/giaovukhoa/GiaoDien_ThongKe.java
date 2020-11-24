@@ -282,7 +282,7 @@ public class GiaoDien_ThongKe {
 		comboBoxNamHoc.addItem("Chọn năm học...");
 		Connection con = Database.getInstance().getConnection();
 		Statement statement = con.createStatement();
-		ResultSet res = statement.executeQuery("SELECT DISTINCT YEAR(NgayLap) AS NamHoc FROM HOIDONG ORDER BY YEAR(NgayLap) ASC");
+		ResultSet res = statement.executeQuery("SELECT DISTINCT YEAR(NgayBaoCao) AS NamHoc FROM HOIDONG ORDER BY YEAR(NgayBaoCao) ASC");
 		while(res.next()) {
 			int namHoc_temp = res.getInt(1) + 1;
 			comboBoxNamHoc.addItem(res.getString(1) + " - " +namHoc_temp);

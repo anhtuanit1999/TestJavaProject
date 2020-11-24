@@ -337,6 +337,7 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 	}
 
 	public void updateComboBoxNamHoc() throws SQLException {
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel<>());
 		comboBoxNamHoc.addItem("Chọn năm học...");
 		Connection con = Database.getInstance().getConnection();
 		Statement statement = con.createStatement();
