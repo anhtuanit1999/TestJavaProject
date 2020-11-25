@@ -523,11 +523,6 @@ public class GiaoDien_DangKyDeTai {
 			}
 
 		});
-		SinhVien sv = SinhVienDao.timSinhVien(maSinhVien);
-		txtMaSinhVien_1.setText(sv.getMaSinhVien());
-		txtTenSinhVien_1.setText(sv.getHoTen());
-		txtKhoaTrucThuoc.setText(sv.getKhoaTrucThuoc());
-		txtMaNhom.setText(sv.getMaNhom());
 
 		capNhat();
 	}
@@ -559,14 +554,15 @@ public class GiaoDien_DangKyDeTai {
 	}
 
 	public void loadThongTinNhom() throws SQLException {
-		Connection con = Database.getInstance().getConnection();
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT MaSinhVien, HoTen "
-				+ "FROM SINHVIEN "
-				+ "WHERE MaNhom = '"+txtMaNhom.getText()+"' AND MaSinhVien <> '"+txtMaSinhVien_1.getText()+"'");
-		while(rs.next()) {
-			txtTenSinhVien_2.setText(rs.getString("HoTen"));
-			txtMaSinhVien_2.setText(rs.getString("MaSinhVien"));
+		SinhVien sv1 = SinhVienDao.timSinhVien(maSinhVien);
+		txtMaSinhVien_1.setText(sv1.getMaSinhVien());
+		txtTenSinhVien_1.setText(sv1.getHoTen());
+		txtKhoaTrucThuoc.setText(sv1.getKhoaTrucThuoc());
+		txtMaNhom.setText(sv1.getMaNhom());
+		SinhVien sv2 = SinhVienDao.timSinhVienCungNhom(txtMaNhom.getText().trim(), txtMaSinhVien_1.getText().trim());
+		if(sv2 != null) {
+			txtTenSinhVien_2.setText(sv2.getHoTen());
+			txtMaSinhVien_2.setText(sv2.getMaSinhVien());
 		}
 	}
 

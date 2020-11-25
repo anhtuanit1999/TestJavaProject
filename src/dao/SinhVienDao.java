@@ -121,16 +121,17 @@ public class SinhVienDao {
 		try {
 			statement = con.createStatement();
 			ResultSet res = statement.executeQuery(sql);
-			res.next();
-			String hoTen = res.getString(2);
-			String ngaySinh = res.getString(3);
-			String soDienThoai = res.getString(4);
-			String diaChi = res.getString(5);
-			String khoaTrucThuoc = res.getString(6);
-			int namVaoTruong = res.getInt(7);
-			int namTotNghiep = res.getInt(8);
-			String maNhom = res.getString(9);
-			sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
+			if(res.next()) {
+				String hoTen = res.getString(2);
+				String ngaySinh = res.getString(3);
+				String soDienThoai = res.getString(4);
+				String diaChi = res.getString(5);
+				String khoaTrucThuoc = res.getString(6);
+				int namVaoTruong = res.getInt(7);
+				int namTotNghiep = res.getInt(8);
+				String maNhom = res.getString(9);
+				sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -181,5 +182,78 @@ public class SinhVienDao {
 			e.printStackTrace();
 		}
 		return res;
+	}
+	
+	public ArrayList<SinhVien> timSinhVien(String maSinhVien, String hoTen, String soDienThoai, String diaChi, String khoaTrucThuoc, String namVaoTruong, String namTotNghiep) {
+		ArrayList<SinhVien> list = new ArrayList<SinhVien>();
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"where sv.MaSinhVien like '%"+ maSinhVien +"%' and \r\n" + 
+				"sv.HoTen like N'%"+ hoTen +"%' and \r\n" + 
+				"sv.SoDienThoai like '%"+ soDienThoai +"%' and \r\n" + 
+				"sv.KhoaTrucThuoc like N'%"+ khoaTrucThuoc +"%' and \r\n" + 
+				"sv.DiaChi like '%"+ diaChi +"%' and \r\n" + 
+				"sv.NamVaoTruong like '%"+ namVaoTruong +"%' and \r\n" + 
+				"sv.NamTotNghiep like '%"+ namTotNghiep +"%'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while(res.next()) {
+				String maSinhVienCanTim = res.getString(1);
+				String hoTenCanTim = res.getString(2);
+				String ngaySinh = res.getString(3);
+				String soDienThoaiCanTim = res.getString(4);
+				String diaChiCanTim = res.getString(5);
+				String khoaTrucThuocCanTim = res.getString(6);
+				int namVaoTruongCanTim = res.getInt(7);
+				int namTotNghiepCanTim = res.getInt(8);
+				String maNhom = res.getString(9);
+				SinhVien sv = new SinhVien(maSinhVienCanTim, hoTenCanTim, ngaySinh, soDienThoaiCanTim, diaChiCanTim, khoaTrucThuocCanTim, namVaoTruongCanTim, namTotNghiepCanTim, maNhom);
+				list.add(sv);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public boolean dangKyNhom(String maSinhVien1, String maSinhVien2) {
+		Connection con = Database.getInstance().getConnection();
+		String maNhom = sinhMaNhomTuDong();
+		String sql = "INSERT INTO DANHSACH_DANGKYLUANVAN(MaNhom, MaLuanVan,MaHoiDong, NgayBaoCao) VALUES ('"+ maNhom +"', NULL, NULL, NULL)\r\n" + 
+				"UPDATE SINHVIEN SET MaNhom = '"+ maNhom +"' WHERE MaSinhVien = '"+ maSinhVien1 +"'\r\n" + 
+				"UPDATE SINHVIEN SET MaNhom = '"+ maNhom +"' WHERE MaSinhVien = '"+ maSinhVien2 +"'";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			int n = statement.executeUpdate(sql);
+			return n > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public String sinhMaNhomTuDong() {
+		String count = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select COUNT(ds.MaNhom)\r\n" + 
+				"from DANHSACH_DANGKYLUANVAN ds";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			count = res.getInt(1) + 1 + "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i <= 3 - count.split("").length ; i++) {
+			count = "0" + count;
+		}
+		return "NH" + count;
 	}
 }

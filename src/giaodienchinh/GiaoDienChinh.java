@@ -14,6 +14,8 @@ import javax.swing.border.LineBorder;
 
 import dao.DangNhapDao;
 import dao.Database;
+import dao.SinhVienDao;
+import entity.SinhVien;
 import giaovien.GiaoDien_GiaoVien;
 import giaovien.GiaoDien_NhapDiem;
 import giaovien.GiaoDien_XemDiemDaNhap;
@@ -91,6 +93,7 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenu mnSinhVien;
 	private JMenuItem mniDangKyNhom;
 	private GiaoDien_DangKyNhom GD_DKN;
+	private SinhVienDao sinhVienDao;
 	
 	
 
@@ -131,6 +134,7 @@ public class GiaoDienChinh implements ActionListener {
 	private void initialize() throws SQLException, ParseException {
 		Database.getInstance().connec();
 		dangNhapDao = new DangNhapDao();
+		sinhVienDao = new SinhVienDao();
 		frame = new JFrame();
 		frame.setTitle("Giao diện chính");
 		frame.setBounds(10, 10, 1280, 1024);
@@ -276,12 +280,20 @@ public class GiaoDienChinh implements ActionListener {
 			pnChung.add(GD_SV.getPanel(), "ThongTinSinhVien");
 			
 			// Giao diện đăng ký nhóm
-			GD_DKN = new GiaoDien_DangKyNhom();
+			GD_DKN = new GiaoDien_DangKyNhom(taiKhoan, this);
 			pnChung.add(GD_DKN.getPanel(), "DangKyNhom");
 			
+			
+			SinhVien sv = sinhVienDao.timSinhVien(taiKhoan);
 			// Giao diện đăng ký đề tài
 			GD_DKDT = new GiaoDien_DangKyDeTai(taiKhoan);
 			pnChung.add(GD_DKDT.getPanel(), "DangKyDeTai");
+			
+			if(sv != null) {
+				if(sv.getMaNhom() == null) {
+					mniDangKyDeTai.setEnabled(false);
+				}
+			}
 			
 			// Giao diện xem điểm
 			GD_XD = new GiaoDien_XemDiem(taiKhoan);
@@ -547,8 +559,8 @@ public class GiaoDienChinh implements ActionListener {
 		} else if(o.equals(mniDangXuat)) {
 			card.show(pnChung, "DangXuat");
 		}
-		
-		
 	}
-
+	public void moGiaoDienDangKyDeTai() {
+		mniDangKyDeTai.setEnabled(true);
+	}
 }
