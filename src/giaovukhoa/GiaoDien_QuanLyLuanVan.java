@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -43,7 +45,7 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
 
-public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
+public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, KeyListener {
 
 	private JFrame frame;
 	private JPanel pnChung;
@@ -214,6 +216,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		table.addMouseListener(this);
 		btnXoa.addActionListener(this);
 		btnSua.addActionListener(this);
+		txtSoNhomThamGiaToiDa.addKeyListener(this);
+		comboBoxTenGiaoVien.addKeyListener(this);
 		
 	}
 	public JPanel getPanel() {
@@ -327,37 +331,41 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 		comboBoxTenGiaoVien.setSelectedIndex(0);
 		txtSoNhomThamGiaToiDa.setText("3");
 	}
+	
+	public void eventThem() {
+		if(kiemTraTextField()) {
+			String regex = "GV\\d{3}";
+			String tenLuanVan = txtTenLuanVan.getText();
+			String linhVucNghienCuu = txtLinhVucNghienCuu.getText();
+			String moTa = txtaMoTa.getText();
+			Date ngayLap = dateChooserNgayLap.getDate();
+			int soNhomThamGiaToiDa = Integer.parseInt(txtSoNhomThamGiaToiDa.getText());
+			
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(comboBoxTenGiaoVien.getSelectedItem().toString());
+			String maGiaoVien = "";
+			while(matcher.find()) {
+				maGiaoVien += comboBoxTenGiaoVien.getSelectedItem().toString().substring(matcher.start(), matcher.end());
+			}
+			LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
+			if(luanVanDao.kiemTraLuanVanDaTonTai(tenLuanVan, linhVucNghienCuu)) {
+				JOptionPane.showMessageDialog(frame, "Luận văn đã tồn tại");
+				return;
+			}
+			System.out.println(dateChooserNgayLap.getDate());
+			JOptionPane.showMessageDialog(frame, "Thêm thành công!");
+			luanVanDao.themLuanVan(lv);
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			luanVanDao.updateBangLuanVan(table);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnThem)) {
-			if(kiemTraTextField()) {
-				String regex = "GV\\d{3}";
-				String tenLuanVan = txtTenLuanVan.getText();
-				String linhVucNghienCuu = txtLinhVucNghienCuu.getText();
-				String moTa = txtaMoTa.getText();
-				Date ngayLap = dateChooserNgayLap.getDate();
-				int soNhomThamGiaToiDa = Integer.parseInt(txtSoNhomThamGiaToiDa.getText());
-				
-				Pattern pattern = Pattern.compile(regex);
-				Matcher matcher = pattern.matcher(comboBoxTenGiaoVien.getSelectedItem().toString());
-				String maGiaoVien = "";
-				while(matcher.find()) {
-					maGiaoVien += comboBoxTenGiaoVien.getSelectedItem().toString().substring(matcher.start(), matcher.end());
-				}
-				LuanVan lv = new LuanVan(luanVanDao.sinhMaLuanVanTuDong(), tenLuanVan, linhVucNghienCuu, moTa, ngayLap, maGiaoVien, soNhomThamGiaToiDa);
-				if(luanVanDao.kiemTraLuanVanDaTonTai(tenLuanVan, linhVucNghienCuu)) {
-					JOptionPane.showMessageDialog(frame, "Luận văn đã tồn tại");
-					return;
-				}
-				System.out.println(dateChooserNgayLap.getDate());
-				JOptionPane.showMessageDialog(frame, "Thêm thành công!");
-				luanVanDao.themLuanVan(lv);
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.setRowCount(0);
-				luanVanDao.updateBangLuanVan(table);
-			}
+			eventThem();
 		} else if(o.equals(btnXoa)) {
 			int row = table.getSelectedRow();
 			if (row >= 0) {
@@ -398,6 +406,25 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener {
 			model.setRowCount(0);
 			luanVanDao.updateBangLuanVan(table);
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventThem();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -28,7 +30,7 @@ import dao.LuanVanDao;
 
 import javax.swing.JCheckBox;
 
-public class GiaoDien_TimDeTai implements ActionListener {
+public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 
 	private JFrame frame;
 	private JTextField txtThongTin;
@@ -153,30 +155,55 @@ public class GiaoDien_TimDeTai implements ActionListener {
 		scrollPane.setViewportView(table);
 		
 		btnTimKiem.addActionListener(this);
+		txtThongTin.addKeyListener(this);
+		comboBoxTieuChi.addKeyListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public void eventTimKiem() {
+		String maLuanVan = "";
+		String tenLuanVan = "";
+		String tenGiaoVienRaDeTai = "";
+		String giaTri = comboBoxTieuChi.getSelectedItem().toString();
+		if(giaTri == "Mã đề tài") {
+			maLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+		} else if(giaTri == "Tên đề tài") {
+			tenLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+		} else if(giaTri == "Tên giáo viên ra đề tài") {
+			tenGiaoVienRaDeTai = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
+		}
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		luanVanDao.updateTableTimLuanVanTheoTieuChi(maLuanVan, tenLuanVan, tenGiaoVienRaDeTai, table);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTimKiem)) {
-			String maLuanVan = "";
-			String tenLuanVan = "";
-			String tenGiaoVienRaDeTai = "";
-			String giaTri = comboBoxTieuChi.getSelectedItem().toString();
-			if(giaTri == "Mã đề tài") {
-				maLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
-			} else if(giaTri == "Tên đề tài") {
-				tenLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
-			} else if(giaTri == "Tên giáo viên ra đề tài") {
-				tenGiaoVienRaDeTai = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
-			}
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			model.setRowCount(0);
-			luanVanDao.updateTableTimLuanVanTheoTieuChi(maLuanVan, tenLuanVan, tenGiaoVienRaDeTai, table);
+			eventTimKiem();
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventTimKiem();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

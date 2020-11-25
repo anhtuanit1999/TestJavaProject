@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -34,7 +36,7 @@ import dao.GiaoVienDao;
 
 import javax.swing.JButton;
 
-public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
+public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyListener{
 
 	private JFrame frame;
 	private JTextField txtTenSinhVien;
@@ -184,6 +186,9 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 		table.addMouseListener(this);
 		capNhap();
 		
+		txtDiemSo.addKeyListener(this);
+		txtaGhiChu.addKeyListener(this);
+		
 		comboBoxNamHoc.addActionListener(new ActionListener() {
 
 			@Override
@@ -265,25 +270,29 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 			comboBoxNamHoc.addItem(res.getString(1) + " - " +namHoc_temp);
 		}
 	}
+	
+	public void eventNhapDiem() {
+		if(kiemTra()) {
+			String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+			String maSinhVien = txtMaSinhVien.getText();
+			float diem = Float.parseFloat(txtDiemSo.getText());
+			String ghiChu = txtaGhiChu.getText();
+			if(giaoVienDao.nhapDiem(maGiaoVien, maSinhVien, diem, ghiChu)) {
+				JOptionPane.showMessageDialog(frame, "Nhập điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.setNumRows(0);
+				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
+				return;
+			}
+			JOptionPane.showMessageDialog(frame, "Không thể nhập điểm cho sinh viên " + txtTenSinhVien.getText() + " 2 lần");
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnNhapDiem)) {
-			if(kiemTra()) {
-				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
-				String maSinhVien = txtMaSinhVien.getText();
-				float diem = Float.parseFloat(txtDiemSo.getText());
-				String ghiChu = txtaGhiChu.getText();
-				if(giaoVienDao.nhapDiem(maGiaoVien, maSinhVien, diem, ghiChu)) {
-					JOptionPane.showMessageDialog(frame, "Nhập điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					model.setNumRows(0);
-					giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
-					return;
-				}
-				JOptionPane.showMessageDialog(frame, "Không thể nhập điểm cho sinh viên " + txtTenSinhVien.getText() + " 2 lần");
-			}
+			eventNhapDiem();
 		} else if(o.equals(btnCapNhat)) {
 			if(kiemTra()) {
 				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
@@ -300,6 +309,25 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener{
 				JOptionPane.showMessageDialog(frame, "Đã sửa điểm cho sinh viên " + txtTenSinhVien.getText());
 			}
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventNhapDiem();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

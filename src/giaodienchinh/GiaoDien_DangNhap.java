@@ -17,6 +17,8 @@ import dao.Database;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -25,7 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import javax.swing.JPasswordField;
 
-public class GiaoDien_DangNhap implements ActionListener {
+public class GiaoDien_DangNhap implements ActionListener, KeyListener {
 
 	public JFrame frame;
 	private JTextField txtTaiKhoan;
@@ -111,6 +113,7 @@ public class GiaoDien_DangNhap implements ActionListener {
 		pwdMatKhau.setBounds(148, 105, 265, 19);
 		pnDangNhap.add(pwdMatKhau);
 		
+		pwdMatKhau.addKeyListener(this);
 		btnTiepTuc.addActionListener(this);
 	}
 	public JPanel getPanel() {
@@ -121,32 +124,58 @@ public class GiaoDien_DangNhap implements ActionListener {
 		txtTaiKhoan.setText("");
 		pwdMatKhau.setText("");
 	}
+	
+	public void eventTiepTuc() {
+		String taiKhoan = txtTaiKhoan.getText().trim();
+		String matKhau = pwdMatKhau.getText().trim();
+		if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, matKhau)) {
+			JOptionPane.showMessageDialog(frame, "Đăng nhập thành công");
+			xoaTrang();
+			try {
+				GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
+				giaoDienChinh.frame.setVisible(true);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			frame.dispose();
+			return;
+		}
+		JOptionPane.showMessageDialog(frame, "Tài khoản hoặc mật khẩu không đúng");
+		xoaTrang();
+		return;
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTiepTuc)) {
-			String taiKhoan = txtTaiKhoan.getText().trim();
-			String matKhau = pwdMatKhau.getText().trim();
-			if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, matKhau)) {
-				JOptionPane.showMessageDialog(frame, "Đăng nhập thành công");
-				xoaTrang();
-				try {
-					GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
-					giaoDienChinh.frame.setVisible(true);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				frame.dispose();
-				return;
-			}
-			JOptionPane.showMessageDialog(frame, "Tài khoản hoặc mật khẩu không đúng");
-			xoaTrang();
-			return;
+			eventTiepTuc();
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventTiepTuc();
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

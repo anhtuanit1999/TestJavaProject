@@ -40,12 +40,14 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
-public class GiaoDien_DangKyDeTai {
+public class GiaoDien_DangKyDeTai implements KeyListener {
 
 	private JFrame frame;
 	private JTable table;
@@ -74,6 +76,7 @@ public class GiaoDien_DangKyDeTai {
 	private JTextField txtNgayBaoCao;
 	private String maSinhVien;
 	private SinhVienDao SinhVienDao;
+	private JComboBox comboBoxTimKiem;
 	/**
 	 * Launch the application.
 	 */
@@ -182,7 +185,7 @@ public class GiaoDien_DangKyDeTai {
 		btnTimKiem.setBounds(508, 272, 80, 28);
 		pnCenter.add(btnTimKiem);
 
-		JComboBox comboBoxTimKiem = new JComboBox();
+		comboBoxTimKiem = new JComboBox();
 		comboBoxTimKiem.setModel(new DefaultComboBoxModel(new String[] {"Chọn tiêu chí...", "Mã đề tài", "Tên đề tài", "Giáo viên hướng dẫn"}));
 		comboBoxTimKiem.setBounds(360, 272, 138, 25);
 		pnCenter.add(comboBoxTimKiem);
@@ -427,38 +430,7 @@ public class GiaoDien_DangKyDeTai {
 
 		btnTimKiem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tableModel.setRowCount(0);
-				String tieuChi = comboBoxTimKiem.getSelectedItem().toString();
-				String noiDungTimKiem = txtTimKiem.getText();
-				try {
-					if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
-						JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
-						try {
-							updateTableData();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}	
-					}else if(tieuChi.equalsIgnoreCase("Mã đề tài")){
-						timKiemLuanVan(noiDungTimKiem, "", "");
-					}else if(tieuChi.equalsIgnoreCase("Tên đề tài")) {
-						timKiemLuanVan("", noiDungTimKiem, "");
-					}else if(tieuChi.equalsIgnoreCase("Giáo viên hướng dẫn")) {
-						timKiemLuanVan("", "", noiDungTimKiem);
-					}
-					if(tableModel.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-						try {
-							updateTableData();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}catch (SQLException e) {
-					// TODO: handle exception
-					e.printStackTrace();
-				}
+				eventTimKiem();
 			}
 		});
 
@@ -523,6 +495,8 @@ public class GiaoDien_DangKyDeTai {
 			}
 
 		});
+		txtTimKiem.addKeyListener(this);
+		comboBoxTimKiem.addKeyListener(this);
 
 		capNhat();
 	}
@@ -622,6 +596,41 @@ public class GiaoDien_DangKyDeTai {
 			e.printStackTrace();
 		};
 	}
+	
+	public void eventTimKiem() {
+		tableModel.setRowCount(0);
+		String tieuChi = comboBoxTimKiem.getSelectedItem().toString();
+		String noiDungTimKiem = txtTimKiem.getText();
+		try {
+			if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
+				try {
+					updateTableData();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}else if(tieuChi.equalsIgnoreCase("Mã đề tài")){
+				timKiemLuanVan(noiDungTimKiem, "", "");
+			}else if(tieuChi.equalsIgnoreCase("Tên đề tài")) {
+				timKiemLuanVan("", noiDungTimKiem, "");
+			}else if(tieuChi.equalsIgnoreCase("Giáo viên hướng dẫn")) {
+				timKiemLuanVan("", "", noiDungTimKiem);
+			}
+			if(tableModel.getRowCount() == 0) {
+				JOptionPane.showMessageDialog(null, "Không tìm thấy!");
+				try {
+					updateTableData();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 
 	public void timKiemLuanVan(String maLuanVan, String tenLuanVan, String giaoVien) throws SQLException {
 		Connection con = Database.getInstance().getConnection();
@@ -660,5 +669,24 @@ public class GiaoDien_DangKyDeTai {
 			// TODO: handle exception
 			e.printStackTrace();
 		};
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventTimKiem();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

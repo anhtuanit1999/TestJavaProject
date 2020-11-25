@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -34,7 +36,7 @@ import giaodienchinh.GiaoDienChinh;
 import javax.swing.UIManager;
 import java.awt.Color;
 
-public class GiaoDien_DangKyNhom implements MouseListener, ActionListener {
+public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyListener {
 
 	private JFrame frame;
 	private JTextField txtMSSVChinh;
@@ -319,6 +321,7 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener {
 		table.addMouseListener(this);
 		btnTim.addActionListener(this);
 		btnDangKyNhom.addActionListener(this);
+		txtThongTinSinVienCanTim.addKeyListener(this);
 		
 		try {
 			capNhat();
@@ -401,55 +404,59 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void eventTim() {
+		String maSinhVien = "";
+		String hoTen = "";
+		String soDienThoai = "";
+		String diaChi = "";
+		String khoaTrucThuoc = "";
+		String namVaoTruong = "";
+		String namTotNghiep = "";
+		String tieuChi = comboBoxTieuChi.getSelectedItem().toString().trim();
+		if(tieuChi.equals("Mã sinh viên")) {
+			maSinhVien = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		} else if(tieuChi.equals("Tên sinh viên")) {
+			hoTen = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		} else if(tieuChi.equals("Số điện thoại")) {
+			soDienThoai = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		} else if(tieuChi.equals("Địa chỉ")) {
+			diaChi = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		}  else if(tieuChi.equals("Khoa trực thuộc")) {
+			khoaTrucThuoc = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		} else if(tieuChi.equals("Năm vào trường")) {
+			namVaoTruong = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		} else if(tieuChi.equals("Năm tốt nghiệp")) {
+			namTotNghiep = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
+		}
+		
+		ArrayList<SinhVien> list = sinhVienDao.timSinhVien(maSinhVien, hoTen, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep);
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		
+		int count = 1;
+		for (SinhVien s : list) {
+			if(s.getMaSinhVien().equals(maSinhVien)) {
+				continue;
+			}
+			String[] rowData = {
+					count++ + "",
+					s.getMaSinhVien(),
+					s.getHoTen(),
+					s.getKhoaTrucThuoc(),
+					s.getNamVaoTruong() + "",
+					s.getNamTotNghiep() + "",
+					s.getMaNhom()
+			};
+			model.addRow(rowData);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTim)) {
-			String maSinhVien = "";
-			String hoTen = "";
-			String soDienThoai = "";
-			String diaChi = "";
-			String khoaTrucThuoc = "";
-			String namVaoTruong = "";
-			String namTotNghiep = "";
-			String tieuChi = comboBoxTieuChi.getSelectedItem().toString().trim();
-			if(tieuChi.equals("Mã sinh viên")) {
-				maSinhVien = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			} else if(tieuChi.equals("Tên sinh viên")) {
-				hoTen = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			} else if(tieuChi.equals("Số điện thoại")) {
-				soDienThoai = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			} else if(tieuChi.equals("Địa chỉ")) {
-				diaChi = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			}  else if(tieuChi.equals("Khoa trực thuộc")) {
-				khoaTrucThuoc = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			} else if(tieuChi.equals("Năm vào trường")) {
-				namVaoTruong = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			} else if(tieuChi.equals("Năm tốt nghiệp")) {
-				namTotNghiep = txtThongTinSinVienCanTim.getText() == null ? "" : txtThongTinSinVienCanTim.getText().toString().trim();
-			}
-			
-			ArrayList<SinhVien> list = sinhVienDao.timSinhVien(maSinhVien, hoTen, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep);
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			model.setRowCount(0);
-			
-			int count = 1;
-			for (SinhVien s : list) {
-				if(s.getMaSinhVien().equals(maSinhVien)) {
-					continue;
-				}
-				String[] rowData = {
-						count++ + "",
-						s.getMaSinhVien(),
-						s.getHoTen(),
-						s.getKhoaTrucThuoc(),
-						s.getNamVaoTruong() + "",
-						s.getNamTotNghiep() + "",
-						s.getMaNhom()
-				};
-				model.addRow(rowData);
-			}
+			eventTim();
 		} else if(o.equals(btnDangKyNhom)) {
 			if(kiemTra()) {
 				String maSinhVien1 = maSinhVien;
@@ -490,5 +497,24 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener {
 	public boolean kiemTra() {
 		int row = table.getSelectedRow();
 		return row >= 0 && !txtMSSV.getText().equals("");
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventTim();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

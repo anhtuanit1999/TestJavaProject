@@ -35,12 +35,14 @@ import javax.swing.JComboBox;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class GiaoDien_TraCuuThongTinHoiDong {
+public class GiaoDien_TraCuuThongTinHoiDong implements KeyListener {
 
 	private JFrame frame;
 	private JTextField txtTimKiemHoiDong;
@@ -235,8 +237,9 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 					txtTenHoiDong.setText("");
 					txtNgayLap.setText("");
 					txtNgayBaoCao.setText("");
-					
-					updateTableDanhSachHoiDong(namHoc);
+					if(!namHoc.equals("Chọn")) {
+						updateTableDanhSachHoiDong(namHoc);
+					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -263,41 +266,7 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 		
 		btnTimKiemHoiDong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				modelDanhSachHoiDong.setRowCount(0);
-				String tieuChi = comboBoxTimKiemHoiDong.getSelectedItem().toString();
-				String noiDungTimKiem = txtTimKiemHoiDong.getText();
-				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
-				if(comboBoxNamHoc.getSelectedItem().toString().equalsIgnoreCase("Chọn năm học...")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn năm học!");
-					return;
-				}
-				try {
-					if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
-						JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
-						updateTableDanhSachHoiDong(namHoc);
-						return;
-					}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
-						timKiemHoiDong(noiDungTimKiem, "", "", "", namHoc);
-					}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
-						timKiemHoiDong("", noiDungTimKiem,"" , "", namHoc);
-					}else if(tieuChi.equalsIgnoreCase("Ngày Lập")) {
-						timKiemHoiDong("", "", noiDungTimKiem, "", namHoc);
-					}else if(tieuChi.equalsIgnoreCase("Ngày Chấm Báo Cáo")) {
-						timKiemHoiDong("", "", "", noiDungTimKiem, namHoc);
-					}
-					if(modelDanhSachHoiDong.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-						try {
-							updateTableDanhSachHoiDong(namHoc);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}catch (SQLException e) {
-					// TODO: handle exception
-					e.printStackTrace();
-				}
+				eventTimKiem();
 			}
 		});
 		
@@ -309,7 +278,9 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 				if(txtTimKiemHoiDong.getText().isEmpty()) {
 					try {
 						String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4);
-						updateTableDanhSachHoiDong(namHoc);
+						if(!namHoc.equals("Chọn")) {
+							updateTableDanhSachHoiDong(namHoc);
+						}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -329,11 +300,57 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 				
 			}
 		});
+		txtTimKiemHoiDong.addKeyListener(this);
+		comboBoxTimKiemHoiDong.addKeyListener(this);
+		comboBoxNamHoc.addKeyListener(this);
+		
 		capNhat();
 	}
 	
 	public void capNhat() throws SQLException {
 		updateComboBoxNamHoc();
+	}
+	
+	public void eventTimKiem() {
+		modelDanhSachHoiDong.setRowCount(0);
+		String tieuChi = comboBoxTimKiemHoiDong.getSelectedItem().toString();
+		String noiDungTimKiem = txtTimKiemHoiDong.getText();
+		String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+		if(comboBoxNamHoc.getSelectedItem().toString().equalsIgnoreCase("Chọn năm học...")) {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn năm học!");
+			return;
+		}
+		try {
+			if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
+				if(!namHoc.equals("Chọn")) {
+					updateTableDanhSachHoiDong(namHoc);
+				}
+				return;
+			}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
+				timKiemHoiDong(noiDungTimKiem, "", "", "", namHoc);
+			}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
+				timKiemHoiDong("", noiDungTimKiem,"" , "", namHoc);
+			}else if(tieuChi.equalsIgnoreCase("Ngày Lập")) {
+				timKiemHoiDong("", "", noiDungTimKiem, "", namHoc);
+			}else if(tieuChi.equalsIgnoreCase("Ngày Chấm Báo Cáo")) {
+				timKiemHoiDong("", "", "", noiDungTimKiem, namHoc);
+			}
+			if(modelDanhSachHoiDong.getRowCount() == 0) {
+				JOptionPane.showMessageDialog(null, "Không tìm thấy!");
+				try {
+					if(!namHoc.equals("Chọn")) {
+						updateTableDanhSachHoiDong(namHoc);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	public void updateComboBoxNamHoc() throws SQLException {
@@ -428,6 +445,25 @@ public class GiaoDien_TraCuuThongTinHoiDong {
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventTimKiem();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -21,10 +21,12 @@ import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
-public class GiaoDien_DoiMatKhau implements ActionListener {
+public class GiaoDien_DoiMatKhau implements ActionListener, KeyListener {
 
 	private JFrame frame;
 	private JPanel pnChung;
@@ -129,6 +131,9 @@ public class GiaoDien_DoiMatKhau implements ActionListener {
 		pnDoiMatKhau.add(pwdXacNhanMatKhauMoi);
 		
 		btnDoiMatKhau.addActionListener(this);
+		pwdMatKhau.addKeyListener(this);
+		pwdMatKhauMoi.addKeyListener(this);
+		pwdXacNhanMatKhauMoi.addKeyListener(this);
 	}
 	public JPanel getPanel() {
 		return pnChung;
@@ -161,27 +166,51 @@ public class GiaoDien_DoiMatKhau implements ActionListener {
 		pwdMatKhauMoi.setText("");
 		pwdXacNhanMatKhauMoi.setText("");
 	}
+	
+	public void eventDoiMatKhau() {
+		if(kiemTraPasswordField()) {
+			if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, pwdMatKhau.getText())) {
+				if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn đổi mật khẩu?", "WARNING",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					if (dangNhapDao.doiMatKhau(taiKhoan, pwdMatKhau.getText(), pwdMatKhauMoi.getText())) {
+						JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thành công");
+						xoaTrang();
+						return;
+					}
+					JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thất bại");
+					xoaTrang();
+				}
+
+			}
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnDoiMatKhau)) {
-			if(kiemTraPasswordField()) {
-				if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, pwdMatKhau.getText())) {
-					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn đổi mật khẩu?", "WARNING",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						if (dangNhapDao.doiMatKhau(taiKhoan, pwdMatKhau.getText(), pwdMatKhauMoi.getText())) {
-							JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thành công");
-							xoaTrang();
-							return;
-						}
-						JOptionPane.showMessageDialog(frame, "Đổi mật khẩu thất bại");
-						xoaTrang();
-					}
-
-				}
-			}
+			eventDoiMatKhau();
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			eventDoiMatKhau();
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
