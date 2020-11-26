@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
@@ -221,9 +223,10 @@ public class SinhVienDao {
 	}
 	
 	public boolean dangKyNhom(String maSinhVien1, String maSinhVien2) {
+		String ngayHienTai = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		Connection con = Database.getInstance().getConnection();
 		String maNhom = sinhMaNhomTuDong();
-		String sql = "INSERT INTO DANHSACH_DANGKYLUANVAN(MaNhom, MaLuanVan,MaHoiDong, NgayBaoCao) VALUES ('"+ maNhom +"', NULL, NULL, NULL)\r\n" + 
+		String sql = "INSERT INTO DANHSACH_DANGKYLUANVAN(MaNhom, MaLuanVan,MaHoiDong, NgayLap, NgayBaoCao) VALUES ('"+ maNhom +"', NULL, NULL, '"+ngayHienTai+"', NULL)\r\n" + 
 				"UPDATE SINHVIEN SET MaNhom = '"+ maNhom +"' WHERE MaSinhVien = '"+ maSinhVien1 +"'\r\n" + 
 				"UPDATE SINHVIEN SET MaNhom = '"+ maNhom +"' WHERE MaSinhVien = '"+ maSinhVien2 +"'";
 		Statement statement;
