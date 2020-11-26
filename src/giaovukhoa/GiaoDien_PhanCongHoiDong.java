@@ -204,6 +204,15 @@ public class GiaoDien_PhanCongHoiDong {
 				int ret = JOptionPane.showConfirmDialog(null, "Bạn có muốn xoá hội đồng này?", "Xoá", JOptionPane.YES_NO_OPTION);
 				if(ret == JOptionPane.YES_OPTION) {
 					try {
+					Connection con = Database.getInstance().getConnection();
+					Statement st = con.createStatement();
+					ResultSet rs = st.executeQuery("SELECT MaHoiDong FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong = '"+txtMaHoiDong.getText()+"'");
+					if(rs.next()) {
+						JOptionPane.showMessageDialog(null, "Hội Đồng đang chấm điểm cho đề tài nên không được xoá!");
+						return;
+						
+					}
+					else {
 						dao.xoaHoiDong(txtMaHoiDong.getText());
 						updateTableDanhSachHoiDong();
 						txtTenHoiDong.setText(null);
@@ -211,11 +220,13 @@ public class GiaoDien_PhanCongHoiDong {
 						dateNgayChamBaoCao.setText(null);
 						txtNgayLapHoiDong.setText(null);
 						JOptionPane.showMessageDialog(null, "Xoá Thành Công!");
+					}
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+
 			}
 		});
 
@@ -383,40 +394,32 @@ public class GiaoDien_PhanCongHoiDong {
 				modelDanhSachHoiDong.setRowCount(0);
 				String tieuChi = comboBoxTimKiemHoiDong.getSelectedItem().toString();
 				String noiDungTimKiem = txtTimKiemHoiDong.getText();
-				int i = 1;
-				if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
-					JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
-//						loadTableDanhSachHoiDong();
-				}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
-					for(HoiDong hd : listHoiDong) {
-						if(hd.getMaHoiDong().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									hd.getMaHoiDong(),
-									hd.getTenHoiDong()
-							};
-							modelDanhSachHoiDong.addRow(rowData);
-						}
+				HoiDongDao  hd = new HoiDongDao();
+				try {
+					if(tieuChi.equalsIgnoreCase("Chọn tiêu chí...")) {
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn tiêu chí!");
+						updateTableDanhSachHoiDong();
+					}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")){
+						hd.timKiemHoiDongTheoTieuChi(noiDungTimKiem, "", "", "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
+						hd.timKiemHoiDongTheoTieuChi("", noiDungTimKiem, "", "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Ngày Lập")) {
+						hd.timKiemHoiDongTheoTieuChi("", "", noiDungTimKiem, "", tableDanhSachHoiDong);
+					}else if(tieuChi.equalsIgnoreCase("Ngày Chấm Báo Cáo")) {
+						hd.timKiemHoiDongTheoTieuChi("", "", "", noiDungTimKiem, tableDanhSachHoiDong);
 					}
 					if(modelDanhSachHoiDong.getRowCount() == 0) {
 						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-//							loadTableDanhSachHoiDong();
-					}
-				}else if(tieuChi.equalsIgnoreCase("Tên Hội Đồng")) {
-					for(HoiDong hd : listHoiDong) {
-						if(hd.getTenHoiDong().equalsIgnoreCase(noiDungTimKiem)) {
-							Object[] rowData = {
-									i,
-									hd.getMaHoiDong(),
-									hd.getTenHoiDong()
-							};
-							modelDanhSachHoiDong.addRow(rowData);
+						try {
+							updateTableDanhSachHoiDong();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
-					if(modelDanhSachHoiDong.getRowCount() == 0) {
-						JOptionPane.showMessageDialog(null, "Không tìm thấy!");
-//							loadTableDanhSachHoiDong();
-					}
+				}catch (SQLException e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 		});
@@ -449,21 +452,25 @@ public class GiaoDien_PhanCongHoiDong {
 			public void removeUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
 				if(txtTimKiemHoiDong.getText().trim().length() == 0) {
+					try {
+						updateTableDanhSachHoiDong();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
-				if(txtTimKiemHoiDong.getText().trim().length() == 0) {
-				}
+				
 			}
 
 			@Override
 			public void changedUpdate(DocumentEvent arg0) {
 				// TODO Auto-generated method stub
-				if(txtTimKiemHoiDong.getText().trim().length() == 0) {
-				}
+				
 			}
 		});
 
@@ -496,6 +503,7 @@ public class GiaoDien_PhanCongHoiDong {
 					dateNgayChamBaoCao.setText(tableDanhSachHoiDong.getValueAt(tableDanhSachHoiDong.getSelectedRow(), 4).toString());
 					txtTenHoiDongMoi.setText(null);
 					modelGiaoVienDuocPhanCong.setRowCount(0);
+					dateNgayChamBaoCaoMoi.setText(null);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -642,6 +650,8 @@ public class GiaoDien_PhanCongHoiDong {
 		tableDanhSachGiaoVien.setModel(modelDanhSachGiaoVien);
 		
 	}
+	
+	
 
 
 	public void updateTableDanhSachHoiDong() throws SQLException {

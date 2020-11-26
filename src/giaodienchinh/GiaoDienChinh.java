@@ -25,6 +25,7 @@ import giaovukhoa.GiaoDien_PhanCongHoiDongChamDiem;
 import giaovukhoa.GiaoDien_QuanLyLuanVan;
 import giaovukhoa.GiaoDien_ThongKe;
 import giaovukhoa.GiaoDien_TraCuuThongTinHoiDong;
+import giaovukhoa.GiaoDien_XoaNhom;
 import hethong.GiaoDien_DangXuat;
 import hethong.GiaoDien_DoiMatKhau;
 import sinhVien.GiaoDien_DangKyDeTai;
@@ -94,6 +95,8 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniDangKyNhom;
 	private GiaoDien_DangKyNhom GD_DKN;
 	private SinhVienDao sinhVienDao;
+	private GiaoDien_XoaNhom GD_XN;
+	private JMenuItem mniXoaNhom;
 	
 	
 
@@ -209,6 +212,11 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.setForeground(Color.BLACK);
 		mnGiaoVuKhoa.setFont(new Font("Segoe UI", Font.PLAIN, 25));
 		menuBar.add(mnGiaoVuKhoa);
+		
+		mniXoaNhom = new JMenuItem("Xoá nhóm");
+		mniXoaNhom.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniXoaNhom);
+		mnGiaoVuKhoa.addSeparator();
 		
 		mniQuanLyLuanVan = new JMenuItem("Quản lý luận văn");
 		mniQuanLyLuanVan.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -415,6 +423,9 @@ public class GiaoDienChinh implements ActionListener {
 			
 			// Giáo vụ khoa ------------------------------------------------------------
 			// Giao diện quản lý luận văn
+			GD_XN = new GiaoDien_XoaNhom();
+			pnChung.add(GD_XN.getPanel(), "XoaNhom");
+			
 			GD_QLLV = new GiaoDien_QuanLyLuanVan();
 			pnChung.add(GD_QLLV.getPanel(), "QuanLyLuanVan");
 			
@@ -460,6 +471,7 @@ public class GiaoDienChinh implements ActionListener {
 		mniNhapDiem.addActionListener(this);
 		mniXemDiemDaNhap.addActionListener(this);
 		
+		mniXoaNhom.addActionListener(this);
 		mniQuanLyLuanVan.addActionListener(this);
 		mniPhanCongHoiDong.addActionListener(this);
 		mniPhanCongHoiDongChamDiem.addActionListener(this);
@@ -524,9 +536,18 @@ public class GiaoDienChinh implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		} else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
+		}
+		else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
 			GD_QLLV.capNhat();
+		}else if(o.equals(mniXoaNhom)) { // Giáo vụ khoa ---------------------------
+			card.show(pnChung, "XoaNhom");
+			try {
+				GD_XN.capNhat();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}	
 		} else if(o.equals(mniPhanCongHoiDong)) {
 			card.show(pnChung, "PhanCongHoiDong");
 			try {

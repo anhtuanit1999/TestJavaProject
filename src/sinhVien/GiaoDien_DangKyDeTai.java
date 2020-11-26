@@ -543,7 +543,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 	public void loadDeTaiDaDangKy() throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(NgayLap) AS NamHoc, HoTen "
+		ResultSet rs = stmt.executeQuery("SELECT DANHSACH_DANGKYLUANVAN.MaLuanVan, TenLuanVan, YEAR(LUANVAN.NgayLap) AS NamHoc, HoTen "
 				+ "FROM DANHSACH_DANGKYLUANVAN "
 				+ "JOIN LUANVAN ON DANHSACH_DANGKYLUANVAN.MaLuanVan = LUANVAN.MaLuanVan "
 				+ "JOIN GIAOVIEN ON LUANVAN.MaGiaoVien = GIAOVIEN.MaGiaoVien "

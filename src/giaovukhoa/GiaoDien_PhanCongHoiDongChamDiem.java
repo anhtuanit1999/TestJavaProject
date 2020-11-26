@@ -173,8 +173,8 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		tableDanhSachNhom = new JTable();
 		scrollPane_1.setViewportView(tableDanhSachNhom);
 
-		modelNhomChuaDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn".split(","),0);
-		modelNhomDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn, Mã Hội Đồng, Ngày Báo Cáo, Giờ Báo Cáo".split(","),0);
+		modelNhomChuaDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn, Ngày Lập".split(","),0);
+		modelNhomDuocPhanCong = new DefaultTableModel("STT, Mã Nhóm, Mã Luận Văn, Mã Hội Đồng, Ngày Lập, Ngày Báo Cáo, Giờ Báo Cáo".split(","),0);
 		JComboBox comboBoxLocNhom = new JComboBox();
 		comboBoxLocNhom.setModel(new DefaultComboBoxModel(new String[] {"Nhóm chưa được phân công", "Nhóm đã được phân công"}));
 		comboBoxLocNhom.setBounds(404, 22, 167, 27);
@@ -189,6 +189,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		comboBoxTimKiemNhom.setBounds(207, 22, 109, 27);
 		comboBoxTimKiemNhom.addItem("Mã Nhóm");
 		comboBoxTimKiemNhom.addItem("Mã Luận Văn");
+		comboBoxTimKiemNhom.addItem("Ngày Lập");
 
 		panel_3.add(comboBoxTimKiemNhom);
 
@@ -412,20 +413,21 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 
 		comboBoxLocNhom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				modelDanhSachNhomDuocChon.setRowCount(0);
 				String tieuChi = comboBoxLocNhom.getSelectedItem().toString();
-				//				DefaultComboBoxModel<String> modelNhomChuaPhanCong = new DefaultComboBoxModel<>();
-				//				comboBoxTimKiemHoiDong.
 				try {
 					if(tieuChi.equalsIgnoreCase("Nhóm chưa được phân công")){
 						comboBoxTimKiemNhom.setModel(new DefaultComboBoxModel<>());
 						comboBoxTimKiemNhom.addItem("Mã Nhóm");
 						comboBoxTimKiemNhom.addItem("Mã Luận Văn");
+						comboBoxTimKiemNhom.addItem("Ngày Lập");
 						updateTableDanhSachNhomChuaPhanCong();
 					}else {
 						comboBoxTimKiemNhom.setModel(new DefaultComboBoxModel<>());
 						comboBoxTimKiemNhom.addItem("Mã Nhóm");
 						comboBoxTimKiemNhom.addItem("Mã Luận Văn");
 						comboBoxTimKiemNhom.addItem("Mã Hội Đồng");
+						comboBoxTimKiemNhom.addItem("Ngày Lập");
 						comboBoxTimKiemNhom.addItem("Ngày Báo Cáo");
 						updateTableDanhSachNhomDaPhanCong();;
 					}
@@ -479,20 +481,24 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 				try {
 					if(tieuChiLoc.equalsIgnoreCase("Nhóm chưa được phân công")) {
 						if(tieuChi.equalsIgnoreCase("Mã Nhóm")) {
-							timKiemNhomChuaPhanCong(noiDungTimKiem, "");
+							timKiemNhomChuaPhanCong(noiDungTimKiem, "","");
 						}else if(tieuChi.equalsIgnoreCase("Mã Luận Văn")) {
-							timKiemNhomChuaPhanCong("", noiDungTimKiem);
+							timKiemNhomChuaPhanCong("", noiDungTimKiem,"");
+						}else if(tieuChi.equalsIgnoreCase("Ngày Lập")) {
+							timKiemNhomChuaPhanCong("", "",noiDungTimKiem);
 						}
 
 					}else {
 						if(tieuChi.equalsIgnoreCase("Mã Nhóm")) {
-							timKiemNhomDaPhanCong(noiDungTimKiem, "","","");
+							timKiemNhomDaPhanCong(noiDungTimKiem, "","","","");
 						}else if(tieuChi.equalsIgnoreCase("Mã Luận Văn")) {
-							timKiemNhomDaPhanCong("", noiDungTimKiem,"","");
+							timKiemNhomDaPhanCong("", noiDungTimKiem,"","","");
 						}else if(tieuChi.equalsIgnoreCase("Mã Hội Đồng")) {
-							timKiemNhomDaPhanCong("", "",noiDungTimKiem,"");
+							timKiemNhomDaPhanCong("", "",noiDungTimKiem,"","");
+						}else if(tieuChi.equalsIgnoreCase("Ngày lập")) {
+							timKiemNhomDaPhanCong("","","",noiDungTimKiem,"");
 						}else if(tieuChi.equalsIgnoreCase("Ngày Báo Cáo")) {
-							timKiemNhomDaPhanCong("", "","",noiDungTimKiem);
+							timKiemNhomDaPhanCong("", "","","",noiDungTimKiem);
 						}
 					}
 
@@ -530,15 +536,15 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		}
 	}
 
-	public void timKiemNhomDaPhanCong(String maNhom, String maLuanVan, String maHoiDong, String ngayBaoCao) throws SQLException {
+	public void timKiemNhomDaPhanCong(String maNhom, String maLuanVan, String maHoiDong, String NgayLap, String ngayBaoCao) throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement statement = con.createStatement();
 		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
 		model.setRowCount(0);
 		int i = 1;
-		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao]"
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, NgayLap, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao]"
 				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -563,20 +569,21 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		tableDanhSachNhom.setModel(model);
 	}
 
-	public void timKiemNhomChuaPhanCong(String maNhom, String maLuanVan) throws SQLException {
+	public void timKiemNhomChuaPhanCong(String maNhom, String maLuanVan, String NgayLap) throws SQLException {
 		Connection con = Database.getInstance().getConnection();
 		Statement statement = con.createStatement();
 		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
 		model.setRowCount(0);
 		int i = 1;
-		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan "
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan, NgayLap "
 				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong IS NULL");
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND MaHoiDong IS NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
 					res.getString(1),
 					res.getString(2),
+					res.getString(3),
 			};
 			model.addRow(rowData);
 			i++;
@@ -600,16 +607,14 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		modelNhomChuaDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery("SELECT * "
-				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaHoiDong IS NULL");
+		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan, NgayLap"
+				+ " FROM DANHSACH_DANGKYLUANVAN WHERE MaHoiDong IS NULL AND MaLuanVan IS NOT NULL ");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
 					res.getString(1),
 					res.getString(2),
 					res.getString(3),
-					res.getString(4)
 			};
 			i++;
 			modelNhomChuaDuocPhanCong.addRow(rowData);
@@ -623,7 +628,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		modelNhomDuocPhanCong.setRowCount(0);
 		int i = 1;
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] "
+		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, NgayLap, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] "
 				+ "FROM DANHSACH_DANGKYLUANVAN "
 				+ "WHERE MaHoiDong IS NOT NULL");
 		while(res.next()) {
@@ -633,7 +638,8 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 					res.getString(2),
 					res.getString(3),
 					res.getString(4),
-					res.getString(5)
+					res.getString(5),
+					res.getString(6),
 			};
 			i++;
 			modelNhomDuocPhanCong.addRow(rowData);
