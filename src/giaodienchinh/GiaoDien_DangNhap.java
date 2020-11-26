@@ -129,7 +129,6 @@ public class GiaoDien_DangNhap implements ActionListener, KeyListener {
 		String taiKhoan = txtTaiKhoan.getText().trim();
 		String matKhau = pwdMatKhau.getText().trim();
 		if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, matKhau)) {
-			JOptionPane.showMessageDialog(frame, "Đăng nhập thành công");
 			xoaTrang();
 			try {
 				GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
