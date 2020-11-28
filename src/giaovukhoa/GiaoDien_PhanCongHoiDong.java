@@ -347,7 +347,7 @@ public class GiaoDien_PhanCongHoiDong {
 		JComboBox comboBoxCongViec=new JComboBox();
 		comboBoxCongViec.addItem("Chủ Tịch Hội Đồng");
 		comboBoxCongViec.addItem("Giáo Viên Phản Biện");
-		comboBoxCongViec.addItem("Thư Ký");
+//		comboBoxCongViec.addItem("Thư Ký");
 
 		cellEditorGiaoVienDuocPhanCong = new DefaultCellEditor(comboBoxCongViec);
 		tableGiaoVienDuocPhanCong.getColumnModel().getColumn(2).setCellEditor(cellEditorGiaoVienDuocPhanCong);

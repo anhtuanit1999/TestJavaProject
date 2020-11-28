@@ -542,9 +542,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		DefaultTableModel model = (DefaultTableModel) tableDanhSachNhom.getModel();
 		model.setRowCount(0);
 		int i = 1;
-		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, NgayLap, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao]"
+		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, NgayLap, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao]"
 				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%'");
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND MaHoiDong LIKE '%"+maHoiDong+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND cast ([NgayBaoCao] as date) LIKE '%"+ngayBaoCao+"%' AND YEAR(NgayLap) = '"+LocalDate.now().getYear()+"'");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -552,7 +552,8 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 					res.getString(2),
 					res.getString(3),
 					res.getString(4),
-					res.getString(5)
+					res.getString(5),
+					res.getString(6)
 			};
 			model.addRow(rowData);
 			i++;
@@ -577,7 +578,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		int i = 1;
 		ResultSet res = statement.executeQuery("SELECT MaNhom, MaLuanVan, NgayLap "
 				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND MaHoiDong IS NULL");
+				+ "WHERE MaNhom LIKE '%"+maNhom+"%' AND MaLuanVan LIKE '%"+maLuanVan+"%' AND NgayLap LIKE '%"+NgayLap+"%' AND YEAR(NgayLap) = '"+LocalDate.now().getYear()+"' AND MaHoiDong IS NULL");
 		while(res.next()) {
 			Object[] rowData = {
 					i,
@@ -630,7 +631,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		Statement st = con.createStatement();
 		ResultSet res = st.executeQuery("SELECT MaNhom, MaLuanVan,MaHoiDong, NgayLap, CONVERT(VARCHAR(10),NgayBaoCao,120) AS [NgayBaoCao], CONVERT(VARCHAR(5),NgayBaoCao,114) AS [GioBaoCao] "
 				+ "FROM DANHSACH_DANGKYLUANVAN "
-				+ "WHERE MaHoiDong IS NOT NULL");
+				+ "WHERE MaHoiDong IS NOT NULL AND YEAR(NgayLap) = '"+LocalDate.now().getYear()+"'");
 		while(res.next()) {
 			Object[] rowData = {
 					i,

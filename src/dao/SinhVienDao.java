@@ -153,6 +153,7 @@ public class SinhVienDao {
 			ResultSet res = statement.executeQuery(sql);
 			
 			if(res.next()) {
+				String maSinhVien_2 = res.getString(1);
 				String hoTen = res.getString(2);
 				String ngaySinh = res.getString(3);
 				String soDienThoai = res.getString(4);
@@ -160,7 +161,7 @@ public class SinhVienDao {
 				String khoaTrucThuoc = res.getString(6);
 				int namVaoTruong = res.getInt(7);
 				int namTotNghiep = res.getInt(8);
-				sv = new SinhVien(maSinhVien, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
+				sv = new SinhVien(maSinhVien_2, hoTen, ngaySinh, soDienThoai, diaChi, khoaTrucThuoc, namVaoTruong, namTotNghiep, maNhom);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
