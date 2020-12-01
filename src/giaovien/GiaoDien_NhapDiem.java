@@ -50,6 +50,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 	private JButton btnCapNhat;
 	private final String maGiaoVien;
 	private JComboBox comboBoxNamHoc;
+	private JComboBox comboBoxHocKy;
 
 	/**
 	 * Launch the application.
@@ -168,8 +169,13 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 		scrollPane.setViewportView(table);
 		
 		comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setBounds(453, 18, 115, 21);
+		comboBoxNamHoc.setBounds(294, 17, 115, 21);
 		panel.add(comboBoxNamHoc);
+		
+		comboBoxHocKy = new JComboBox();
+		comboBoxHocKy.setModel(new DefaultComboBoxModel(new String[] {"Chọn học kỳ...", "Học kỳ 1", "Học kỳ 2", "Học kỳ 3"}));
+		comboBoxHocKy.setBounds(442, 17, 115, 21);
+		panel.add(comboBoxHocKy);
 		
 		btnNhapDiem = new JButton("Nhập điểm");
 		btnNhapDiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -189,24 +195,36 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 		txtDiemSo.addKeyListener(this);
 		txtaGhiChu.addKeyListener(this);
 		
-		comboBoxNamHoc.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.setRowCount(0);
-				if(comboBoxNamHoc.getSelectedIndex() == 0) {
-					return;
-				}
-				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
-				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
-			}
-		});
+		comboBoxNamHoc.addActionListener(this);
+		comboBoxHocKy.addActionListener(this);
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public String[] xuLyHocKy() {
+		String[] hocKy = {"1", "12"};
+		String hk = comboBoxHocKy.getSelectedItem().toString();
+		if(hk.equals("Học kỳ 1")) {
+			hocKy = new String[] {"1", "4"};
+		} else if(hk.equals("Học kỳ 2")) {
+			hocKy = new String[] {"5", "8"};
+		} else if(hk.equals("Học kỳ 3")) {
+			hocKy = new String[] {"9", "12"};
+		}
+		return hocKy;
+	}
+	
+	public void eventComboBox() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		if(comboBoxNamHoc.getSelectedIndex() == 0) {
+			return;
+		}
+		String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4);
+		String[] hocKy = xuLyHocKy();
+		giaoVienDao.capNhatBang(table, maGiaoVien, namHoc, hocKy);
 	}
 	
 	public void capNhap() throws SQLException {
@@ -281,7 +299,8 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 				JOptionPane.showMessageDialog(frame, "Nhập điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setNumRows(0);
-				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
+				String[] hocKy = xuLyHocKy();
+				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc, hocKy);
 				return;
 			}
 			JOptionPane.showMessageDialog(frame, "Không thể nhập điểm cho sinh viên " + txtTenSinhVien.getText() + " 2 lần");
@@ -303,11 +322,16 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 					JOptionPane.showMessageDialog(frame, "Sửa điểm cho sinh viên"+ txtTenSinhVien.getText() +" thành công!");
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.setNumRows(0);
-					giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
+					String[] hocKy = xuLyHocKy();
+					giaoVienDao.capNhatBang(table, maGiaoVien, namHoc, hocKy);
 					return;
 				}
 				JOptionPane.showMessageDialog(frame, "Đã sửa điểm cho sinh viên " + txtTenSinhVien.getText());
 			}
+		} else if(o.equals(comboBoxNamHoc)) {
+			eventComboBox();
+		} else if(o.equals(comboBoxHocKy)) {
+			eventComboBox();
 		}
 		
 	}

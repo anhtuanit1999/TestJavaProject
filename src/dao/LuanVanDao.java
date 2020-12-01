@@ -177,12 +177,13 @@ public class LuanVanDao {
 		return lv;
 	}
 	
-	public void updateTableTimLuanVanTheoTieuChi(String maLuanVan, String tenLuanVan, String tenGiaoVienRaDeTai, JTable table) {
+	public void updateTableTimLuanVanTheoTieuChi(String maLuanVan, String tenLuanVan, String tenGiaoVienRaDeTai, String namHoc, String[] hocKy, JTable table) {
 		Connection con = Database.getInstance().getConnection();
 		String sql = "select lv.MaLuanVan, lv.TenLuanVan, gv.HoTen, lv.SoNhomThamGiaToiDa\r\n" + 
 				"from LUANVAN lv\r\n" + 
 				"inner join GIAOVIEN gv on gv.MaGiaoVien = lv.MaGiaoVien\r\n" + 
-				"where lv.MaLuanVan like N'%"+ maLuanVan +"%' and lv.TenLuanVan like N'%"+ tenLuanVan +"%' and gv.HoTen like N'%"+ tenGiaoVienRaDeTai +"%'";
+				"where lv.MaLuanVan like N'%"+ maLuanVan +"%' and lv.TenLuanVan like N'%"+ tenLuanVan +"%' and gv.HoTen like N'%"+ tenGiaoVienRaDeTai +"%' "
+						+ "and YEAR(lv.NgayLap) like '%"+ namHoc +"%' and MONTH(lv.NgayLap) >= "+ hocKy[0] +" and MONTH(lv.NgayLap) <= "+ hocKy[1] +"";
 		Statement statement;
 		int count = 1;
 		try {

@@ -30,7 +30,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class GiaoDien_XemDiemDaNhap {
+public class GiaoDien_XemDiemDaNhap implements ActionListener {
 
 	private JFrame frame;
 	private JTable table;
@@ -39,6 +39,7 @@ public class GiaoDien_XemDiemDaNhap {
 	
 	private String maGiaoVien;
 	private JComboBox comboBoxNamHoc;
+	private JComboBox comboBoxHocKy;
 
 	/**
 	 * Launch the application.
@@ -111,29 +112,46 @@ public class GiaoDien_XemDiemDaNhap {
 		scrollPane.setViewportView(table);
 		
 		comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setBounds(1082, 17, 152, 21);
+		comboBoxNamHoc.setBounds(899, 16, 152, 21);
 		panel.add(comboBoxNamHoc);
+		
+		comboBoxHocKy = new JComboBox();
+		comboBoxHocKy.setModel(new DefaultComboBoxModel(new String[] {"Chọn học kỳ...", "Học kỳ 1", "Học kỳ 2", "Học kỳ 3"}));
+		comboBoxHocKy.setBounds(1061, 16, 152, 21);
+		panel.add(comboBoxHocKy);
 		
 		capNhat();
 		
-		comboBoxNamHoc.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.setRowCount(0);
-				if(comboBoxNamHoc.getSelectedIndex() == 0) {
-					return;
-				}
-				String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
-				giaoVienDao.capNhatBang(table, maGiaoVien, namHoc);
-			}
-		});
+		comboBoxNamHoc.addActionListener(this);
+		comboBoxHocKy.addActionListener(this);
 	}
 	
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public void eventComboBox() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		if(comboBoxNamHoc.getSelectedIndex() == 0) {
+			return;
+		}
+		String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+		String[] hocKy = xuLyHocKy();
+		giaoVienDao.capNhatBang(table, maGiaoVien, namHoc, hocKy);
+	}
+	
+	public String[] xuLyHocKy() {
+		String[] hocKy = {"1", "12"};
+		String hk = comboBoxHocKy.getSelectedItem().toString();
+		if(hk.equals("Học kỳ 1")) {
+			hocKy = new String[] {"1", "4"};
+		} else if(hk.equals("Học kỳ 2")) {
+			hocKy = new String[] {"5", "8"};
+		} else if(hk.equals("Học kỳ 3")) {
+			hocKy = new String[] {"9", "12"};
+		}
+		return hocKy;
 	}
 	
 	public void updateComboBoxNamHoc() throws SQLException {
@@ -152,5 +170,15 @@ public class GiaoDien_XemDiemDaNhap {
 		updateComboBoxNamHoc();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(comboBoxNamHoc)) {
+			eventComboBox();
+		} else if(o.equals(comboBoxHocKy)) {
+			eventComboBox();
+		}
 	}
 }

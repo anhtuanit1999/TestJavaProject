@@ -110,7 +110,7 @@ public class GiaoVienDao {
 		return n > 0;
 	}
 	
-	public void capNhatBang(JTable table, String maGiaoVien, String namHoc) {
+	public void capNhatBang(JTable table, String maGiaoVien, String namHoc, String[] hocKy) {
 		int count = 1;
 		Connection con = Database.getInstance().getConnection();
 		String sql = "select sv.MaSinhVien, HoTen, TenLuanVan, Diem, GhiChu, diem.MaGiaoVien\r\n" + 
@@ -119,7 +119,7 @@ public class GiaoVienDao {
 				"inner join SINHVIEN sv on sv.MaNhom = ds.MaNhom\r\n" + 
 				"inner join LUANVAN lv on lv.MaLuanVan = ds.MaLuanVan\r\n" + 
 				"left join DIEMBAOVELUANVAN diem on diem.MaSinhVien = sv.MaSinhVien and diem.MaGiaoVien = ct.MaGiaoVien\r\n" + 
-				"where ct.MaGiaoVien = '"+ maGiaoVien +"' AND YEAR(ds.NgayBaoCao) = '"+namHoc+"'";
+				"where ct.MaGiaoVien = '"+ maGiaoVien +"' AND YEAR(ds.NgayBaoCao) = '"+namHoc+"' and MONTH(ds.NgayBaoCao) >= "+ hocKy[0] +" and MONTH(ds.NgayBaoCao) <= "+ hocKy[1] +"";
 		Statement statement;
 		try {
 			statement = con.createStatement();

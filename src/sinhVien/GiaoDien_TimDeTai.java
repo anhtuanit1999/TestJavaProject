@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -39,6 +43,8 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 	private JButton btnTimKiem;
 	private LuanVanDao luanVanDao;
 	private JComboBox comboBoxTieuChi;
+	private JComboBox comboBoxHocKy;
+	private JComboBox comboBoxNamHoc;
 
 	/**
 	 * Launch the application.
@@ -118,11 +124,10 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		lblNamHoc.setBounds(52, 200, 156, 28);
 		panel.add(lblNamHoc);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Không", "2019 - 2020", "2020 - 2021", "2021 - 2022"}));
-		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBox_1.setBounds(218, 206, 948, 22);
-		panel.add(comboBox_1);
+		comboBoxNamHoc = new JComboBox();
+		comboBoxNamHoc.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		comboBoxNamHoc.setBounds(218, 206, 948, 22);
+		panel.add(comboBoxNamHoc);
 		
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -133,6 +138,17 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXoaTrang.setBounds(785, 343, 127, 44);
 		panel.add(btnXoaTrang);
+		
+		JLabel lblHocKy = new JLabel("Học kỳ: ");
+		lblHocKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblHocKy.setBounds(52, 266, 156, 28);
+		panel.add(lblHocKy);
+		
+		comboBoxHocKy = new JComboBox();
+		comboBoxHocKy.setModel(new DefaultComboBoxModel(new String[] {"Chọn học kỳ...", "Học kỳ 1", "Học kỳ 2", "Học kỳ 3"}));
+		comboBoxHocKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		comboBoxHocKy.setBounds(218, 272, 948, 22);
+		panel.add(comboBoxHocKy);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Danh s\u00E1ch \u0111\u1EC1 t\u00E0i tr\u00F9ng kh\u1EDBp", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -157,9 +173,52 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		btnTimKiem.addActionListener(this);
 		txtThongTin.addKeyListener(this);
 		comboBoxTieuChi.addKeyListener(this);
+		
+		try {
+			updateComboBoxNamHoc();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public JPanel getPanel() {
 		return pnChung;
+	}
+	
+	public String[] xuLyHocKy() {
+		String[] hocKy = {"1", "12"};
+		String hk = comboBoxHocKy.getSelectedItem().toString();
+		if(hk.equals("Học kỳ 1")) {
+			hocKy = new String[] {"1", "4"};
+		} else if(hk.equals("Học kỳ 2")) {
+			hocKy = new String[] {"5", "8"};
+		} else if(hk.equals("Học kỳ 3")) {
+			hocKy = new String[] {"9", "12"};
+		}
+		return hocKy;
+	}
+	
+	public String xuLyNamHoc() {
+		if(comboBoxNamHoc.getSelectedIndex() == 0) {
+			return "";
+		}
+		String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4);
+		if(namHoc.equals("Chọn năm học...")) {
+			return "";
+		}
+		return namHoc;
+	}
+	
+	public void updateComboBoxNamHoc() throws SQLException {
+		comboBoxNamHoc.setModel(new DefaultComboBoxModel<>());
+		comboBoxNamHoc.addItem("Chọn năm học...");
+		Connection con = Database.getInstance().getConnection();
+		Statement statement = con.createStatement();
+		ResultSet res = statement.executeQuery("SELECT DISTINCT YEAR(NgayBaoCao) AS NamHoc FROM HOIDONG ORDER BY YEAR(NgayBaoCao) ASC");
+		while(res.next()) {
+			int namHoc_temp = res.getInt(1) + 1;
+			comboBoxNamHoc.addItem(res.getString(1) + " - " +namHoc_temp);
+		}
 	}
 	
 	public void eventTimKiem() {
@@ -167,6 +226,8 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		String tenLuanVan = "";
 		String tenGiaoVienRaDeTai = "";
 		String giaTri = comboBoxTieuChi.getSelectedItem().toString();
+		String namHoc = xuLyNamHoc();
+		String[] hocKy = xuLyHocKy();
 		if(giaTri == "Mã đề tài") {
 			maLuanVan = txtThongTin.getText() == null ? "" : txtThongTin.getText().toString();
 		} else if(giaTri == "Tên đề tài") {
@@ -176,7 +237,7 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		}
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
-		luanVanDao.updateTableTimLuanVanTheoTieuChi(maLuanVan, tenLuanVan, tenGiaoVienRaDeTai, table);
+		luanVanDao.updateTableTimLuanVanTheoTieuChi(maLuanVan, tenLuanVan, tenGiaoVienRaDeTai, namHoc, hocKy, table);
 	}
 
 	@Override

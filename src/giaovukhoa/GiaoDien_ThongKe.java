@@ -34,7 +34,7 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.event.ActionEvent;
 
-public class GiaoDien_ThongKe {
+public class GiaoDien_ThongKe implements ActionListener {
 
 	private JFrame frame;
 	private JTable table;
@@ -44,6 +44,7 @@ public class GiaoDien_ThongKe {
 	private JComboBox comboBoxTieuChi;
 	private DefaultTableModel modelTable;
 	private ArrayList<ThongKeSinhVien> list;
+	private JComboBox comboBoxHocKy;
 
 	/**
 	 * Launch the application.
@@ -114,7 +115,7 @@ public class GiaoDien_ThongKe {
 		panel.add(lblNamHoc);
 		
 		comboBoxNamHoc = new JComboBox();
-		comboBoxNamHoc.setBounds(732, 54, 447, 20);
+		comboBoxNamHoc.setBounds(732, 54, 182, 20);
 		panel.add(comboBoxNamHoc);
 		
 		JButton btnInDanhSach = new JButton("In danh sách");
@@ -141,6 +142,16 @@ public class GiaoDien_ThongKe {
 		txtTongSo.setBounds(142, 96, 1037, 20);
 		panel.add(txtTongSo);
 		txtTongSo.setColumns(10);
+		
+		JLabel lblHocKy = new JLabel("Học kỳ: ");
+		lblHocKy.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblHocKy.setBounds(924, 53, 75, 19);
+		panel.add(lblHocKy);
+		
+		comboBoxHocKy = new JComboBox();
+		comboBoxHocKy.setModel(new DefaultComboBoxModel(new String[] {"Chọn học kỳ", "Học kỳ 1", "Học kỳ 2", "Học kỳ 3"}));
+		comboBoxHocKy.setBounds(1009, 54, 170, 20);
+		panel.add(comboBoxHocKy);
 		updateComboBoxNamHoc();
 		
 		
@@ -159,9 +170,15 @@ public class GiaoDien_ThongKe {
 				}
 			}
 		});
-		
+		comboBoxNamHoc.addActionListener(this);
 		comboBoxTieuChi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					updateDanhSachSinhVien();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				modelTable.setRowCount(0);
 				int i = 1;
 				if(comboBoxNamHoc.getSelectedIndex() == 0) {
@@ -278,6 +295,19 @@ public class GiaoDien_ThongKe {
 		return pnChung;
 	}
 	
+	public String[] xuLyHocKy() {
+		String[] hocKy = {"1", "12"};
+		String hk = comboBoxHocKy.getSelectedItem().toString();
+		if(hk.equals("Học kỳ 1")) {
+			hocKy = new String[] {"1", "4"};
+		} else if(hk.equals("Học kỳ 2")) {
+			hocKy = new String[] {"5", "8"};
+		} else if(hk.equals("Học kỳ 3")) {
+			hocKy = new String[] {"9", "12"};
+		}
+		return hocKy;
+	}
+	
 	public void updateComboBoxNamHoc() throws SQLException {
 		comboBoxNamHoc.addItem("Chọn năm học...");
 		Connection con = Database.getInstance().getConnection();
@@ -296,13 +326,14 @@ public class GiaoDien_ThongKe {
 		String tenSinhVien;
 		String xepLoai;
 		String namHoc = comboBoxNamHoc.getSelectedItem().toString().substring(0, 4); 
+		String[] hocKy = xuLyHocKy();
 		Connection con = Database.getInstance().getConnection();
 		Statement statement = con.createStatement();
 		ResultSet res = statement.executeQuery("SELECT DIEMBAOVELUANVAN.MaSinhVien, SINHVIEN.HoTen, AVG(Diem)"
 				+ " AS DTB FROM DIEMBAOVELUANVAN JOIN SINHVIEN ON"
 				+ " DIEMBAOVELUANVAN.MaSinhVien = SINHVIEN.MaSinhVien GROUP BY DIEMBAOVELUANVAN.MaSinhVien, SINHVIEN.HoTen"
 				+ " HAVING DIEMBAOVELUANVAN.MaSinhVien IN (SELECT MaSinhVien FROM SINHVIEN WHERE MaNhom IN"
-				+ " (SELECT MaNhom FROM DANHSACH_DANGKYLUANVAN WHERE YEAR(NgayBaoCao) = '"+namHoc+"'))");
+				+ " (SELECT MaNhom FROM DANHSACH_DANGKYLUANVAN WHERE YEAR(NgayBaoCao) like '"+namHoc+"' and MONTH(NgayBaoCao) >= "+ hocKy[0] +" and MONTH(NgayBaoCao) <= "+ hocKy[1] +"))");
 		while (res.next()) {
 			maSinhVien = res.getString(1);
 			tenSinhVien = res.getNString(2);
@@ -318,6 +349,14 @@ public class GiaoDien_ThongKe {
 			}
 			ThongKeSinhVien tk = new ThongKeSinhVien(maSinhVien, tenSinhVien, diemTB, xepLoai);
 			list.add(tk);
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(comboBoxHocKy)) {
+			
 		}
 	}
 	
