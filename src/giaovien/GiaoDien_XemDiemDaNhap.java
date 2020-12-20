@@ -8,10 +8,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -72,10 +75,17 @@ public class GiaoDien_XemDiemDaNhap implements ActionListener {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -92,7 +102,7 @@ public class GiaoDien_XemDiemDaNhap implements ActionListener {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch sinh vi\u00EAn b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 11, 1244, 858);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 858);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		

@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,7 @@ import giaodienchinh.GiaoDienChinh;
 
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyListener {
 
@@ -92,10 +94,17 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyLi
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		sinhVienDao = new SinhVienDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 1024);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -112,7 +121,7 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyLi
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Th\u00F4ng tin sinh vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(0, 10, 619, 281);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 0)), 10, 619, 281);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -190,7 +199,7 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyLi
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Danh s\u00E1ch sinh vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 382, 1246, 561);
+		panel_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 382, 1246, 561);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -236,14 +245,14 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyLi
 		panel_1.add(btnTim);
 		
 		btnDangKyNhom = new JButton("Đăng ký nhóm");
-		btnDangKyNhom.setBounds(558, 315, 142, 44);
+		btnDangKyNhom.setBounds((int)Math.round(width/2 - (oldWidth/2 - 558)), 315, 142, 44);
 		pnCenter.add(btnDangKyNhom);
 		btnDangKyNhom.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Th\u00F4ng tin sinh vi\u00EAn mu\u1ED1n \u0111\u0103ng k\u00FD nh\u00F3m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_2.setBounds(628, 10, 628, 281);
+		panel_2.setBounds((int)Math.round(width/2 - (oldWidth/2 - 628)), 10, 628, 281);
 		pnCenter.add(panel_2);
 		
 		JLabel lblMSSV_1 = new JLabel("MSSV: ");

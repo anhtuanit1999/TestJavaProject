@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
@@ -20,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -122,9 +126,16 @@ public class GiaoDien_PhanCongHoiDong {
 	 */
 	private void initialize() throws SQLException, ParseException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -141,7 +152,7 @@ public class GiaoDien_PhanCongHoiDong {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "H\u1ED9i \u0111\u1ED3ng \u0111ang l\u1EF1a ch\u1ECDn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 197, 547, 232);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 197, 547, 232);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 
@@ -184,7 +195,7 @@ public class GiaoDien_PhanCongHoiDong {
 		DatePickerSettings dateSettings = new DatePickerSettings();
         dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
 		DatePicker dateNgayChamBaoCao = new DatePicker(dateSettings);
-		dateNgayChamBaoCao.setBounds(186, 127, 336, 19);
+		dateNgayChamBaoCao.setBounds(186, 127, 336, 26);
 		panel.add(dateNgayChamBaoCao);
 		
 		JLabel lblNgayChamBaoCao = new JLabel("Ngày chấm báo cáo:");
@@ -234,7 +245,7 @@ public class GiaoDien_PhanCongHoiDong {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch h\u1ED9i \u0111\u1ED3ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(567, 28, 687, 401);
+		panel_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 567)), 28, 687, 401);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -243,7 +254,7 @@ public class GiaoDien_PhanCongHoiDong {
 		panel_1.add(localeChooser);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 57, 667, 304);
+		scrollPane.setBounds(10, 57, 667, 333);
 		panel_1.add(scrollPane);
 
 		tableDanhSachHoiDong = new JTable();
@@ -268,7 +279,7 @@ public class GiaoDien_PhanCongHoiDong {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "H\u1ED9i \u0111\u1ED3ng m\u1EDBi", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_2.setBounds(10, 28, 547, 167);
+		panel_2.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 28, 547, 167);
 		pnCenter.add(panel_2);
 
 		JLabel lblTenHoiDongMoi = new JLabel("Tên hội đồng: ");
@@ -296,18 +307,18 @@ public class GiaoDien_PhanCongHoiDong {
         
 		DatePicker dateNgayChamBaoCaoMoi = new DatePicker(dateSettings_1);
 		dateNgayChamBaoCaoMoi.getComponentDateTextField().setFont(new Font("Tahoma", Font.PLAIN, 15));
-		dateNgayChamBaoCaoMoi.setBounds(187, 68, 336, 19);
+		dateNgayChamBaoCaoMoi.setBounds(187, 68, 336, 25);
 		panel_2.add(dateNgayChamBaoCaoMoi);
 
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch gi\u00E1o vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_3.setBounds(10, 439, 581, 404);
+		panel_3.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 439, 581, 404);
 		pnCenter.add(panel_3);
 		panel_3.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 59, 561, 358);
+		scrollPane_1.setBounds(10, 59, 561, 334);
 		panel_3.add(scrollPane_1);
 
 		tableDanhSachGiaoVien = new JTable();
@@ -332,11 +343,11 @@ public class GiaoDien_PhanCongHoiDong {
 		JPanel panel_3_1 = new JPanel();
 		panel_3_1.setLayout(null);
 		panel_3_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Gi\u00E1o vi\u00EAn \u0111\u01B0\u1EE3c ph\u00E2n c\u00F4ng", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_3_1.setBounds(673, 439, 581, 404);
+		panel_3_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 673)), 439, 581, 404);
 		pnCenter.add(panel_3_1);
 
 		JScrollPane scrollPane_1_1 = new JScrollPane();
-		scrollPane_1_1.setBounds(10, 22, 561, 395);
+		scrollPane_1_1.setBounds(10, 22, 561, 371);
 		panel_3_1.add(scrollPane_1_1);
 
 		tableGiaoVienDuocPhanCong = new JTable();
@@ -364,7 +375,7 @@ public class GiaoDien_PhanCongHoiDong {
 				txtSoLuongGiaoVien.setText(String.valueOf((modelGiaoVienDuocPhanCong.getRowCount())));
 			}
 		});
-		btnThemPhanCong.setBounds(598, 478, 68, 23);
+		btnThemPhanCong.setBounds((int)Math.round(width/2 - (oldWidth/2 - 598)), 478, 68, 23);
 		pnCenter.add(btnThemPhanCong);
 
 		JButton btnXoaPhanCong = new JButton("<<");
@@ -374,17 +385,17 @@ public class GiaoDien_PhanCongHoiDong {
 				txtSoLuongGiaoVien.setText(String.valueOf((modelGiaoVienDuocPhanCong.getRowCount())));
 			}
 		});
-		btnXoaPhanCong.setBounds(598, 664, 68, 23);
+		btnXoaPhanCong.setBounds((int)Math.round(width/2 - (oldWidth/2 - 598)), 664, 68, 23);
 		pnCenter.add(btnXoaPhanCong);
 
 		JLabel lblSoLuongGiaoVien = new JLabel("Số lượng:");
 		lblSoLuongGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblSoLuongGiaoVien.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSoLuongGiaoVien.setBounds(601, 538, 62, 23);
+		lblSoLuongGiaoVien.setBounds((int)Math.round(width/2 - (oldWidth/2 - 601)), 538, 62, 23);
 		pnCenter.add(lblSoLuongGiaoVien);
 
 		txtSoLuongGiaoVien = new JTextField();
-		txtSoLuongGiaoVien.setBounds(601, 572, 62, 20);
+		txtSoLuongGiaoVien.setBounds((int)Math.round(width/2 - (oldWidth/2 - 601)), 572, 62, 20);
 		pnCenter.add(txtSoLuongGiaoVien);
 		txtSoLuongGiaoVien.setColumns(10);
 

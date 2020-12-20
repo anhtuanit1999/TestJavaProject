@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTable;
@@ -15,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 
@@ -51,10 +55,17 @@ public class GiaoDien_BaoCao {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -66,7 +77,7 @@ public class GiaoDien_BaoCao {
 		
 		JPanel pnBaoCao = new JPanel();
 		pnBaoCao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Danh s\u00E1ch sinh vi\u00EAn \u0111\u0103ng k\u00FD \u0111\u1EC1 t\u00E0i", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pnBaoCao.setBounds(10, 30, 1244, 839);
+		pnBaoCao.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 30, 1244, 839);
 		pnCenter.add(pnBaoCao);
 		pnBaoCao.setLayout(null);
 		

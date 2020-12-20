@@ -58,10 +58,6 @@ public class GiaoDienChinh implements ActionListener {
 	private JMenuItem mniNhapDiem;
 	private JMenuItem mniXemDiemDaNhap;
 	private JMenu mnGiaoVuKhoa;
-	private JMenu mnThongKe;
-	private JMenuItem mniSinhVienBaoVeLuanVanThanhCong;
-	private JMenuItem mniSinhVienBaoVeLuanVanKhongThanhCong;
-	private JMenuItem mniXepLoaiDiemSinhVien;
 	private JMenuItem mniPhanCongHoiDongChamDiem;
 	private GiaoDien_DangKyDeTai GD_DKDT;
 	private GiaoDien_XemDiem GD_XD;
@@ -83,8 +79,6 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_PhanCongHoiDong GD_PCHD;
 	private JMenuItem mniPhanCongHoiDong;
 	private GiaoDien_ThongKe GD_SVBVLVTC;
-	private GiaoDien_ThongKe GD_SVBVLVKTC;
-	private GiaoDien_ThongKe GD_XDSV;
 	private GiaoDien_PhanCongHoiDongChamDiem GD_PCHDCD;
 	private JMenuItem mniTraCuuThongTinHoiDong;
 	private GiaoDien_TraCuuThongTinHoiDong GD_TCHD;
@@ -99,6 +93,8 @@ public class GiaoDienChinh implements ActionListener {
 	private SinhVienDao sinhVienDao;
 	private GiaoDien_XoaNhom GD_XN;
 	private JMenuItem mniXoaNhom;
+	private JMenuItem mniThongKe;
+	private GiaoDien_ThongKe GD_TK;
 	
 	
 
@@ -151,6 +147,8 @@ public class GiaoDienChinh implements ActionListener {
 		frame.setTitle("Giao diện chính");
 		frame.setBounds(10, 10, 1280, 1024);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -247,23 +245,9 @@ public class GiaoDienChinh implements ActionListener {
 		mnGiaoVuKhoa.add(mniTraCuuThongTinHoiDong);
 		mnGiaoVuKhoa.addSeparator();
 		
-		mnThongKe = new JMenu("Thống kê");
-		mnThongKe.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnGiaoVuKhoa.add(mnThongKe);
-		
-		mniSinhVienBaoVeLuanVanThanhCong = new JMenuItem("Sinh viên bảo vệ luận văn thành công");
-		mniSinhVienBaoVeLuanVanThanhCong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnThongKe.add(mniSinhVienBaoVeLuanVanThanhCong);
-		mnThongKe.addSeparator();
-		
-		mniSinhVienBaoVeLuanVanKhongThanhCong = new JMenuItem("Sinh viên bảo vệ luận văn không thành công");
-		mniSinhVienBaoVeLuanVanKhongThanhCong.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnThongKe.add(mniSinhVienBaoVeLuanVanKhongThanhCong);
-		mnThongKe.addSeparator();
-		
-		mniXepLoaiDiemSinhVien = new JMenuItem("Xếp loại điểm sinh viên");
-		mniXepLoaiDiemSinhVien.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		mnThongKe.add(mniXepLoaiDiemSinhVien);
+		mniThongKe = new JMenuItem("Thống kê");
+		mniThongKe.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		mnGiaoVuKhoa.add(mniThongKe);
 		
 		// menu hệ thống
 		mnHeThong = new JMenu("Hệ thống");
@@ -375,16 +359,8 @@ public class GiaoDienChinh implements ActionListener {
 				pnChung.add(GD_TCHD.getPanel(), "TraCuuThongTinHoiDong");
 				
 				// Giao diện thống kê danh sách sinh viên bảo vệ luận văn thành công
-				GD_SVBVLVTC = new GiaoDien_ThongKe();
+				GD_TK = new GiaoDien_ThongKe();
 				pnChung.add(GD_SVBVLVTC.getPanel(), "ThongKe");
-				
-				// Giao diện thống kê danh sách sinh viên bảo vệ luận văn không thành công
-				GD_SVBVLVKTC = new GiaoDien_ThongKe();
-				pnChung.add(GD_SVBVLVKTC.getPanel(), "ThongKe");
-				
-				// Giao diện thống kê xếp loại điểm sinh viên
-				GD_XDSV = new GiaoDien_ThongKe();
-				pnChung.add(GD_XDSV.getPanel(), "ThongKe");
 				
 				// Hệ thống ----------------------------------------------------------------
 				
@@ -405,9 +381,20 @@ public class GiaoDienChinh implements ActionListener {
 			GD_SV = new GiaoDien_SinhVien(taiKhoanSinhVien);
 			pnChung.add(GD_SV.getPanel(), "ThongTinSinhVien");
 			
+			// Giao diện đăng ký nhóm
+			GD_DKN = new GiaoDien_DangKyNhom(taiKhoanSinhVien, this);
+			pnChung.add(GD_DKN.getPanel(), "DangKyNhom");
+			
 			// Giao diện đăng ký đề tài
+			SinhVien sv = sinhVienDao.timSinhVien(taiKhoanSinhVien);
 			GD_DKDT = new GiaoDien_DangKyDeTai(taiKhoanSinhVien);
 			pnChung.add(GD_DKDT.getPanel(), "DangKyDeTai");
+			
+			if(sv != null) {
+				if(sv.getMaNhom() == null) {
+					mniDangKyDeTai.setEnabled(false);
+				}
+			}
 			
 			// Giao diện xem điểm
 			GD_XD = new GiaoDien_XemDiem(taiKhoanSinhVien);
@@ -457,10 +444,6 @@ public class GiaoDienChinh implements ActionListener {
 			GD_SVBVLVTC = new GiaoDien_ThongKe();
 			pnChung.add(GD_SVBVLVTC.getPanel(), "ThongKe");
 			
-			// Giao diện thống kê danh sách sinh viên bảo vệ luận văn không thành công
-			GD_SVBVLVKTC = new GiaoDien_ThongKe();
-			pnChung.add(GD_SVBVLVKTC.getPanel(), "ThongKe");
-			
 			
 		}
 		
@@ -484,9 +467,7 @@ public class GiaoDienChinh implements ActionListener {
 		mniQuanLyLuanVan.addActionListener(this);
 		mniPhanCongHoiDong.addActionListener(this);
 		mniPhanCongHoiDongChamDiem.addActionListener(this);
-		mniSinhVienBaoVeLuanVanThanhCong.addActionListener(this);
-		mniSinhVienBaoVeLuanVanKhongThanhCong.addActionListener(this);
-		mniXepLoaiDiemSinhVien.addActionListener(this);
+		mniThongKe.addActionListener(this);
 		
 		mniTraCuuThongTinHoiDong.addActionListener(this);
 		mniDoiMatKhau.addActionListener(this);
@@ -549,7 +530,7 @@ public class GiaoDienChinh implements ActionListener {
 		else if(o.equals(mniQuanLyLuanVan)) { // Giáo vụ khoa ---------------------------
 			card.show(pnChung, "QuanLyLuanVan");
 			GD_QLLV.capNhat();
-		}else if(o.equals(mniXoaNhom)) { // Giáo vụ khoa ---------------------------
+		}else if(o.equals(mniXoaNhom)) {
 			card.show(pnChung, "XoaNhom");
 			try {
 				GD_XN.capNhat();
@@ -578,11 +559,7 @@ public class GiaoDienChinh implements ActionListener {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		} else if(o.equals(mniSinhVienBaoVeLuanVanThanhCong)) {
-			card.show(pnChung, "ThongKe");
-		} else if(o.equals(mniSinhVienBaoVeLuanVanKhongThanhCong)) {
-			card.show(pnChung, "ThongKe");
-		} else if(o.equals(mniXepLoaiDiemSinhVien)) {
+		} else if(o.equals(mniThongKe)) {
 			card.show(pnChung, "ThongKe");
 		} else if(o.equals(mniDoiMatKhau)) { // Hệ thống --------------------------------------
 			card.show(pnChung, "DoiMatKhau");

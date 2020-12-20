@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -28,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JTextField;
 import javax.swing.DefaultCellEditor;
@@ -107,9 +109,16 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -123,7 +132,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 
 		JPanel pnCenter = new JPanel();
 		pnCenter.setLayout(null);
-		pnCenter.setBounds(0, 0, 1262, 872);
+		pnCenter.setBounds((int)Math.round(width/2 - (oldWidth/2 - 0)), 0, 1262, 872);
 		pnChung.add(pnCenter);
 
 		JPanel panel_1 = new JPanel();

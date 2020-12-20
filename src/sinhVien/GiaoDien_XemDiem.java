@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class GiaoDien_XemDiem {
 
@@ -77,11 +79,18 @@ public class GiaoDien_XemDiem {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		sinhVienDao = new SinhVienDao();
 		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -99,7 +108,7 @@ public class GiaoDien_XemDiem {
 		JPanel pnDemVong1 = new JPanel();
 		pnDemVong1.setLayout(null);
 		pnDemVong1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0110i\u1EC3m b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pnDemVong1.setBounds(10, 30, 1244, 361);
+		pnDemVong1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 30, 1244, 361);
 		pnCenter.add(pnDemVong1);
 		
 		JLabel lblGiaoVien1 = new JLabel("Giáo viên 1: ");
@@ -201,7 +210,7 @@ public class GiaoDien_XemDiem {
 		JPanel pnKetQua = new JPanel();
 		pnKetQua.setLayout(null);
 		pnKetQua.setBorder(new TitledBorder(null, "K\u1EBFt qu\u1EA3 b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnKetQua.setBounds(10, 418, 1244, 451);
+		pnKetQua.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 418, 1244, 451);
 		pnCenter.add(pnKetQua);
 		
 		JLabel lblHoTen = new JLabel("Họ tên: ");

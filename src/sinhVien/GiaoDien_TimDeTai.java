@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -74,10 +77,17 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -94,7 +104,7 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Th\u00F4ng tin \u0111\u1EC1 t\u00E0i c\u1EA7n t\u00ECm", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 11, 1244, 458);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 458);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -152,7 +162,7 @@ public class GiaoDien_TimDeTai implements ActionListener, KeyListener {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Danh s\u00E1ch \u0111\u1EC1 t\u00E0i tr\u00F9ng kh\u1EDBp", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 480, 1244, 389);
+		panel_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 480, 1244, 389);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 		

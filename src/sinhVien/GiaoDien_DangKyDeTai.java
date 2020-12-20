@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -46,6 +47,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 
 public class GiaoDien_DangKyDeTai implements KeyListener {
 
@@ -108,10 +110,17 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		SinhVienDao = new SinhVienDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -128,7 +137,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 		pnCenter.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 310, 581, 458);
+		scrollPane.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 310, 581, 458);
 		pnCenter.add(scrollPane);
 
 		table = new JTable();
@@ -138,7 +147,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 
 		JPanel pnThongTinNhom = new JPanel();
 		pnThongTinNhom.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin nh\u00F3m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		pnThongTinNhom.setBounds(10, 61, 581, 201);
+		pnThongTinNhom.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 61, 581, 201);
 		pnCenter.add(pnThongTinNhom);
 		pnThongTinNhom.setLayout(null);
 
@@ -176,18 +185,18 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 		pnThongTinNhom.add(txtKhoaTrucThuoc);
 
 		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(94, 272, 258, 25);
+		txtTimKiem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 94)), 272, 258, 25);
 		pnCenter.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 
 		JButton btnTimKiem = new JButton("Tìm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTimKiem.setBounds(508, 272, 80, 28);
+		btnTimKiem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 508)), 272, 80, 28);
 		pnCenter.add(btnTimKiem);
 
 		comboBoxTimKiem = new JComboBox();
 		comboBoxTimKiem.setModel(new DefaultComboBoxModel(new String[] {"Chọn tiêu chí...", "Mã đề tài", "Tên đề tài", "Giáo viên hướng dẫn"}));
-		comboBoxTimKiem.setBounds(360, 272, 138, 25);
+		comboBoxTimKiem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 360)), 272, 138, 25);
 		pnCenter.add(comboBoxTimKiem);
 
 		JLabel lblTenSinhVien_1 = new JLabel("Tên sinh viên 1: ");
@@ -225,7 +234,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin lu\u1EADn v\u0103n \u0111\u00E3 \u0111\u0103ng k\u00FD", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(601, 64, 655, 164);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 601)), 64, 655, 164);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 
@@ -276,7 +285,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng tin lu\u1EADn v\u0103n \u0111ang l\u1EF1a chon ", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(601, 429, 655, 339);
+		panel_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 601)), 429, 655, 339);
 		pnCenter.add(panel_1);
 
 		JLabel lblMaDeTai = new JLabel("Mã đề tài: ");
@@ -342,7 +351,7 @@ public class GiaoDien_DangKyDeTai implements KeyListener {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Th\u00F4ng Tin H\u1ED9i \u0110\u1ED3ng ch\u1EA5m b\u00E1o c\u00E1o", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_2.setBounds(601, 248, 655, 171);
+		panel_2.setBounds((int)Math.round(width/2 - (oldWidth/2 - 601)), 248, 655, 171);
 		pnCenter.add(panel_2);
 
 		JLabel lblMaHoiDong = new JLabel("Mã hội đồng:");

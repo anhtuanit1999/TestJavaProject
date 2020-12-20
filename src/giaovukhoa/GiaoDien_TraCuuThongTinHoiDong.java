@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import com.toedter.components.JLocaleChooser;
 
 import dao.Database;
@@ -90,9 +93,16 @@ public class GiaoDien_TraCuuThongTinHoiDong implements KeyListener {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 
 		pnChung = new JPanel();
 		pnChung.setLayout(null);
@@ -106,7 +116,7 @@ public class GiaoDien_TraCuuThongTinHoiDong implements KeyListener {
 
 		JPanel pnCenter = new JPanel();
 		pnCenter.setLayout(null);
-		pnCenter.setBounds(0, 0, 1262, 872);
+		pnCenter.setBounds((int)Math.round(width/2 - (oldWidth/2 - 0)), 0, 1262, 872);
 		pnChung.add(pnCenter);
 
 		JPanel panel_1 = new JPanel();

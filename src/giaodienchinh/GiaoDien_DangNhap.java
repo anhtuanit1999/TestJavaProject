@@ -66,9 +66,10 @@ public class GiaoDien_DangNhap implements ActionListener, KeyListener {
 		Database.getInstance().connec();
 		frame = new JFrame();
 		dangNhapDao = new DangNhapDao();
-		frame.setBounds(100, 100, 488, 333);
+		frame.setBounds(100, 100, 480, 333);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);

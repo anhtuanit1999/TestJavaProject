@@ -18,8 +18,11 @@ import dao.Database;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
+
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -72,11 +75,18 @@ public class GiaoDien_DoiMatKhau implements ActionListener, KeyListener {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		dangNhapDao = new DangNhapDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -94,7 +104,7 @@ public class GiaoDien_DoiMatKhau implements ActionListener, KeyListener {
 		pnDoiMatKhau = new JPanel();
 		pnDoiMatKhau.setLayout(null);
 		pnDoiMatKhau.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0110\u1ED5i M\u1EADt Kh\u1EA9u", TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.windowText));
-		pnDoiMatKhau.setBounds(350, 115, 630, 280);
+		pnDoiMatKhau.setBounds((int)Math.round(width/2 - (oldWidth/2 - 350)), 115, 630, 280);
 		pnCenter.add(pnDoiMatKhau);
 		
 		lblMatKhauCu = new JLabel("Mật Khẩu Cũ :");

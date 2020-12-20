@@ -5,10 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -83,10 +86,17 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -103,7 +113,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 		
 		JPanel pnThongTinSinhVien = new JPanel();
 		pnThongTinSinhVien.setBorder(new TitledBorder(null, "Th\u00F4ng tin sinh vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnThongTinSinhVien.setBounds(10, 11, 656, 393);
+		pnThongTinSinhVien.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 656, 393);
 		pnCenter.add(pnThongTinSinhVien);
 		pnThongTinSinhVien.setLayout(null);
 		
@@ -150,7 +160,7 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch sinh vi\u00EAn b\u1EA3o v\u1EC7 lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(676, 11, 578, 858);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 676)), 11, 578, 858);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 		
@@ -179,12 +189,12 @@ public class GiaoDien_NhapDiem implements MouseListener, ActionListener, KeyList
 		
 		btnNhapDiem = new JButton("Nhập điểm");
 		btnNhapDiem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNhapDiem.setBounds(211, 415, 127, 44);
+		btnNhapDiem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 211)), 415, 127, 44);
 		pnCenter.add(btnNhapDiem);
 		
 		btnCapNhat = new JButton("Cập nhật");
 		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCapNhat.setBounds(394, 415, 127, 44);
+		btnCapNhat.setBounds((int)Math.round(width/2 - (oldWidth/2 - 394)), 415, 127, 44);
 		pnCenter.add(btnCapNhat);
 		
 		btnCapNhat.addActionListener(this);

@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.text.ParseException;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -71,10 +74,17 @@ public class GiaoDien_GiaoVien {
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		giaoVienDao = new GiaoVienDao();
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -92,74 +102,74 @@ public class GiaoDien_GiaoVien {
 		
 		JLabel lblMaGiaoVien = new JLabel("Mã giáo viên: ");
 		lblMaGiaoVien.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMaGiaoVien.setBounds(70, 245, 116, 17);
+		lblMaGiaoVien.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 245, 116, 17);
 		pnCenter.add(lblMaGiaoVien);
 		
 		txtMSGV = new JTextField();
 		txtMSGV.setEditable(false);
-		txtMSGV.setBounds(196, 242, 419, 20);
+		txtMSGV.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 242, 419, 20);
 		pnCenter.add(txtMSGV);
 		txtMSGV.setColumns(10);
 		
 		JLabel lblHoTen = new JLabel("Họ tên: ");
 		lblHoTen.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblHoTen.setBounds(70, 298, 116, 17);
+		lblHoTen.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 298, 116, 17);
 		pnCenter.add(lblHoTen);
 		
 		txtHoTen = new JTextField();
 		txtHoTen.setEditable(false);
-		txtHoTen.setBounds(196, 295, 419, 20);
+		txtHoTen.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 295, 419, 20);
 		pnCenter.add(txtHoTen);
 		txtHoTen.setColumns(10);
 		
 		JLabel lblChucDanh = new JLabel("Chức danh: ");
 		lblChucDanh.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblChucDanh.setBounds(70, 352, 116, 17);
+		lblChucDanh.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 352, 116, 17);
 		pnCenter.add(lblChucDanh);
 		
 		txtChucDanh = new JTextField();
 		txtChucDanh.setEditable(false);
-		txtChucDanh.setBounds(196, 352, 419, 20);
+		txtChucDanh.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 352, 419, 20);
 		pnCenter.add(txtChucDanh);
 		txtChucDanh.setColumns(10);
 		
 		JLabel lblDonViCongTac = new JLabel("Đơn vị công tác: ");
 		lblDonViCongTac.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDonViCongTac.setBounds(70, 423, 116, 17);
+		lblDonViCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 423, 116, 17);
 		pnCenter.add(lblDonViCongTac);
 		
 		txtLinhVucCongTac = new JTextField();
 		txtLinhVucCongTac.setEditable(false);
-		txtLinhVucCongTac.setBounds(196, 420, 419, 20);
+		txtLinhVucCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 420, 419, 20);
 		pnCenter.add(txtLinhVucCongTac);
 		txtLinhVucCongTac.setColumns(10);
 		
 		JLabel lblKhoaCongTac = new JLabel("Khoa công tác: ");
 		lblKhoaCongTac.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblKhoaCongTac.setBounds(70, 489, 116, 17);
+		lblKhoaCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 489, 116, 17);
 		pnCenter.add(lblKhoaCongTac);
 		
 		txtDonViCongTac = new JTextField();
 		txtDonViCongTac.setEditable(false);
-		txtDonViCongTac.setBounds(196, 486, 419, 20);
+		txtDonViCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 486, 419, 20);
 		pnCenter.add(txtDonViCongTac);
 		txtDonViCongTac.setColumns(10);
 		
 		JLabel lblLinhVucCongTac = new JLabel("Lĩnh vực công tác: ");
 		lblLinhVucCongTac.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLinhVucCongTac.setBounds(70, 550, 125, 17);
+		lblLinhVucCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 550, 125, 17);
 		pnCenter.add(lblLinhVucCongTac);
 		
 		txtKhoaCongTac = new JTextField();
 		txtKhoaCongTac.setEditable(false);
-		txtKhoaCongTac.setBounds(196, 547, 419, 20);
+		txtKhoaCongTac.setBounds((int)Math.round(width/2 - (oldWidth/2 - 196)), 547, 419, 20);
 		pnCenter.add(txtKhoaCongTac);
 		txtKhoaCongTac.setColumns(10);
 		
 		lblIcon = new JLabel("");
 		lblIcon.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblIcon.setIcon(new ImageIcon(getClass().getResource("/avatar.png")));
-		lblIcon.setBounds(822, 239, 245, 328);
+		lblIcon.setBounds((int)Math.round(width/2 - (oldWidth/2 - 822)), 239, 245, 328);
 		pnCenter.add(lblIcon);
 		
 		try {

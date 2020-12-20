@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
@@ -20,6 +22,8 @@ import dao.Database;
 
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
@@ -76,9 +80,16 @@ public class GiaoDien_XoaNhom {
 	 */
 	private void initialize() throws SQLException {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -95,7 +106,7 @@ public class GiaoDien_XoaNhom {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh S\u00E1ch Nh\u00F3m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(20, 24, 570, 636);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 20)), 24, 570, 636);
 		pnCenter.add(panel);
 		panel.setLayout(null);
 
@@ -129,7 +140,7 @@ public class GiaoDien_XoaNhom {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chi Ti\u1EBFt Nh\u00F3m \u0110ang Ch\u1ECDn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(592, 282, 664, 378);
+		panel_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 592)), 282, 664, 378);
 		pnCenter.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -162,7 +173,7 @@ public class GiaoDien_XoaNhom {
 
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Sinh Vi\u00EAn Trong Nh\u00F3m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1_1.setBounds(591, 24, 665, 248);
+		panel_1_1.setBounds((int)Math.round(width/2 - (oldWidth/2 - 591)), 24, 665, 248);
 		pnCenter.add(panel_1_1);
 		panel_1_1.setLayout(null);
 

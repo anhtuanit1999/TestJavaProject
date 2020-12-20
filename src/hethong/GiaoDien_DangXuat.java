@@ -9,12 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.border.TitledBorder;
 
 import giaodienchinh.GiaoDienChinh;
 import giaodienchinh.GiaoDien_DangNhap;
 
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.UIManager;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -55,10 +59,17 @@ public class GiaoDien_DangXuat implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		 pnChung = new JPanel();
 		frame.getContentPane().add(pnChung);
@@ -75,7 +86,7 @@ public class GiaoDien_DangXuat implements ActionListener {
 		
 		JPanel pnDangXuat = new JPanel();
 		pnDangXuat.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "\u0110\u0103ng Xu\u1EA5t", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		pnDangXuat.setBounds(409, 79, 449, 237);
+		pnDangXuat.setBounds((int)Math.round(width/2 - (oldWidth/2 - 409)), 79, 449, 237);
 		pnCenter.add(pnDangXuat);
 		pnDangXuat.setLayout(null);
 		

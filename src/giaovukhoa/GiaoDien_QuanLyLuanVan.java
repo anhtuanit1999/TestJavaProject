@@ -4,11 +4,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -92,12 +95,19 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 	 */
 	private void initialize() {
 		Database.getInstance().connec();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int oldHeight = 950;
+		int oldWidth = 1280;
+		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
+		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
 		giaoVienDao = new GiaoVienDao();
 		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -110,7 +120,7 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		JPanel pnThongTinLuanVan = new JPanel();
 		pnThongTinLuanVan.setLayout(null);
 		pnThongTinLuanVan.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Lu\u1EADn V\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnThongTinLuanVan.setBounds(10, 11, 1244, 332);
+		pnThongTinLuanVan.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 332);
 		pnCenter.add(pnThongTinLuanVan);
 		
 		JLabel lblLinhVucNghienCuu = new JLabel("Lĩnh vực nghiên cứu:");
@@ -174,21 +184,21 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		pnThongTinLuanVan.add(dateChooserNgayLap);
 		
 		btnThem = new JButton("Thêm");
-		btnThem.setBounds(258, 370, 127, 44);
+		btnThem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 258)), 370, 127, 44);
 		pnCenter.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
-		btnSua.setBounds(517, 370, 127, 44);
+		btnSua.setBounds((int)Math.round(width/2 - (oldWidth/2 - 517)), 370, 127, 44);
 		pnCenter.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
-		btnXoa.setBounds(779, 370, 127, 44);
+		btnXoa.setBounds((int)Math.round(width/2 - (oldWidth/2 - 779)), 370, 127, 44);
 		pnCenter.add(btnXoa);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 425, 1244, 443);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 425, 1244, 443);
 		pnCenter.add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
