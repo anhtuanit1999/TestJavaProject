@@ -90,6 +90,8 @@ public class GiaoDienChinh implements ActionListener {
 	private GiaoDien_TraCuuThongTinHoiDong GD_TCHD;
 	
 	private String taiKhoan;
+	private String taiKhoanSinhVien;
+	private String taiKhoanGiaoVien;
 	private DangNhapDao dangNhapDao;
 	private JMenu mnSinhVien;
 	private JMenuItem mniDangKyNhom;
@@ -126,6 +128,13 @@ public class GiaoDienChinh implements ActionListener {
 	 */
 	public GiaoDienChinh(String taiKhoan) throws SQLException, ParseException {
 		this.taiKhoan = taiKhoan;
+		initialize();
+	}
+	
+	public GiaoDienChinh(String taiKhoan, String taiKhoanSinhVien, String taiKhoanGiaoVien) throws SQLException, ParseException {
+		this.taiKhoan = taiKhoan;
+		this.taiKhoanSinhVien = taiKhoanSinhVien;
+		this.taiKhoanGiaoVien = taiKhoanGiaoVien;
 		initialize();
 	}
 
@@ -393,15 +402,15 @@ public class GiaoDienChinh implements ActionListener {
 			
 			// Sinh viên ------------------------------------------------------------
 			// Giao diện sinh viên
-			GD_SV = new GiaoDien_SinhVien("SV001");
+			GD_SV = new GiaoDien_SinhVien(taiKhoanSinhVien);
 			pnChung.add(GD_SV.getPanel(), "ThongTinSinhVien");
 			
 			// Giao diện đăng ký đề tài
-			GD_DKDT = new GiaoDien_DangKyDeTai("SV001");
+			GD_DKDT = new GiaoDien_DangKyDeTai(taiKhoanSinhVien);
 			pnChung.add(GD_DKDT.getPanel(), "DangKyDeTai");
 			
 			// Giao diện xem điểm
-			GD_XD = new GiaoDien_XemDiem("SV001");
+			GD_XD = new GiaoDien_XemDiem(taiKhoanSinhVien);
 			pnChung.add(GD_XD.getPanel(), "XemDiem");
 			
 			// Giao diện tìm đề tài
@@ -410,15 +419,15 @@ public class GiaoDienChinh implements ActionListener {
 			
 			// Giáo viên ------------------------------------------------------------
 			// Giao diện giáo viên
-			GD_GV = new GiaoDien_GiaoVien("GV001");
+			GD_GV = new GiaoDien_GiaoVien(taiKhoanGiaoVien);
 			pnChung.add(GD_GV.getPanel(), "ThongTinGiaoVien");
 			
 			// Giao diện nhập điểm
-			GD_ND = new GiaoDien_NhapDiem("GV001");
+			GD_ND = new GiaoDien_NhapDiem(taiKhoanGiaoVien);
 			pnChung.add(GD_ND.getPanel(), "NhapDiem");
 			
 			// Giao diện xem điểm đã nhập
-			GD_XDDN = new GiaoDien_XemDiemDaNhap("GV001");
+			GD_XDDN = new GiaoDien_XemDiemDaNhap(taiKhoanGiaoVien);
 			pnChung.add(GD_XDDN.getPanel(), "XemDiemDaNhap");
 			
 			// Giáo vụ khoa ------------------------------------------------------------

@@ -128,10 +128,21 @@ public class GiaoDien_DangNhap implements ActionListener, KeyListener {
 	public void eventTiepTuc() {
 		String taiKhoan = txtTaiKhoan.getText().trim();
 		String matKhau = pwdMatKhau.getText().trim();
+		String[] taiKhoanSinhVien = dangNhapDao.layTaiKhoanSinhVien();
+		String[] taiKhoanGiaoVien = dangNhapDao.layTaiKhoanGiaoVien();
 		if(dangNhapDao.kiemTraTaiKhoan(taiKhoan, matKhau)) {
 			xoaTrang();
 			try {
-				GiaoDienChinh giaoDienChinh = new GiaoDienChinh(taiKhoan);
+				GiaoDienChinh giaoDienChinh;
+				if(taiKhoan.equals("admin")) {
+					String usernameSV = (String) JOptionPane.showInputDialog(null, "Chọn tài khoản sinh viên: ", 
+							"Enter username", JOptionPane.QUESTION_MESSAGE, null, taiKhoanSinhVien, taiKhoanSinhVien[0]);
+					String usernameGV = (String) JOptionPane.showInputDialog(null, "Chọn tài khoản giáo viên: ", 
+							"Enter username", JOptionPane.QUESTION_MESSAGE, null, taiKhoanGiaoVien, taiKhoanGiaoVien[0]);
+					giaoDienChinh = new GiaoDienChinh(taiKhoan, usernameSV, usernameGV);
+				} else {
+					giaoDienChinh = new GiaoDienChinh(taiKhoan);
+				}
 				giaoDienChinh.frame.setVisible(true);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DangNhapDao {
@@ -63,6 +65,50 @@ public class DangNhapDao {
 			return n > 0;
 		}
 		return false;
+	}
+	
+	public String[] layTaiKhoanSinhVien() {
+		List<String> list = new ArrayList<String>();
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select tk.MaTaiKhoan\r\n" + 
+				"from TAIKHOANSINHVIEN tk";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while(res.next()) {
+				list.add(res.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String[] arr = new String[list.size()];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = list.get(i);
+		}
+		return arr;
+	}
+	
+	public String[] layTaiKhoanGiaoVien() {
+		List<String> list = new ArrayList<String>();
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select tk.MaTaiKhoan\r\n" + 
+				"from TAIKHOANGIAOVIEN tk";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while(res.next()) {
+				list.add(res.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String[] arr = new String[list.size()];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = list.get(i);
+		}
+		return arr;
 	}
 }
 
