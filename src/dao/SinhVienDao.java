@@ -10,8 +10,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import entity.LuanVan;
 import entity.SinhVien;
 
 public class SinhVienDao {
@@ -47,30 +49,28 @@ public class SinhVienDao {
 		return listSinhVien;
 	}
 	
-	public boolean themSinhVien(String maSinhVien, String hoTen, String diaChi, String soDienThoai, String ngaySinh,
-			String khoaTrucThuoc, int namVaoTruong, int namTotNghiep, String maNhom) {
+	public boolean themSinhVien(SinhVien sv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
 			stmt = con.prepareStatement("insert into SINHVIEN values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			stmt.setString(1,maSinhVien);
-			stmt.setString(2,hoTen );
-			stmt.setString(3, diaChi);
-			stmt.setString(4, soDienThoai);
-			stmt.setString(5, ngaySinh);
-			stmt.setString(6, khoaTrucThuoc);
-			stmt.setInt(7, namVaoTruong);
-			stmt.setInt(8, namTotNghiep);
-			stmt.setString(9, maNhom);
+			stmt.setString(1,sv.getMaSinhVien());
+			stmt.setString(2, sv.getHoTen());
+			stmt.setString(3, sv.getNgaySinh());
+			stmt.setString(4, sv.getSoDienThoai());
+			stmt.setString(5, sv.getDiaChi());
+			stmt.setString(6, sv.getKhoaTrucThuoc());
+			stmt.setInt(7, sv.getNamVaoTruong());
+			stmt.setInt(8, sv.getNamTotNghiep());
+			stmt.setString(9, sv.getMaNhom());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return n > 0;
 	}
-	public boolean suaSinhVien(String maSinhVien, String hoTen, String diaChi, String soDienThoai, String ngaySinh,
-			String khoaTrucThuoc, int namVaoTruong, int namTotNghiep) {
+	public boolean suaSinhVien(String maSinhVien, SinhVien sv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
@@ -80,17 +80,17 @@ public class SinhVienDao {
 					+ "NgaySinh = ?,"
 					+ "SoDienThoai = ?,"
 					+ "DiaChi = ?,"
-					+ "KhoaTrucThuoc = ? "
-					+ "NamVaoTruong = ? "
+					+ "KhoaTrucThuoc = ?, "
+					+ "NamVaoTruong = ?, "
 					+ "NamTotNghiep = ? "
 					+ "where MaSinhVien = ?");
-			stmt.setString(1, hoTen);
-			stmt.setString(2, ngaySinh);
-			stmt.setString(3, soDienThoai);
-			stmt.setString(4, diaChi);
-			stmt.setString(5, khoaTrucThuoc);
-			stmt.setInt(6, namVaoTruong);
-			stmt.setInt(7, namTotNghiep);
+			stmt.setString(1, sv.getHoTen());
+			stmt.setString(2, sv.getNgaySinh());
+			stmt.setString(3, sv.getSoDienThoai());
+			stmt.setString(4, sv.getDiaChi());
+			stmt.setString(5, sv.getKhoaTrucThuoc());
+			stmt.setInt(6, sv.getNamVaoTruong());
+			stmt.setInt(7, sv.getNamTotNghiep());
 			stmt.setString(8, maSinhVien);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -99,19 +99,19 @@ public class SinhVienDao {
 		return n > 0;
 	}
 	
-//	public boolean xoaSinhVien(String maSinhVien) {
-//		Connection con = Database.getInstance().getConnection();
-//		PreparedStatement stmt = null;
-//		int n = 0;
-//		try {
-//			stmt = con.prepareStatement("delete from SINHVIEN where MaSinhVien = ?");
-//			stmt.setString(1, maSinhVien);
-//			n = stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return n > 0;
-//	}
+	public boolean xoaSinhVien(String maSinhVien) {
+		Connection con = Database.getInstance().getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("delete from SINHVIEN where MaSinhVien = ?");
+			stmt.setString(1, maSinhVien);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return n > 0;
+	}
 	
 	public SinhVien timSinhVien(String maSinhVien) {
 		SinhVien sv = null;
@@ -259,5 +259,80 @@ public class SinhVienDao {
 			count = "0" + count;
 		}
 		return "NH" + count;
+	}
+	
+	public String sinhMaSinhVienTuDong() {
+		String count = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select COUNT(sv.MaSinhVien)\r\n" + 
+				"from SINHVIEN sv";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			count = res.getInt(1) + 1 + "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i <= 3 - count.split("").length ; i++) {
+			count = "0" + count;
+		}
+		return "SV" + count;
+	}
+	
+	public boolean kiemTraSinhVienDaTonTai(String tenSinhVienCanKiemTra, String ngaySinhCanKiemTra) {
+		SinhVien sv = null;
+		boolean result = true;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from SINHVIEN sv\r\n" + 
+				"where sv.HoTen like N'%"+ tenSinhVienCanKiemTra +"%' and sv.NgaySinh like N'%"+ ngaySinhCanKiemTra +"%'";
+		Statement statement;
+		ResultSet res = null;
+		try {
+			statement = con.createStatement();
+			res = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			result = res.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public void updateBangSinhVien(JTable table) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select *\r\n" + 
+					"from SINHVIEN sv";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5),
+						res.getString(6),
+						res.getString(7),
+						res.getString(8),
+						res.getString(9),
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

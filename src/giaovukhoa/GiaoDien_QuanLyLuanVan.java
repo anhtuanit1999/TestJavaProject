@@ -184,14 +184,17 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		pnThongTinLuanVan.add(dateChooserNgayLap);
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnThem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 258)), 370, 127, 44);
 		pnCenter.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSua.setBounds((int)Math.round(width/2 - (oldWidth/2 - 517)), 370, 127, 44);
 		pnCenter.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXoa.setBounds((int)Math.round(width/2 - (oldWidth/2 - 779)), 370, 127, 44);
 		pnCenter.add(btnXoa);
 		

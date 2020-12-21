@@ -22,6 +22,11 @@ public class GiaoVien implements Serializable {
 	private String linhVucCongTac;
 	private String donViCongTac;
 	private String khoaCongTac;
+	
+	public GiaoVien() {
+		super();
+	}
+
 	public GiaoVien(String maGiaoVien, String hoTen, String chucDanh, String linhVucCongTac, String khoaCongTac,
 			String donViCongTac) {
 		super();

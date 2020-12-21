@@ -1,13 +1,17 @@
 package ui;
 
+import javax.swing.JFileChooser;
+
 import giaovukhoa.GiaoDien_ChonCongViec;
 
 public class Test {
-	private static GiaoDien_ChonCongViec gd;
-
 	public static void main(String[] args) {
-		gd = new GiaoDien_ChonCongViec();
-		gd.frame.setVisible(true);
+		JFileChooser f = new JFileChooser();
+        f.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+        f.showSaveDialog(null);
+
+        System.out.println(f.getCurrentDirectory());
+        System.out.println(f.getSelectedFile());
 	}
 }
 

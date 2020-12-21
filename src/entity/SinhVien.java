@@ -19,6 +19,11 @@ public class SinhVien implements Serializable {
 	private int namVaoTruong;
 	private int namTotNghiep;
 	private String maNhom;
+	
+	public SinhVien() {
+		super();
+	}
+
 	public SinhVien(String maSinhVien, String hoTen, String ngaySinh, String soDienThoai, String diaChi,
 			String khoaTrucThuoc, int namVaoTruong, int namTotNghiep, String maNhom) {
 		super();
