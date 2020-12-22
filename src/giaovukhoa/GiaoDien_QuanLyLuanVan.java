@@ -114,8 +114,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		frame.setResizable(false);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -128,8 +128,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		JPanel pnThongTinLuanVan = new JPanel();
 		pnThongTinLuanVan.setLayout(null);
 		pnThongTinLuanVan.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Lu\u1EADn V\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-//		pnThongTinLuanVan.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 332);
-		pnThongTinLuanVan.setBounds(10, 11, 1244, 370);
+		pnThongTinLuanVan.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 370);
+//		pnThongTinLuanVan.setBounds(10, 11, 1244, 370);
 		pnCenter.add(pnThongTinLuanVan);
 		
 		JLabel lblLinhVucNghienCuu = new JLabel("Lĩnh vực nghiên cứu:");
@@ -231,8 +231,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-//		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 425, 1244, 443);
-		panel.setBounds(10, 392, 1244, 476);
+		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 425, 1244, 476);
+//		panel.setBounds(10, 392, 1244, 476);
 		pnCenter.add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -469,6 +469,12 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
+		} else if(o.equals(btnXemChiTiet)) {
+			int row = table.getSelectedRow();
+			if(row != -1) {
+				GiaoDien_XemChiTietLuanVan GD_XCTLV = new GiaoDien_XemChiTietLuanVan(table.getValueAt(row, 1).toString());
+				GD_XCTLV.frame.setVisible(true);
 			}
 		}
 		

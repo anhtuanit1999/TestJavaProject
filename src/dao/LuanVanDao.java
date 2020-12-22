@@ -308,4 +308,93 @@ public class LuanVanDao {
 		}
 		return "LV" + count;
 	}
+	
+	public void capNhatTable1(JTable table, String maLuanVan) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select ds.MaNhom\r\n" + 
+					"from LUANVAN lv\r\n" + 
+					"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaLuanVan = lv.MaLuanVan\r\n" + 
+					"where lv.MaLuanVan = '"+ maLuanVan +"'";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void capNhatTable2(JTable table, String maLuanVan) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select sv.MaSinhVien, sv.HoTen, sv.NgaySinh, sv.SoDienThoai, sv.DiaChi, sv.KhoaTrucThuoc, sv.NamVaoTruong, sv.NamTotNghiep, sv.MaNhom\r\n" + 
+					"from LUANVAN lv\r\n" + 
+					"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaLuanVan = lv.MaLuanVan\r\n" + 
+					"inner join SINHVIEN sv on sv.MaNhom = ds.MaNhom\r\n" + 
+					"where lv.MaLuanVan = '"+ maLuanVan +"'";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5),
+						res.getString(6),
+						res.getString(7),
+						res.getString(8),
+						res.getString(9)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void capNhatTable3(JTable table, String maNhom) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select *\r\n" + 
+					"from SINHVIEN sv\r\n" + 
+					"where sv.MaNhom = '"+ maNhom +"'";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5),
+						res.getString(6),
+						res.getString(7),
+						res.getString(8),
+						res.getString(9)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
