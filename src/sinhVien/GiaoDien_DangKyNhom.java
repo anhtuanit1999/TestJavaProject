@@ -485,6 +485,10 @@ public class GiaoDien_DangKyNhom implements MouseListener, ActionListener, KeyLi
 					JOptionPane.showMessageDialog(frame, "Sinh viên " + txtHoTen.getText().trim() + " đã đăng ký nhóm " + maNhom2);
 					return;
 				}
+				if(!txtKhoaTrucThuocChinh.getText().equals(txtKhoaTrucThuoc.getText())) {
+					JOptionPane.showMessageDialog(frame, "Không thể đăng ký nhóm với sinh viên khoa khác.");
+					return;
+				}
 				if(sinhVienDao.dangKyNhom(maSinhVien1, maSinhVien2)) {
 					JOptionPane.showMessageDialog(frame, "Đăng ký nhóm thành công");
 					giaoDienChinh.moGiaoDienDangKyDeTai();
