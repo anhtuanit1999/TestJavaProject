@@ -1,17 +1,21 @@
 package ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JFileChooser;
 
 import giaovukhoa.GiaoDien_ChonCongViec;
 
 public class Test {
 	public static void main(String[] args) {
-		JFileChooser f = new JFileChooser();
-        f.setFileSelectionMode(JFileChooser.FILES_ONLY); 
-        f.showSaveDialog(null);
-
-        System.out.println(f.getCurrentDirectory());
-        System.out.println(f.getSelectedFile());
+		try {
+			System.out.println(new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-22"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

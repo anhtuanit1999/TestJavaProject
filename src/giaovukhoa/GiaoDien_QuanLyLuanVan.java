@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
@@ -38,6 +40,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
+import dao.GhiFileDao;
 import dao.GiaoVienDao;
 import dao.LuanVanDao;
 import entity.GiaoVien;
@@ -66,6 +69,10 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 	private JButton btnXoa;
 	private JTextField txtSoNhomThamGiaToiDa;
 	private JDateChooser dateChooserNgayLap;
+	private JButton btnXoaTrang;
+	private JButton btnExcel;
+	private JButton btnXemChiTiet;
+	private GhiFileDao ghiFileDao;
 
 	/**
 	 * Launch the application.
@@ -100,14 +107,15 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		int oldWidth = 1280;
 		double height = screenSize.getHeight() < oldHeight ? oldHeight : screenSize.getHeight();
 		double width = screenSize.getWidth() < oldWidth ? oldWidth : screenSize.getWidth();
+		ghiFileDao = new GhiFileDao();
 		giaoVienDao = new GiaoVienDao();
 		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setResizable(false);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		frame.setResizable(false);
 		
 		pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -120,7 +128,8 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		JPanel pnThongTinLuanVan = new JPanel();
 		pnThongTinLuanVan.setLayout(null);
 		pnThongTinLuanVan.setBorder(new TitledBorder(null, "Th\u00F4ng Tin Lu\u1EADn V\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		pnThongTinLuanVan.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 332);
+//		pnThongTinLuanVan.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 11, 1244, 332);
+		pnThongTinLuanVan.setBounds(10, 11, 1244, 370);
 		pnCenter.add(pnThongTinLuanVan);
 		
 		JLabel lblLinhVucNghienCuu = new JLabel("Lĩnh vực nghiên cứu:");
@@ -184,24 +193,46 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		pnThongTinLuanVan.add(dateChooserNgayLap);
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setBounds(96, 304, 127, 44);
+		pnThongTinLuanVan.add(btnThem);
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnThem.setBounds((int)Math.round(width/2 - (oldWidth/2 - 258)), 370, 127, 44);
-		pnCenter.add(btnThem);
 		
 		btnSua = new JButton("Sửa");
+		btnSua.setBounds(273, 304, 127, 44);
+		pnThongTinLuanVan.add(btnSua);
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnSua.setBounds((int)Math.round(width/2 - (oldWidth/2 - 517)), 370, 127, 44);
-		pnCenter.add(btnSua);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setBounds(450, 304, 127, 44);
+		pnThongTinLuanVan.add(btnXoa);
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnXoa.setBounds((int)Math.round(width/2 - (oldWidth/2 - 779)), 370, 127, 44);
-		pnCenter.add(btnXoa);
+		
+		btnXoaTrang = new JButton("Xóa trắng");
+		btnXoaTrang.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnXoaTrang.setBounds(627, 304, 127, 44);
+		pnThongTinLuanVan.add(btnXoaTrang);
+		
+		btnExcel = new JButton("Thêm từ Excel");
+		btnExcel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnExcel.setBounds(811, 304, 151, 44);
+		pnThongTinLuanVan.add(btnExcel);
+		
+		btnXemChiTiet = new JButton("Xem chi tiết");
+		btnXemChiTiet.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnXemChiTiet.setBounds(1021, 304, 151, 44);
+		pnThongTinLuanVan.add(btnXemChiTiet);
+		btnXoa.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnThem.addActionListener(this);
+		btnXoaTrang.addActionListener(this);
+		btnExcel.addActionListener(this);
+		btnXemChiTiet.addActionListener(this);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch lu\u1EADn v\u0103n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 425, 1244, 443);
+//		panel.setBounds((int)Math.round(width/2 - (oldWidth/2 - 10)), 425, 1244, 443);
+		panel.setBounds(10, 392, 1244, 476);
 		pnCenter.add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -225,10 +256,7 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 		pnChung.add(lblTieuDe, BorderLayout.NORTH);
 		
 		capNhat();
-		btnThem.addActionListener(this);
 		table.addMouseListener(this);
-		btnXoa.addActionListener(this);
-		btnSua.addActionListener(this);
 		txtSoNhomThamGiaToiDa.addKeyListener(this);
 		comboBoxTenGiaoVien.addKeyListener(this);
 		
@@ -418,6 +446,30 @@ public class GiaoDien_QuanLyLuanVan implements MouseListener, ActionListener, Ke
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setRowCount(0);
 			luanVanDao.updateBangLuanVan(table);
+		} else if(o.equals(btnXoaTrang)) {
+			xoaTrang();
+		} else if(o.equals(btnExcel)) {
+			JFileChooser f = new JFileChooser();
+			f.setFileSelectionMode(JFileChooser.FILES_ONLY); 
+			f.showSaveDialog(null);
+			try {
+				List<LuanVan> list = ghiFileDao.docFileLuanVan(f.getSelectedFile().getAbsolutePath());
+				list.forEach(ele -> {
+					if(luanVanDao.kiemTraLuanVanDaTonTai(ele.getTenLuanVan(), ele.getLinhVucNghienCuu()) || ele.getMaLuanVan() == null) {
+						return;
+					} else {
+						luanVanDao.themLuanVan(ele);
+					}
+				});
+				System.out.println("Done");
+				capNhat();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}

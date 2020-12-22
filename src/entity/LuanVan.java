@@ -24,6 +24,9 @@ public class LuanVan implements Serializable {
 		this.maGiaoVien = maGiaoVien;
 		this.soNhomThamGiaToiDa = soNhomThamGiaToiDa;
 	}
+	public LuanVan() {
+	}
+	
 	public String getMaLuanVan() {
 		return maLuanVan;
 	}

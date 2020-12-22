@@ -355,6 +355,10 @@ public class GiaoDienChinh implements ActionListener {
 				mnGiaoVien.setEnabled(false);
 				
 				// Giáo vụ khoa ------------------------------------------------------------
+				// Giao diện xóa nhóm
+				GD_XN = new GiaoDien_XoaNhom();
+				pnChung.add(GD_XN.getPanel(), "XoaNhom");
+				
 				// Giao diện quản lý luận văn
 				GD_QLLV = new GiaoDien_QuanLyLuanVan();
 				pnChung.add(GD_QLLV.getPanel(), "QuanLyLuanVan");
@@ -578,6 +582,7 @@ public class GiaoDienChinh implements ActionListener {
 		} else if(o.equals(mniXoaNhom)) {
 			card.show(pnChung, "XoaNhom");
 			try {
+				card.show(pnChung, "XoaNhom");
 				GD_XN.capNhat();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
