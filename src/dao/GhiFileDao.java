@@ -51,14 +51,16 @@ public class GhiFileDao {
 	public static final int COLUMN_INDEX_KHOACONGTAC 	= 6;
 	private static CellStyle cellStyleFormatNumber = null;
 	
-	public static void main(String[] args) throws IOException, ParseException {
-		GhiFileDao ghiFileDao = new GhiFileDao();
-		Database.getInstance().connec();
-		SinhVienDao sinhVienDao = new SinhVienDao();
-		String fileName = "C:\\Users\\AnhTuanIT\\Desktop\\test.xlsx";
-		ghiFileSinhVien(sinhVienDao.docTuBang(), fileName);
-		
-	}
+//	public static void main(String[] args) throws IOException, ParseException {
+//		GhiFileDao ghiFileDao = new GhiFileDao();
+//		Database.getInstance().connec();
+//		SinhVienDao sinhVienDao = new SinhVienDao();
+//		GiaoVienDao giaoVienDao = new GiaoVienDao();
+//		String fileName = "C:\\Users\\AnhTuanIT\\Desktop\\test.xlsx";
+//		ghiFileSinhVien(sinhVienDao.docTuBang(), fileName);
+//		ghiFileGiaoVien(giaoVienDao.docTuBang(), fileName);
+//		
+//	}
 	
 	public List<GiaoVien> docFileGiaoVien(String excelFilePath) throws IOException {
 		List<GiaoVien> list = new ArrayList<>();

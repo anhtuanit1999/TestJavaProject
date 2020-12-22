@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import entity.GiaoVien;
 import entity.LuanVan;
+import entity.SinhVien;
 
 
 public class GiaoVienDao {
@@ -50,19 +51,18 @@ public class GiaoVienDao {
 		return listGiaoVien;
 	}
 	
-	public boolean themGiaoVien(String maGiaoVien, String hoTen, String chucDanh, String donViCongTac, String khoaCongTac,
-			String linhVucCongTac) {
+	public boolean themGiaoVien(GiaoVien gv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into SINHVIEN values(?, ?, ?, ?, ?, ?)");
-			stmt.setString(1,maGiaoVien);
-			stmt.setString(2,hoTen );
-			stmt.setString(3, chucDanh);
-			stmt.setString(4, donViCongTac);
-			stmt.setString(5, khoaCongTac);
-			stmt.setString(6, linhVucCongTac);
+			stmt = con.prepareStatement("insert into GIAOVIEN values(?, ?, ?, ?, ?, ?)");
+			stmt.setString(1, gv.getMaGiaoVien());
+			stmt.setString(2, gv.getHoTen());
+			stmt.setString(3, gv.getChucDanh());
+			stmt.setString(4, gv.getLinhVucCongTac());
+			stmt.setString(5, gv.getDonViCongTac());
+			stmt.setString(6, gv.getKhoaCongTac());
 			
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -70,8 +70,7 @@ public class GiaoVienDao {
 		}
 		return n > 0;
 	}
-	public boolean suaGiaoVien(String maGiaoVien, String hoTen, String chucDanh, String donViCongTac, String khoaCongTac,
-			String linhVucCongTac) {
+	public boolean suaGiaoVien(String maGiaoVien, GiaoVien gv) {
 		Connection con = Database.getInstance().getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
@@ -83,12 +82,12 @@ public class GiaoVienDao {
 					+ "DonViCongTac = ?,"
 					+ "KhoaCongTac = ? "
 					+ "where MaGiaoVien = ?");
-			stmt.setString(1, hoTen);
-			stmt.setString(2, chucDanh);
-			stmt.setString(3, linhVucCongTac);
-			stmt.setString(4, donViCongTac);
-			stmt.setString(5, khoaCongTac);
-			stmt.setString(8, maGiaoVien);
+			stmt.setString(1, gv.getHoTen());
+			stmt.setString(2, gv.getChucDanh());
+			stmt.setString(3, gv.getLinhVucCongTac());
+			stmt.setString(4, gv.getDonViCongTac());
+			stmt.setString(5, gv.getDonViCongTac());
+			stmt.setString(6, maGiaoVien);
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -208,5 +207,78 @@ public class GiaoVienDao {
 			e.printStackTrace();
 		}
 		return gv;
+	}
+	
+	public String sinhMaGiaoVienTuDong() {
+		String count = null;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select COUNT(gv.MaGiaoVien)\r\n" + 
+				"from GIAOVIEN gv";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			res.next();
+			count = res.getInt(1) + 1 + "";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i <= 3 - count.split("").length ; i++) {
+			count = "0" + count;
+		}
+		return "GV" + count;
+	}
+	
+	public boolean kiemTraGiaoVienDaTonTai(String tenGiaoVien, String chucDanh, String linhVucCongTac, String donViCongTac, String khoaCongTac) {
+		SinhVien sv = null;
+		boolean result = true;
+		Connection con = Database.getInstance().getConnection();
+		String sql = "select *\r\n" + 
+				"from GIAOVIEN gv\r\n" + 
+				"where gv.HoTen like N'%"+ tenGiaoVien +"%' and gv.ChucDanh like N'%"+ chucDanh +"%' "
+						+ "and gv.LinhVucCongTac like N'%"+ linhVucCongTac +"%' and gv.DonViCongTac like N'%"+ donViCongTac +"%' and gv.KhoaCongTac like N'%"+ khoaCongTac +"%'";
+		Statement statement;
+		ResultSet res = null;
+		try {
+			statement = con.createStatement();
+			res = statement.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			result = res.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public void updateBangGiaoVien(JTable table) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select *\r\n" + 
+					"from GIAOVIEN gv";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5),
+						res.getString(6)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
