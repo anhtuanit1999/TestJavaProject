@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 
@@ -25,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 
 import dao.Database;
 import dao.LuanVanDao;
+import dao.TablePrintable;
+import entity.LuanVan;
 
 public class GiaoDien_XemChiTietLuanVan implements ActionListener, MouseListener {
 
@@ -69,7 +72,7 @@ public class GiaoDien_XemChiTietLuanVan implements ActionListener, MouseListener
 		luanVanDao = new LuanVanDao();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1280, 618);
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel pnChung = new JPanel();
 		frame.getContentPane().add(pnChung, BorderLayout.CENTER);
@@ -114,7 +117,13 @@ public class GiaoDien_XemChiTietLuanVan implements ActionListener, MouseListener
 		scrollPane_1.setBounds(10, 23, 884, 253);
 		panel_1.add(scrollPane_1);
 		
-		table2 = new JTable();
+		table2 = new JTable() {
+			@Override
+				public Printable getPrintable(PrintMode printMode, MessageFormat headerFormat, MessageFormat footerFormat) {
+					return new TablePrintable(this, printMode, headerFormat, footerFormat);
+		    }
+		};
+		
 		table2.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -156,7 +165,7 @@ public class GiaoDien_XemChiTietLuanVan implements ActionListener, MouseListener
 		
 		comboBoxTieuChi = new JComboBox();
 		comboBoxTieuChi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		comboBoxTieuChi.setModel(new DefaultComboBoxModel(new String[] {"Danh sách sinh  viên đăng ký đề tài", "Danh sách sinh trong nhóm"}));
+		comboBoxTieuChi.setModel(new DefaultComboBoxModel(new String[] {"Danh sách sinh viên đăng ký đề tài", "Danh sách sinh trong nhóm"}));
 		comboBoxTieuChi.setBounds(330, 334, 610, 25);
 		pnCenter.add(comboBoxTieuChi);
 		
@@ -169,13 +178,21 @@ public class GiaoDien_XemChiTietLuanVan implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnInDanhSach)) {
-			MessageFormat header = new MessageFormat(comboBoxTieuChi.getSelectedItem().toString().toUpperCase());
+			MessageFormat header = null;
+			MessageFormat header1 = null;
 			MessageFormat footer = new MessageFormat("Page {0,number,integer}");
+			LuanVan lv = luanVanDao.timLuanVanTheoMa(maLuanVan);
 			try {
-				if(comboBoxTieuChi.getSelectedItem().toString().equals("Danh sách sinh  viên đăng ký đề tài")) {
+				if(comboBoxTieuChi.getSelectedItem().toString().equals("Danh sách sinh viên đăng ký đề tài")) {
+					header = new MessageFormat(comboBoxTieuChi.getSelectedItem().toString().toUpperCase() + "\n" + lv.getTenLuanVan().toUpperCase());
+//					header1 = new MessageFormat(lv.getTenLuanVan().toUpperCase());
 					table2.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 				} else {
-					table3.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+					int row = table1.getSelectedRow();
+					if(row != -1) {
+						header = new MessageFormat(comboBoxTieuChi.getSelectedItem().toString().toUpperCase() + " " + table1.getValueAt(row, 1).toString().toUpperCase());
+						table3.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+					}
 				}		
 			} catch (PrinterException e1) {
 				// TODO Auto-generated catch block
