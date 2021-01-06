@@ -237,6 +237,9 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		JButton btnXoaPhanCong = new JButton("<<");
 		btnXoaPhanCong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(tableDanhSachNhomDuocChon.getSelectedRow() == -1) {
+					return;
+				}
 				modelDanhSachNhomDuocChon.removeRow(tableDanhSachNhomDuocChon.getSelectedRow());
 				txtSoLuong.setText(String.valueOf((modelDanhSachNhomDuocChon.getRowCount())));
 			}
@@ -344,7 +347,7 @@ public class GiaoDien_PhanCongHoiDongChamDiem {
 		});
 		btnThemNhom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(tableDanhSachNhom.getSelectedRow() == -1) {
+				if(tableDanhSachNhom.getSelectedRow() == -1 || comboBoxLocNhom.getSelectedItem().toString().equals("Nhóm đã được phân công")) {
 					return;
 				}
 				Object[] rowData = {

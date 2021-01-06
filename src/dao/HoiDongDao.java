@@ -110,5 +110,35 @@ public class HoiDongDao {
 		st.executeUpdate("DELETE FROM HOIDONG WHERE MaHoiDong = '"+maHoiDong+"'");
 	}
 	
-
+	public void updateTableLichChamDiem(JTable table, String maGiaoVien) {
+		Connection con = null;
+		int count = 1;
+		try {
+			con = Database.getInstance().getConnection();
+			String sql = "select hd.MaHoiDong, hd.TenHoiDong, lv.MaLuanVan, lv.TenLuanVan, ds.MaNhom\r\n" + 
+					"from GIAOVIEN gv\r\n" + 
+					"inner join CHITIETCONGVIEC ct on ct.MaGiaoVien = gv.MaGiaoVien\r\n" + 
+					"inner join HOIDONG hd on hd.MaHoiDong = ct.MaHoiDong\r\n" + 
+					"inner join DANHSACH_DANGKYLUANVAN ds on ds.MaHoiDong = hd.MaHoiDong\r\n" + 
+					"inner join LUANVAN lv on lv.MaLuanVan = ds.MaLuanVan\r\n" + 
+					"where gv.MaGiaoVien = '"+ maGiaoVien +"'";
+			Statement statement = con.createStatement();
+			ResultSet res = statement.executeQuery(sql);
+			while (res.next()) {
+				String[] rowData = {
+						count++ + "",
+						res.getString(1),
+						res.getString(2),
+						res.getString(3),
+						res.getString(4),
+						res.getString(5)
+				};
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.addRow(rowData);
+				table.setModel(model);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
